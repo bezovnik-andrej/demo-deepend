@@ -233,6 +233,10 @@
   align-content: start;
 }
 
+.container[hidden] {
+  display: none;
+}
+
 /* ── Section (collapsible card) ── */
 .section {
   border: 1px solid var(--border);
