@@ -14,18 +14,15 @@
 
 .formTitleRow {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
+  justify-content: flex-start;
   gap: var(--sp-2);
   margin-bottom: var(--sp-5);
-  padding-bottom: var(--sp-3);
-  border-bottom: 1px solid var(--border);
 }
 
 .formTitleRow .formTitle {
   margin-bottom: 0;
-  padding-bottom: 0;
-  border-bottom: none;
-  flex: 1;
+  flex: 0 1 auto;
 }
 
 .formDesc {
@@ -66,7 +63,8 @@
 
 .blockTitleRow {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
+  justify-content: flex-start;
   gap: var(--sp-2);
   margin: var(--sp-6) 0 var(--sp-3);
 }
@@ -77,7 +75,7 @@
 
 .blockTitleRow .blockTitle {
   margin: 0;
-  flex: 1;
+  flex: 0 1 auto;
 }
 
 /* Owner “same as customer” — full-width tile + custom checkbox (aligns with option rows) */

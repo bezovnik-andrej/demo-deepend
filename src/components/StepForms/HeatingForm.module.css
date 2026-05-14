@@ -3,8 +3,8 @@
 .titleRow {
   display: flex;
   align-items: flex-start;
-  justify-content: space-between;
-  gap: var(--sp-3);
+  justify-content: flex-start;
+  gap: var(--sp-2);
 }
 
 .titleRow > h2 {
@@ -15,6 +15,7 @@
   display: inline-flex;
   align-items: center;
   gap: 4px;
+  margin-left: auto;
   flex-shrink: 0;
   font-size: var(--fs-xs);
   font-weight: 500;
@@ -190,20 +191,12 @@
   gap: var(--sp-3);
 }
 
-/* ── Required output strip: "max(A, B) ÷ eff → result" layout ── */
+/* ── Required output strip: compare heat-up load vs. surface loss. ── */
 .requiredOutputStrip {
   display: flex;
   align-items: stretch;
   gap: var(--sp-3);
   flex-wrap: wrap;
-}
-
-.routInputs {
-  display: flex;
-  align-items: stretch;
-  gap: var(--sp-2);
-  flex: 1 1 auto;
-  min-width: 0;
 }
 
 .routVs {
@@ -243,33 +236,6 @@
   border-radius: 999px;
   padding: 0px 5px;
   vertical-align: middle;
-}
-
-.routDivider {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 2px;
-  flex-shrink: 0;
-  padding: 0 2px;
-}
-
-.routDividerLabel {
-  font-size: 10px;
-  font-weight: 500;
-  color: var(--text-muted);
-  white-space: nowrap;
-}
-
-.routArrow {
-  font-size: var(--fs-base);
-  color: var(--text-muted);
-}
-
-.routResult {
-  flex-shrink: 0;
-  min-width: 140px;
 }
 
 .summaryCard {
@@ -446,20 +412,6 @@
 
   .requiredOutputStrip {
     flex-direction: column;
-  }
-
-  .routInputs {
-    flex-direction: column;
-  }
-
-  .routDivider {
-    flex-direction: row;
-    justify-content: flex-start;
-    gap: var(--sp-2);
-  }
-
-  .routResult {
-    min-width: 0;
   }
 
   .compHead {

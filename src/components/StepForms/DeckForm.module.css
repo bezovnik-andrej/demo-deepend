@@ -3,8 +3,8 @@
 .titleRow {
   display: flex;
   align-items: flex-start;
-  justify-content: space-between;
-  gap: var(--sp-3);
+  justify-content: flex-start;
+  gap: var(--sp-2);
 }
 
 .titleRow > h2 {
@@ -15,6 +15,7 @@
   display: inline-flex;
   align-items: center;
   gap: 4px;
+  margin-left: auto;
   flex-shrink: 0;
   font-size: var(--fs-xs);
   font-weight: 500;
@@ -29,6 +30,7 @@
   display: inline-flex;
   align-items: center;
   gap: 5px;
+  margin-left: auto;
   flex-shrink: 0;
   max-width: min(100%, 280px);
   font-size: var(--fs-xs);

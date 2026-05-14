@@ -241,30 +241,20 @@ export function HeatingForm() {
         const heatUpGoverns = sizing.grossBtuHr >= sizing.surfaceLossBtuHr;
         return (
           <div className={styles.requiredOutputStrip}>
-            <div className={styles.routInputs}>
-              <div className={`${styles.summaryCard} ${heatUpGoverns ? styles.routGoverning : styles.routLoser}`}>
-                <div className={styles.summaryLabel}>
-                  Heat-up load
-                  {heatUpGoverns && <span className={styles.routTag}>Governing</span>}
-                </div>
-                <div className={styles.summaryValue}>{fmtBtu(sizing.grossBtuHr)} BTU/hr</div>
+            <div className={`${styles.summaryCard} ${heatUpGoverns ? styles.routGoverning : styles.routLoser}`}>
+              <div className={styles.summaryLabel}>
+                Heat-up load
+                {heatUpGoverns && <span className={styles.routTag}>Governing</span>}
               </div>
-              <div className={styles.routVs}>or</div>
-              <div className={`${styles.summaryCard} ${!heatUpGoverns ? styles.routGoverning : styles.routLoser}`}>
-                <div className={styles.summaryLabel}>
-                  Surface loss
-                  {!heatUpGoverns && <span className={styles.routTag}>Governing</span>}
-                </div>
-                <div className={styles.summaryValue}>{fmtBtu(sizing.surfaceLossBtuHr)} BTU/hr</div>
+              <div className={styles.summaryValue}>{fmtBtu(sizing.grossBtuHr)} BTU/hr</div>
+            </div>
+            <div className={styles.routVs}>or</div>
+            <div className={`${styles.summaryCard} ${!heatUpGoverns ? styles.routGoverning : styles.routLoser}`}>
+              <div className={styles.summaryLabel}>
+                Surface loss
+                {!heatUpGoverns && <span className={styles.routTag}>Governing</span>}
               </div>
-            </div>
-            <div className={styles.routDivider}>
-              <span className={styles.routDividerLabel}>use larger value</span>
-              <span className={styles.routArrow} aria-hidden>→</span>
-            </div>
-            <div className={`${styles.summaryCard} ${styles.summaryCardAccent} ${styles.routResult}`}>
-              <div className={styles.summaryLabel}>Required heater</div>
-              <div className={styles.summaryValue}>{fmtBtu(sizing.requiredBtuHr)} BTU/hr</div>
+              <div className={styles.summaryValue}>{fmtBtu(sizing.surfaceLossBtuHr)} BTU/hr</div>
             </div>
           </div>
         );

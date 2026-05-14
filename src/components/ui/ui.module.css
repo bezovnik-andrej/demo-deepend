@@ -448,7 +448,6 @@
 .infoHintWrap {
   position: relative;
   flex-shrink: 0;
-  align-self: center;
   display: inline-flex;
   align-items: center;
 }
