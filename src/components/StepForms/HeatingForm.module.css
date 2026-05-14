@@ -199,19 +199,6 @@
   flex-wrap: wrap;
 }
 
-.routVs {
-  display: flex;
-  align-items: center;
-  font-size: var(--fs-xs);
-  font-weight: 700;
-  color: var(--text-muted);
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-  flex-shrink: 0;
-  padding: 0 2px;
-  user-select: none;
-}
-
 .routGoverning {
   border-color: color-mix(in srgb, var(--accent) 45%, var(--border));
   background: color-mix(in srgb, var(--accent) 7%, var(--bg-input));

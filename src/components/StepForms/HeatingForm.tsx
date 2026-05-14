@@ -248,7 +248,6 @@ export function HeatingForm() {
               </div>
               <div className={styles.summaryValue}>{fmtBtu(sizing.grossBtuHr)} BTU/hr</div>
             </div>
-            <div className={styles.routVs}>or</div>
             <div className={`${styles.summaryCard} ${!heatUpGoverns ? styles.routGoverning : styles.routLoser}`}>
               <div className={styles.summaryLabel}>
                 Surface loss
