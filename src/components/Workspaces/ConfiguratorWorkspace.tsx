@@ -377,28 +377,7 @@ export function EngineeringWorkspace() {
         </span>
       </div>
 
-      <div className={styles.engTabBar} role="tablist" aria-label="Engineering workspace">
-        <button
-          type="button"
-          role="tab"
-          aria-selected={state.engineeringSubView === 'calculations'}
-          className={`${styles.engTab} ${state.engineeringSubView === 'calculations' ? styles.engTabActive : ''}`}
-          onClick={() => dispatch({ type: 'SET_ENGINEERING_SUB_VIEW', view: 'calculations' })}
-        >
-          Calculations
-        </button>
-        <button
-          type="button"
-          role="tab"
-          aria-selected={state.engineeringSubView === 'equipment'}
-          className={`${styles.engTab} ${state.engineeringSubView === 'equipment' ? styles.engTabActive : ''}`}
-          onClick={() => dispatch({ type: 'SET_ENGINEERING_SUB_VIEW', view: 'equipment' })}
-        >
-          Equipment
-        </button>
-      </div>
-
-      <div className={styles.container} hidden={state.engineeringSubView !== 'calculations'}>
+      <div className={styles.container}>
         <Section title="Pool Specifications" status="ok" editStep={ConfigStep.PoolUseType}>
           <DataRow label="Dimensions" value="50' × 25'" tone="code" />
           <DataRow
@@ -599,9 +578,6 @@ export function EngineeringWorkspace() {
           <DataRow label="GPM per main drain (est.)" value={`~${gpmPerMainDrain} GPM`} tone="calculated" />
           <DataRow label="Water feature flow" value="—" />
         </Section>
-      </div>
-
-      <div className={styles.container} hidden={state.engineeringSubView !== 'equipment'}>
         <EquipmentOptionsPanel
           designGpm={designGpm}
           requiredBtuHr={heaterSizing.requiredBtuHr}
