@@ -1,0 +1,228 @@
+.wrap {
+  position: relative;
+  display: inline-flex;
+}
+
+.trigger {
+  position: relative;
+  background: none;
+  border: none;
+  color: var(--text-secondary);
+  cursor: pointer;
+  padding: var(--sp-2);
+  border-radius: var(--radius-sm);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.1s, color 0.1s;
+}
+
+.trigger:hover {
+  background: var(--bg-hover);
+  color: var(--text-primary);
+}
+
+.triggerOpen {
+  background: var(--bg-hover);
+  color: var(--accent);
+}
+
+/* ── Popover ── */
+.popover {
+  position: absolute;
+  top: calc(100% + 4px);
+  right: 0;
+  width: 340px;
+  background: var(--bg-panel);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: 0 14px 40px rgba(0, 0, 0, 0.45), 0 2px 6px rgba(0, 0, 0, 0.25);
+  z-index: 50;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+[data-theme="light"] .popover {
+  box-shadow: 0 14px 32px rgba(0, 0, 0, 0.12), 0 2px 6px rgba(0, 0, 0, 0.08);
+}
+
+.head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--sp-3);
+  padding: var(--sp-3) var(--sp-4);
+  border-bottom: 1px solid var(--border-light);
+  background: var(--bg-titlebar);
+}
+
+.headTitle {
+  font-size: var(--fs-base);
+  font-weight: 600;
+  color: var(--text-bright);
+  letter-spacing: -0.01em;
+}
+
+.headSub {
+  font-size: 10px;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+  margin-top: 2px;
+}
+
+.saveBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: var(--fs-xs);
+  font-weight: 500;
+  color: var(--accent);
+  background: rgba(74, 158, 255, 0.12);
+  border: 1px solid rgba(74, 158, 255, 0.4);
+  border-radius: var(--radius-sm);
+  padding: 4px 10px;
+  cursor: pointer;
+  transition: background 0.1s;
+}
+
+.saveBtn:hover {
+  background: rgba(74, 158, 255, 0.2);
+}
+
+/* ── List ── */
+.list {
+  list-style: none;
+  margin: 0;
+  padding: var(--sp-2);
+  overflow-y: auto;
+  max-height: 300px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.row {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: var(--sp-3);
+  padding: var(--sp-3);
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  text-align: left;
+  transition: background 0.1s, border-color 0.1s;
+}
+
+.row:hover {
+  background: var(--bg-hover);
+  border-color: var(--border);
+}
+
+.rowMain {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.rowTop {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-2);
+}
+
+.rowLabel {
+  font-size: var(--fs-xs);
+  font-weight: 700;
+  color: var(--text-bright);
+  font-variant-numeric: tabular-nums;
+}
+
+.rowTitle {
+  font-size: var(--fs-xs);
+  color: var(--text-primary);
+  font-family: var(--font-mono);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.rowMeta {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: var(--fs-xs);
+  color: var(--text-muted);
+}
+
+.avatar {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  color: #fff;
+  font-size: 8px;
+  font-weight: 700;
+}
+
+.dotSep {
+  width: 2px;
+  height: 2px;
+  border-radius: 50%;
+  background: var(--text-muted);
+  opacity: 0.6;
+}
+
+.rowDate {
+  font-variant-numeric: tabular-nums;
+}
+
+.rowArrow {
+  color: var(--text-muted);
+  opacity: 0;
+  transition: opacity 0.1s;
+  flex-shrink: 0;
+}
+
+.row:hover .rowArrow {
+  opacity: 1;
+}
+
+/* ── Footer ── */
+.foot {
+  display: flex;
+  border-top: 1px solid var(--border-light);
+  background: var(--bg-titlebar);
+}
+
+.footLink {
+  flex: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  padding: var(--sp-3);
+  background: none;
+  border: none;
+  font-size: var(--fs-xs);
+  font-weight: 500;
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: background 0.1s, color 0.1s;
+}
+
+.footLink + .footLink {
+  border-left: 1px solid var(--border-light);
+}
+
+.footLink:hover {
+  background: var(--bg-hover);
+  color: var(--accent);
+}

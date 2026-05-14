@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Super Admin Client Company Project Manager Flow - Norveo</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --accent: #4a9eff;
+    --accent-light: #e8f2ff;
+    --green: #1a9a6a;
+    --green-light: #e6f9f1;
+    --amber: #c67a1a;
+    --amber-light: #fff4e5;
+    --purple: #7c3aed;
+    --purple-light: #f3e8ff;
+    --text: #1a1a1a;
+    --text-secondary: #555;
+    --text-muted: #888;
+    --border: #e0e0e0;
+    --bg-subtle: #f7f8fa;
+    --bg-page: #fbfcfe;
+    --radius: 10px;
+  }
+
+  body {
+    font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+    color: var(--text);
+    background: var(--bg-page);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .container {
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 48px 24px 80px;
+  }
+
+  .page-header {
+    text-align: center;
+    padding-bottom: 40px;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 40px;
+  }
+
+  .logo-mark {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 48px;
+    height: 48px;
+    background: var(--accent);
+    border-radius: 12px;
+    margin-bottom: 16px;
+    color: #fff;
+    font-size: 22px;
+    font-weight: 700;
+  }
+
+  h1 {
+    font-size: 30px;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    margin-bottom: 8px;
+  }
+
+  .subtitle {
+    font-size: 15px;
+    color: var(--text-muted);
+  }
+
+  .version {
+    display: inline-block;
+    margin-top: 14px;
+    padding: 4px 12px;
+    border-radius: 999px;
+    background: var(--accent-light);
+    color: var(--accent);
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+  }
+
+  section { margin-bottom: 52px; }
+
+  h2 {
+    font-size: 21px;
+    font-weight: 700;
+    margin-bottom: 8px;
+    letter-spacing: -0.01em;
+  }
+
+  h3 {
+    font-size: 15px;
+    font-weight: 700;
+    margin-bottom: 10px;
+  }
+
+  p, li, td, th {
+    font-size: 14px;
+    color: var(--text-secondary);
+  }
+
+  ul, ol {
+    padding-left: 20px;
+    margin-bottom: 16px;
+  }
+
+  li { margin-bottom: 6px; }
+
+  strong { color: var(--text); }
+
+  .section-desc {
+    margin-bottom: 22px;
+    color: var(--text-secondary);
+  }
+
+  .info-box,
+  .assumption-box,
+  .success-box {
+    padding: 18px 20px;
+    border-radius: var(--radius);
+    border: 1px solid var(--border);
+    background: #fff;
+  }
+
+  .info-box {
+    border-left: 4px solid var(--accent);
+    background: linear-gradient(180deg, #fff 0%, #fafdff 100%);
+  }
+
+  .assumption-box {
+    border-left: 4px solid var(--amber);
+    background: var(--amber-light);
+  }
+
+  .success-box {
+    border-left: 4px solid var(--green);
+    background: var(--green-light);
+  }
+
+  .flow {
+    display: grid;
+    gap: 14px;
+  }
+
+  .flow-card {
+    background: #fff;
+    border: 1px solid var(--border);
+    border-left: 4px solid var(--accent);
+    border-radius: var(--radius);
+    padding: 18px 20px;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04);
+  }
+
+  .flow-card.green { border-left-color: var(--green); }
+  .flow-card.purple { border-left-color: var(--purple); }
+  .flow-card.amber { border-left-color: var(--amber); }
+
+  .flow-label {
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--accent);
+    margin-bottom: 2px;
+  }
+
+  .green .flow-label { color: var(--green); }
+  .purple .flow-label { color: var(--purple); }
+  .amber .flow-label { color: var(--amber); }
+
+  .flow-title {
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: 4px;
+  }
+
+  .arrow {
+    text-align: center;
+    color: var(--text-muted);
+    font-size: 18px;
+    line-height: 1;
+  }
+
+  .table-wrap {
+    overflow-x: auto;
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+
+  th, td {
+    text-align: left;
+    padding: 14px 16px;
+    vertical-align: top;
+    border-bottom: 1px solid var(--border);
+  }
+
+  tr:last-child td { border-bottom: none; }
+
+  th {
+    background: var(--bg-subtle);
+    color: var(--text);
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+
+  .step-list {
+    display: grid;
+    gap: 14px;
+  }
+
+  .step {
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 18px 20px;
+  }
+
+  .step-num {
+    display: inline-block;
+    min-width: 26px;
+    height: 26px;
+    border-radius: 999px;
+    background: var(--accent-light);
+    color: var(--accent);
+    text-align: center;
+    line-height: 26px;
+    font-size: 12px;
+    font-weight: 700;
+    margin-right: 8px;
+  }
+
+  .mermaid-block {
+    background: #101725;
+    color: #d9e4ff;
+    border-radius: var(--radius);
+    padding: 20px;
+    overflow-x: auto;
+    border: 1px solid #1e2a44;
+  }
+
+  pre {
+    margin: 0;
+    white-space: pre-wrap;
+    font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+    font-size: 12px;
+    line-height: 1.6;
+  }
+
+  .footer-note {
+    margin-top: 26px;
+    font-size: 12px;
+    color: var(--text-muted);
+    text-align: center;
+  }
+</style>
+</head>
+<body>
+  <div class="container">
+    <header class="page-header">
+      <div class="logo-mark">N</div>
+      <h1>Super Admin Flow: Client Company -> Project Manager</h1>
+      <p class="subtitle">Derived from the current Super Admin and Engineer journey docs, with explicit assumptions where the product model is still undefined.</p>
+      <span class="version">v0.2 · Updated per client feedback</span>
+    </header>
+
+    <section>
+      <h2>01. Goal</h2>
+      <p class="section-desc">Describe the end-to-end path for a Super Admin to onboard a client company, create or invite its primary project manager, and create the first project that connects them.</p>
+      <div class="info-box">
+        <strong>Success state:</strong> A client company exists in the Back Office, a project manager is associated with that company, a project has been created, and the project manager is visible as a collaborator or owner at the project level.
+      </div>
+    </section>
+
+    <section>
+      <h2>02. Flow Overview</h2>
+      <p class="section-desc">This keeps the existing three-layer admin model intact: Back Office list views, detail views, then project-level access.</p>
+      <div class="flow">
+        <div class="flow-card">
+          <div class="flow-label">Entry</div>
+          <div class="flow-title">Admin Back Office</div>
+          <ul>
+            <li>Super Admin logs into the Back Office.</li>
+            <li>Navigates to <strong>Companies</strong> to start onboarding a client company.</li>
+          </ul>
+        </div>
+        <div class="arrow">↓</div>
+        <div class="flow-card amber">
+          <div class="flow-label">Decision</div>
+          <div class="flow-title">New client or existing company?</div>
+          <ul>
+            <li>If new: start the existing <strong>Add Company</strong> wizard.</li>
+            <li>If existing: open <strong>Company Detail</strong> and skip to project manager setup.</li>
+          </ul>
+        </div>
+        <div class="arrow">↓</div>
+        <div class="flow-card">
+          <div class="flow-label">Company Setup</div>
+          <div class="flow-title">Add Company Wizard</div>
+          <ul>
+            <li>Step 1: Company Info</li>
+            <li>Step 2: Contract Signer Info</li>
+            <li>Step 3: Signing a Contract</li>
+          </ul>
+        </div>
+        <div class="arrow">↓</div>
+        <div class="flow-card purple">
+          <div class="flow-label">Client Contact Setup</div>
+          <div class="flow-title">Create or invite Project Manager</div>
+          <ul>
+            <li>Super Admin adds the primary client-side operating contact.</li>
+            <li>This person becomes the default project manager for the company or for the first project.</li>
+          </ul>
+        </div>
+        <div class="arrow">↓</div>
+        <div class="flow-card green">
+          <div class="flow-label">Project Setup</div>
+          <div class="flow-title">Create Project</div>
+          <ul>
+            <li>Super Admin creates the project from the <strong>Projects</strong> section.</li>
+            <li>3-step wizard: Select Company &rarr; Project Info &rarr; Confirm.</li>
+            <li>No team assignment during creation. PM added after via Collaborators tab.</li>
+          </ul>
+        </div>
+        <div class="arrow">↓</div>
+        <div class="flow-card green">
+          <div class="flow-label">Exit</div>
+          <div class="flow-title">Project Detail</div>
+          <ul>
+            <li>Overview confirms company and project basics.</li>
+            <li>Collaborators confirms the assigned project manager.</li>
+            <li>Admin can then open the full workspace if needed.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <h2>03. Mermaid Diagram</h2>
+      <p class="section-desc">Working diagram version for product discussion, documentation, or handoff into a more formal journey map.</p>
+      <div class="mermaid-block">
+        <pre>flowchart TD
+    Start(["Super Admin logs in"]) --> BackOffice["Admin Back Office"]
+    BackOffice --> Companies["Companies list"]
+    Companies --> DecisionCompany{"New client company?"}
+    DecisionCompany -->|Yes| AddCompany["Add Company Wizard<br/>1. Company Info<br/>2. Contract Signer Info<br/>3. Signing a Contract"]
+    DecisionCompany -->|No| CompanyDetail["Company Detail"]
+    AddCompany --> CompanyDetail
+    CompanyDetail --> DecisionPM{"Project manager exists?"}
+    DecisionPM -->|No| CreatePM["Create / invite Project Manager"]
+    DecisionPM -->|Yes| SelectPM["Select existing client-side contact"]
+    CreatePM --> Projects["Projects list"]
+    SelectPM --> Projects
+    Projects --> CreateProject["Create Project"]
+    CreateProject --> ProjectInfo["Select Company → Project Info → Confirm"]
+    ProjectInfo --> ProjectDetail["Project Detail"]
+    ProjectDetail --> AddPM["Add PM via Collaborators tab"]
+    AddPM --> ProjectDetail
+    ProjectDetail --> Collaborators["Collaborators tab"]
+    ProjectDetail --> Workspace["Open Workspace (optional)"]
+    Collaborators --> Success(["Client company, PM, and project are linked"]) </pre>
+      </div>
+    </section>
+
+    <section>
+      <h2>04. Step-by-Step Flow</h2>
+      <p class="section-desc">This is the recommended task-level sequence using only the product structures already implied in the current docs.</p>
+      <div class="step-list">
+        <div class="step">
+          <h3><span class="step-num">1</span>Open Back Office</h3>
+          <p>The Super Admin lands in the Back Office and chooses <strong>Companies</strong> from the primary navigation.</p>
+        </div>
+        <div class="step">
+          <h3><span class="step-num">2</span>Check whether the client company already exists</h3>
+          <p>If the company is already present, open its detail view. If not, start the <strong>Add Company</strong> flow that already exists in the admin journey.</p>
+        </div>
+        <div class="step">
+          <h3><span class="step-num">3</span>Create the client company</h3>
+          <p>Use the existing three-step wizard: <strong>Company Info -> Contract Signer Info -> Signing a Contract</strong>. This establishes the company record and commercial relationship.</p>
+        </div>
+        <div class="step">
+          <h3><span class="step-num">4</span>Add the primary client-side project manager</h3>
+          <p>From the company context, create or invite the person who will act as the day-to-day owner on the client side. Since a dedicated Project Manager section does not exist in the current IA, this should live under <strong>Company Detail</strong> or as part of a company contact list.</p>
+        </div>
+        <div class="step">
+          <h3><span class="step-num">5</span>Create the project</h3>
+          <p>Go to <strong>Projects</strong>, start the <strong>Create Project</strong> flow, and attach the new project to the client company.</p>
+        </div>
+        <div class="step">
+          <h3><span class="step-num">6</span>Assign the project manager to the project</h3>
+          <p>Use the project-level collaborator model already implied by the <strong>Collaborators</strong> tab in Project Detail. The project manager should appear there as the primary client-side collaborator.</p>
+        </div>
+        <div class="step">
+          <h3><span class="step-num">7</span>Verify in Project Detail</h3>
+          <p>The project should now show the client company in the overview and the project manager in collaborators before the admin moves into the workspace.</p>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <h2>05. Decision Points</h2>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Decision</th>
+              <th>Options</th>
+              <th>Expected Outcome</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Does the client company already exist?</td>
+              <td>Create a new company / use the existing company</td>
+              <td>Avoid duplicate company records and keep projects tied to one company object.</td>
+            </tr>
+            <tr>
+              <td>Is there already a client-side project manager?</td>
+              <td>Create or invite a new PM / select an existing company contact</td>
+              <td>Every project gets a clear client-side owner.</td>
+            </tr>
+            <tr>
+              <td>When should the PM be assigned?</td>
+              <td>During company setup / during project creation</td>
+              <td>Prefer assignment during project creation so the same company can support multiple PMs across projects.</td>
+            </tr>
+            <tr>
+              <td>Where does the PM live in IA?</td>
+              <td>Company Detail contacts / project collaborators only</td>
+              <td>Best current fit is company-level contact first, then project-level collaborator assignment.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section>
+      <h2>06. Edge Cases</h2>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Scenario</th>
+              <th>Expected Behavior</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Company already exists but contract is incomplete</td>
+              <td>Allow the admin to open Company Detail, resume commercial setup, then continue to project creation.</td>
+            </tr>
+            <tr>
+              <td>Project manager is unknown at company onboarding time</td>
+              <td>Allow company creation without PM assignment, but block project handoff until a PM is chosen.</td>
+            </tr>
+            <tr>
+              <td>One company has multiple project managers</td>
+              <td>Store them at company level and require one primary PM per project during project setup.</td>
+            </tr>
+            <tr>
+              <td>PM changes after project creation</td>
+              <td>Update the project from the Collaborators tab without recreating the company or project.</td>
+            </tr>
+            <tr>
+              <td>Admin creates project before company exists</td>
+              <td>Redirect into company creation first or provide an inline "Add Company" shortcut from the project flow.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section>
+      <h2>07. Assumptions and Gaps</h2>
+      <p class="section-desc">These are the places where the current docs do not define the behavior yet, so this flow makes the minimum viable assumptions.</p>
+      <div class="assumption-box">
+        <ul>
+          <li><strong>Project Manager is not yet a defined role</strong> in the current journey docs, so this flow treats the PM as a client-side collaborator tied to a company and then a project.</li>
+          <li><strong>Company Detail now has 3 tabs</strong> (Overview, Contacts, Projects). The Contacts tab is the logical place for PM management.</li>
+          <li><strong>Create Project is now a 3-step wizard</strong> (Select Company &rarr; Project Info &rarr; Confirm). PM assignment happens after creation via the Collaborators tab, not during the wizard.</li>
+          <li><strong>Invite Company</strong> exists as an alternate path, but its internals are undefined. This document assumes it can eventually land on the same company-and-PM setup state.</li>
+        </ul>
+      </div>
+    </section>
+
+    <section>
+      <h2>08. Recommendation</h2>
+      <div class="success-box">
+        <p><strong>Recommended product model:</strong> keep the current admin IA (2 sections: Companies, Projects), use the <strong>Contacts tab in Company Detail</strong> for PM management, and assign the PM from the <strong>Collaborators tab in Project Detail</strong> after project creation. This gives a clean hierarchy: <strong>Company &rarr; Contacts &rarr; Project &rarr; Collaborators</strong>.</p>
+      </div>
+    </section>
+
+    <p class="footer-note">Norveo · Super Admin Client Company Project Manager Flow · Derived from existing journey artifacts</p>
+  </div>
+</body>
+</html>

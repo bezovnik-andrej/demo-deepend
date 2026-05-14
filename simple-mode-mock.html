@@ -1,0 +1,567 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>The Deep End — Quick Quote (AI-guided)</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg-base: #1e1e1e;
+      --bg-panel: #252526;
+      --bg-titlebar: #2d2d2d;
+      --bg-input: #1a1a1a;
+      --bg-hover: #2a2d2e;
+      --border: #3a3a3a;
+      --border-light: #2d2d2d;
+      --text-primary: #d4d4d4;
+      --text-secondary: #969696;
+      --text-muted: #666;
+      --text-bright: #f0f0f0;
+      --accent: #4a9eff;
+      --accent-dim: #264f78;
+      --success: #4ec9b0;
+      --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+      --font-mono: var(--font-sans);
+      --fs-xs: 11px;
+      --fs-base: 13px;
+      --fs-md: 15px;
+      --radius: 5px;
+      --radius-lg: 8px;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body {
+      height: 100%;
+      overflow: hidden;
+      background: var(--bg-base);
+      color: var(--text-primary);
+      font-family: var(--font-sans);
+      font-size: var(--fs-base);
+      line-height: 1.45;
+      -webkit-font-smoothing: antialiased;
+    }
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: #424242; border-radius: 3px; }
+    ::selection { background: var(--accent-dim); color: var(--text-bright); }
+
+    /* ── 3-column grid ── */
+    .app {
+      display: grid;
+      grid-template-rows: auto 1fr;
+      grid-template-columns: 380px 1fr 260px;
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    /* ── Top bar ── */
+    .topBar {
+      grid-column: 1 / -1;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 0 16px;
+      height: 42px;
+      background: var(--bg-titlebar);
+      border-bottom: 1px solid var(--border);
+    }
+    .logoMark {
+      width: 18px; height: 18px;
+      border-radius: 4px;
+      background: var(--accent);
+      display: flex; align-items: center; justify-content: center;
+      color: #fff; font-weight: 700; font-size: 10px;
+    }
+    .logoText { font-weight: 600; font-size: var(--fs-md); color: var(--text-bright); }
+    .sep { width: 1px; height: 16px; background: var(--border); }
+    .projName { font-size: var(--fs-xs); color: var(--text-muted); }
+    .badge {
+      font-size: 10px; padding: 2px 8px; border-radius: 10px;
+      background: rgba(74,158,255,0.12); color: var(--accent); font-weight: 600;
+      letter-spacing: 0.3px;
+    }
+    .topRight { margin-left: auto; display: flex; gap: 8px; align-items: center; }
+    .topBtn {
+      background: none; border: 1px solid var(--border); border-radius: var(--radius);
+      color: var(--text-secondary); font-size: var(--fs-xs); padding: 4px 10px;
+      cursor: pointer; transition: background 0.12s, color 0.12s;
+    }
+    .topBtn:hover { background: var(--bg-hover); color: var(--text-primary); }
+    .topBtnAccent {
+      background: var(--accent); border-color: var(--accent); color: #fff;
+    }
+    .topBtnAccent:hover { background: #5aadff; }
+
+    /* ── Left: Chat panel ── */
+    .chatPanel {
+      grid-row: 2;
+      display: flex;
+      flex-direction: column;
+      background: var(--bg-panel);
+      border-right: 1px solid var(--border);
+      overflow: hidden;
+    }
+    .chatHeader {
+      display: flex; align-items: center; gap: 10px;
+      padding: 14px 16px;
+      border-bottom: 1px solid var(--border);
+    }
+    .chatAvatar {
+      width: 30px; height: 30px; border-radius: 50%;
+      background: rgba(74,158,255,0.15); color: var(--accent);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 14px; flex-shrink: 0;
+      border: 1px solid rgba(74,158,255,0.3);
+    }
+    .chatHeaderText { flex: 1; }
+    .chatHeaderTitle { font-size: var(--fs-base); font-weight: 600; color: var(--text-bright); }
+    .chatHeaderSub { font-size: var(--fs-xs); color: var(--text-muted); margin-top: 1px; }
+
+    .chatMessages {
+      flex: 1; overflow-y: auto;
+      padding: 16px;
+      display: flex; flex-direction: column; gap: 16px;
+    }
+    .msg { display: flex; gap: 10px; align-items: flex-start; }
+    .msgUser { flex-direction: row-reverse; }
+    .msgAv {
+      width: 28px; height: 28px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0; font-size: 12px; margin-top: 2px;
+    }
+    .msgAi .msgAv { background: rgba(74,158,255,0.12); color: var(--accent); border: 1px solid rgba(74,158,255,0.25); }
+    .msgUser .msgAv { background: rgba(78,201,176,0.12); color: var(--success); border: 1px solid rgba(78,201,176,0.25); }
+    .msgBody { flex: 1; min-width: 0; }
+    .msgRole {
+      font-size: 9px; font-weight: 600; color: var(--text-muted);
+      text-transform: uppercase; letter-spacing: 0.4px; margin-bottom: 4px;
+    }
+    .msgUser .msgRole { text-align: right; }
+    .msgText {
+      font-size: var(--fs-xs); color: var(--text-primary);
+      line-height: 1.6; padding: 10px 14px; border-radius: 10px;
+      white-space: pre-wrap; word-break: break-word;
+    }
+    .msgAi .msgText { background: rgba(255,255,255,0.035); border: 1px solid var(--border-light); }
+    .msgUser .msgText { background: rgba(74,158,255,0.1); border: 1px solid rgba(74,158,255,0.2); }
+
+    .typing { display: flex; gap: 4px; padding: 10px 14px; }
+    .typing span {
+      width: 5px; height: 5px; border-radius: 50%; background: var(--text-muted);
+      animation: dot 1.2s infinite ease-in-out;
+    }
+    .typing span:nth-child(2) { animation-delay: 0.2s; }
+    .typing span:nth-child(3) { animation-delay: 0.4s; }
+    @keyframes dot {
+      0%, 60%, 100% { opacity: 0.3; transform: scale(0.8); }
+      30% { opacity: 1; transform: scale(1); }
+    }
+
+    .chatBottom {
+      border-top: 1px solid var(--border);
+      padding: 12px 16px;
+      display: flex; flex-direction: column; gap: 10px;
+    }
+    .suggestions {
+      display: flex; flex-wrap: wrap; gap: 6px;
+    }
+    .chip {
+      background: rgba(255,255,255,0.04); border: 1px solid var(--border);
+      border-radius: 16px; color: var(--text-secondary);
+      font-size: var(--fs-xs); padding: 5px 14px;
+      cursor: pointer; transition: all 0.12s; white-space: nowrap;
+    }
+    .chip:hover { background: var(--accent-dim); color: var(--text-bright); border-color: var(--accent); }
+    .inputRow { display: flex; gap: 8px; align-items: center; }
+    .chatInput {
+      flex: 1; background: var(--bg-input); border: 1px solid var(--border);
+      border-radius: 20px; color: var(--text-primary);
+      font-size: var(--fs-xs); padding: 10px 16px; outline: none;
+      transition: border-color 0.15s;
+    }
+    .chatInput::placeholder { color: var(--text-muted); }
+    .chatInput:focus { border-color: var(--accent); }
+    .sendBtn {
+      width: 34px; height: 34px; border-radius: 50%; border: none;
+      background: var(--accent); color: #fff; cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 15px; flex-shrink: 0; transition: opacity 0.1s;
+    }
+    .sendBtn:hover { opacity: 0.85; }
+    .sendBtn:disabled { opacity: 0.3; cursor: default; }
+
+    /* ── Center: Pool preview ── */
+    .poolArea {
+      grid-row: 2;
+      display: flex; flex-direction: column;
+      background: #1a1a1a;
+      overflow: hidden;
+      position: relative;
+    }
+    .poolLabel {
+      position: absolute; top: 14px; left: 16px;
+      font-size: var(--fs-xs); color: var(--text-muted);
+      text-transform: uppercase; letter-spacing: 0.5px; font-weight: 600;
+      background: rgba(26,26,26,0.85); padding: 4px 10px; border-radius: 4px;
+      z-index: 2;
+    }
+    .poolDims {
+      position: absolute; bottom: 14px; left: 16px;
+      font-size: var(--fs-xs); color: var(--text-secondary);
+      font-family: var(--font-mono);
+      background: rgba(26,26,26,0.85); padding: 4px 10px; border-radius: 4px;
+      z-index: 2;
+    }
+    .poolSvgWrap {
+      flex: 1; display: flex; align-items: center; justify-content: center;
+      padding: 40px;
+    }
+    .poolSvg { max-width: 100%; max-height: 100%; height: auto; }
+
+    /* ── Right: Sidebar ── */
+    .sidebar {
+      grid-row: 2;
+      display: flex; flex-direction: column; gap: 0;
+      background: var(--bg-panel);
+      border-left: 1px solid var(--border);
+      overflow-y: auto;
+    }
+    .sideSection {
+      padding: 16px;
+      border-bottom: 1px solid var(--border);
+    }
+    .sideTitle {
+      font-size: 10px; font-weight: 600; color: var(--text-muted);
+      text-transform: uppercase; letter-spacing: 0.6px; margin-bottom: 12px;
+    }
+    .metricRow {
+      display: flex; justify-content: space-between; align-items: baseline;
+      padding: 5px 0;
+    }
+    .metricRow + .metricRow { border-top: 1px solid var(--border-light); }
+    .metricLabel { font-size: var(--fs-xs); color: var(--text-secondary); }
+    .metricValue { font-size: var(--fs-xs); font-family: var(--font-mono); color: var(--text-primary); font-weight: 500; }
+
+    .costLine {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 6px 0;
+    }
+    .costLine + .costLine { border-top: 1px solid var(--border-light); }
+    .costDot {
+      width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0;
+    }
+    .costLabel { font-size: var(--fs-xs); color: var(--text-secondary); flex: 1; margin-left: 8px; }
+    .costValue { font-size: var(--fs-xs); font-family: var(--font-mono); color: var(--text-primary); }
+
+    .costTotal {
+      padding: 14px 16px;
+      background: rgba(74,158,255,0.06);
+      display: flex; justify-content: space-between; align-items: center;
+    }
+    .costTotalLabel { font-size: var(--fs-xs); font-weight: 600; color: var(--text-muted); text-transform: uppercase; }
+    .costTotalValue { font-size: var(--fs-md); font-weight: 700; color: var(--accent); font-family: var(--font-mono); }
+
+    .sideFooter {
+      padding: 16px; margin-top: auto;
+    }
+    .exportBtn {
+      width: 100%; padding: 10px; border-radius: var(--radius);
+      background: var(--accent); border: none; color: #fff;
+      font-size: var(--fs-xs); font-weight: 600; cursor: pointer;
+      transition: background 0.12s;
+    }
+    .exportBtn:hover { background: #5aadff; }
+    .footNote {
+      font-size: 10px; color: var(--text-muted); text-align: center;
+      margin-top: 8px;
+    }
+  </style>
+</head>
+<body>
+  <div class="app">
+
+    <!-- ── Top bar ── -->
+    <div class="topBar">
+      <div class="logoMark">N</div>
+      <span class="logoText">The Deep End</span>
+      <span class="sep"></span>
+      <span class="projName">Untitled Project</span>
+      <span class="badge">QUICK QUOTE</span>
+      <div class="topRight">
+        <button class="topBtn">Share</button>
+        <button class="topBtn topBtnAccent">Export PDF</button>
+      </div>
+    </div>
+
+    <!-- ── Left: AI Chat ── -->
+    <div class="chatPanel">
+      <div class="chatHeader">
+        <div class="chatAvatar">✦</div>
+        <div class="chatHeaderText">
+          <div class="chatHeaderTitle">Deep End AI</div>
+          <div class="chatHeaderSub">Pool design assistant</div>
+        </div>
+      </div>
+
+      <div class="chatMessages" id="chatMessages">
+        <div class="msg msgAi">
+          <div class="msgAv">✦</div>
+          <div class="msgBody">
+            <div class="msgRole">Deep End AI</div>
+            <div class="msgText">Welcome! I'll help you put together a quick pool quote for your client.
+
+Tell me about the pool — size, shape, features — or pick a suggestion below to get started.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="chatBottom">
+        <div class="suggestions" id="suggestions">
+          <button class="chip" data-msg="Design a 20×40 residential pool">Design a 20×40 pool</button>
+          <button class="chip" data-msg="Add an attached spa">Add a spa</button>
+          <button class="chip" data-msg="What finishes do you recommend?">Recommend finishes</button>
+          <button class="chip" data-msg="Generate a quick quote for this project">Quick quote</button>
+        </div>
+        <div class="inputRow">
+          <input type="text" class="chatInput" id="chatInput" placeholder="Describe the pool you need…" />
+          <button class="sendBtn" id="sendBtn" aria-label="Send">↑</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── Center: Pool preview ── -->
+    <div class="poolArea">
+      <div class="poolLabel">Pool design preview</div>
+      <div class="poolDims">43′-4″ × 26′-8″ · 1,480 sq ft · 28,052 gal</div>
+      <div class="poolSvgWrap">
+        <svg class="poolSvg" viewBox="-50 -60 680 440" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <pattern id="grid" width="20" height="20" patternUnits="userSpaceOnUse">
+              <circle cx="10" cy="10" r="0.5" fill="#2a2a2a"/>
+            </pattern>
+            <radialGradient id="water" cx="50%" cy="40%">
+              <stop offset="0%" stop-color="rgba(74,158,255,0.08)"/>
+              <stop offset="100%" stop-color="rgba(74,158,255,0.02)"/>
+            </radialGradient>
+          </defs>
+          <rect x="-50" y="-60" width="680" height="440" fill="url(#grid)"/>
+
+          <!-- Deck outline -->
+          <path d="M-30,-40 L560,-40 Q580,-40 580,-20 L580,370 Q580,390 560,390 L-20,390 Q-40,390 -40,370 Z"
+                fill="none" stroke="#333" stroke-width="0.8" stroke-dasharray="6,4"/>
+
+          <!-- Pool shell -->
+          <path d="M0,0 L380,0 Q400,0 400,20 L400,100 L500,100 Q520,100 520,120 L520,300 Q520,320 500,320 L20,320 Q0,320 0,300 Z"
+                fill="url(#water)" stroke="#4a9eff" stroke-width="1.5"/>
+
+          <!-- Spa -->
+          <circle cx="70" cy="70" r="60" fill="rgba(120,130,200,0.06)" stroke="#7986cb" stroke-width="1"/>
+          <text x="70" y="68" text-anchor="middle" fill="#7986cb" font-size="11" font-family="system-ui">Spa</text>
+          <text x="70" y="82" text-anchor="middle" fill="#555" font-size="9" font-family="Inter">10′ dia</text>
+
+          <!-- Steps -->
+          <rect x="328" y="8" width="64" height="16" rx="2" fill="none" stroke="#4a9eff" stroke-width="0.7" opacity="0.6"/>
+          <rect x="334" y="28" width="52" height="14" rx="2" fill="none" stroke="#4a9eff" stroke-width="0.7" opacity="0.45"/>
+          <rect x="340" y="46" width="40" height="12" rx="2" fill="none" stroke="#4a9eff" stroke-width="0.7" opacity="0.3"/>
+          <text x="358" y="78" text-anchor="middle" fill="#555" font-size="9">Steps</text>
+
+          <!-- Bench -->
+          <rect x="6" y="160" width="18" height="100" rx="2" fill="rgba(74,158,255,0.03)" stroke="#4a9eff" stroke-width="0.7" stroke-dasharray="4,3"/>
+          <text x="15" y="215" text-anchor="middle" fill="#555" font-size="9" transform="rotate(-90,15,215)">Bench</text>
+
+          <!-- Sun shelf -->
+          <rect x="420" y="110" width="90" height="60" rx="3" fill="rgba(74,158,255,0.03)" stroke="#4a9eff" stroke-width="0.7" stroke-dasharray="4,3"/>
+          <text x="465" y="144" text-anchor="middle" fill="#555" font-size="9">Sun shelf</text>
+
+          <!-- Equipment pad -->
+          <rect x="530" y="60" width="100" height="140" rx="4" fill="rgba(255,138,101,0.05)" stroke="#ff8a65" stroke-width="0.8" stroke-dasharray="4,3"/>
+          <rect x="540" y="72" width="32" height="22" rx="3" fill="rgba(74,158,255,0.18)" stroke="#4a9eff" stroke-width="0.8"/>
+          <text x="556" y="86" text-anchor="middle" fill="#ccc" font-size="8" font-family="Inter">Pump</text>
+          <rect x="540" y="100" width="32" height="22" rx="3" fill="rgba(78,201,176,0.18)" stroke="#4ec9b0" stroke-width="0.8"/>
+          <text x="556" y="114" text-anchor="middle" fill="#ccc" font-size="8" font-family="Inter">Filter</text>
+          <rect x="578" y="72" width="42" height="22" rx="3" fill="rgba(255,138,101,0.2)" stroke="#ff8a65" stroke-width="0.8"/>
+          <text x="599" y="86" text-anchor="middle" fill="#ccc" font-size="8" font-family="Inter">Heater</text>
+          <rect x="578" y="100" width="42" height="22" rx="3" fill="rgba(206,145,120,0.18)" stroke="#ce9178" stroke-width="0.8"/>
+          <text x="599" y="114" text-anchor="middle" fill="#ccc" font-size="8" font-family="Inter">Chlor</text>
+
+          <!-- Depth markers -->
+          <text x="250" y="45" text-anchor="middle" fill="#555" font-size="10" font-family="Inter">3′-0″</text>
+          <text x="250" y="175" text-anchor="middle" fill="#555" font-size="10" font-family="Inter">5′-6″</text>
+          <text x="250" y="300" text-anchor="middle" fill="#555" font-size="10" font-family="Inter">8′-0″</text>
+          <line x1="40" y1="95" x2="400" y2="95" stroke="#333" stroke-width="0.4" stroke-dasharray="8,4"/>
+          <line x1="40" y1="245" x2="400" y2="245" stroke="#333" stroke-width="0.4" stroke-dasharray="8,4"/>
+
+          <!-- Dimension lines -->
+          <line x1="0" y1="-22" x2="520" y2="-22" stroke="#444" stroke-width="0.5"/>
+          <line x1="0" y1="-18" x2="0" y2="-26" stroke="#444" stroke-width="0.5"/>
+          <line x1="520" y1="-18" x2="520" y2="-26" stroke="#444" stroke-width="0.5"/>
+          <text x="260" y="-28" text-anchor="middle" fill="#666" font-size="9" font-family="Inter">43′-4″</text>
+
+          <line x1="-16" y1="0" x2="-16" y2="320" stroke="#444" stroke-width="0.5"/>
+          <line x1="-12" y1="0" x2="-20" y2="0" stroke="#444" stroke-width="0.5"/>
+          <line x1="-12" y1="320" x2="-20" y2="320" stroke="#444" stroke-width="0.5"/>
+          <text x="-20" y="165" text-anchor="middle" fill="#666" font-size="9" font-family="Inter" transform="rotate(-90,-20,165)">26′-8″</text>
+        </svg>
+      </div>
+    </div>
+
+    <!-- ── Right: Sidebar ── -->
+    <div class="sidebar">
+      <div class="sideSection">
+        <div class="sideTitle">Key metrics</div>
+        <div class="metricRow"><span class="metricLabel">Width</span><span class="metricValue">43′-4″</span></div>
+        <div class="metricRow"><span class="metricLabel">Length</span><span class="metricValue">26′-8″</span></div>
+        <div class="metricRow"><span class="metricLabel">Perimeter</span><span class="metricValue">162 ft</span></div>
+        <div class="metricRow"><span class="metricLabel">Surface area</span><span class="metricValue">1,480 sq ft</span></div>
+        <div class="metricRow"><span class="metricLabel">Volume</span><span class="metricValue">28,052 gal</span></div>
+        <div class="metricRow"><span class="metricLabel">Depth</span><span class="metricValue">3′–8′</span></div>
+      </div>
+
+      <div class="sideSection">
+        <div class="sideTitle">Preliminary cost</div>
+        <div class="costLine">
+          <span class="costDot" style="background:#4a9eff"></span>
+          <span class="costLabel">Pool &amp; shell</span>
+          <span class="costValue">$10.0K</span>
+        </div>
+        <div class="costLine">
+          <span class="costDot" style="background:#c586c0"></span>
+          <span class="costLabel">Plumbing</span>
+          <span class="costValue">$3.1K</span>
+        </div>
+        <div class="costLine">
+          <span class="costDot" style="background:#ff8a65"></span>
+          <span class="costLabel">Mechanical</span>
+          <span class="costValue">$15.4K</span>
+        </div>
+        <div class="costLine">
+          <span class="costDot" style="background:#4ec9b0"></span>
+          <span class="costLabel">Systems</span>
+          <span class="costValue">$3.2K</span>
+        </div>
+        <div class="costLine">
+          <span class="costDot" style="background:#dcdcaa"></span>
+          <span class="costLabel">Finishes &amp; deck</span>
+          <span class="costValue">$36.0K</span>
+        </div>
+        <div class="costLine">
+          <span class="costDot" style="background:#569cd6"></span>
+          <span class="costLabel">Water features</span>
+          <span class="costValue">$3.5K</span>
+        </div>
+      </div>
+
+      <div class="costTotal">
+        <span class="costTotalLabel">Project total</span>
+        <span class="costTotalValue">$71.1K</span>
+      </div>
+
+      <div class="sideSection">
+        <div class="sideTitle">Features</div>
+        <div style="display:flex;flex-wrap:wrap;gap:5px;">
+          <span style="font-size:var(--fs-xs);padding:3px 9px;border-radius:12px;background:rgba(74,158,255,0.1);color:var(--accent);border:1px solid rgba(74,158,255,0.2);">Spa (10′)</span>
+          <span style="font-size:var(--fs-xs);padding:3px 9px;border-radius:12px;background:rgba(78,201,176,0.1);color:var(--success);border:1px solid rgba(78,201,176,0.2);">Bubblers ×2</span>
+          <span style="font-size:var(--fs-xs);padding:3px 9px;border-radius:12px;background:rgba(220,220,170,0.1);color:#dcdcaa;border:1px solid rgba(220,220,170,0.2);">Lights ×3</span>
+          <span style="font-size:var(--fs-xs);padding:3px 9px;border-radius:12px;background:rgba(86,156,214,0.1);color:#569cd6;border:1px solid rgba(86,156,214,0.2);">Deck jets ×3</span>
+          <span style="font-size:var(--fs-xs);padding:3px 9px;border-radius:12px;background:rgba(255,138,101,0.1);color:#ff8a65;border:1px solid rgba(255,138,101,0.2);">Gas heater</span>
+        </div>
+      </div>
+
+      <div class="sideFooter">
+        <button class="exportBtn">Export PDF quote</button>
+        <div class="footNote">Preliminary — subject to site survey</div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+  (function() {
+    var messages = document.getElementById('chatMessages');
+    var input = document.getElementById('chatInput');
+    var sendBtn = document.getElementById('sendBtn');
+    var suggestionsEl = document.getElementById('suggestions');
+
+    var RESPONSES = {
+      '20': "Great choice! A 20×40 residential pool with 3′–8′ depth gives about 28,000 gallons. I've set up the design with:\n\n• Rectangular shell with radiused corners\n• 3-step entry\n• Built-in bench\n\nWant me to add a spa or any water features?",
+      'spa': "Done — I've attached a 10′ diameter spa to the shallow end. That adds about $4K to the estimate for the shell, jets, and plumbing.\n\nThe spa shares the main filtration system, so no extra pump needed. Want to add bubblers or deck jets?",
+      'finish': "For a residential pool in this price range, I'd recommend:\n\n• **Pebble Tec (standard)** — $12K, durable, 10-year warranty\n• **Glass bead blend** — $16K, premium look, reflects light beautifully\n• **Quartz plaster** — $9K, budget-friendly, smooth finish\n\nThe current estimate uses Pebble Tec. Want me to swap it?",
+      'quote': "Here's your preliminary quote summary:\n\n📐 Pool: 20×40 ft, L-shape with spa\n💧 Volume: 28,052 gallons\n⚙️ Equipment: VS pump, cartridge filter, gas heater\n🏊 Features: spa, bubblers, deck jets, LED lights\n\n💰 **Estimated total: $71,100**\n\nThis is a preliminary number — final pricing depends on site conditions and material selections. Want me to export this as a PDF for the client?",
+      'default': "I can help with that! Based on the current pool configuration, I'll look into it. Could you give me a bit more detail about what you'd like to adjust?"
+    };
+
+    function findResponse(text) {
+      var t = text.toLowerCase();
+      if (t.includes('20') && t.includes('pool')) return RESPONSES['20'];
+      if (t.includes('spa')) return RESPONSES['spa'];
+      if (t.includes('finish') || t.includes('recommend')) return RESPONSES['finish'];
+      if (t.includes('quote') || t.includes('export') || t.includes('pdf')) return RESPONSES['quote'];
+      return RESPONSES['default'];
+    }
+
+    function escapeHtml(s) {
+      var d = document.createElement('div');
+      d.textContent = s;
+      return d.innerHTML;
+    }
+
+    function addMsg(role, text) {
+      var isUser = role === 'user';
+      var div = document.createElement('div');
+      div.className = 'msg ' + (isUser ? 'msgUser' : 'msgAi');
+      div.innerHTML =
+        '<div class="msgAv">' + (isUser ? '👤' : '✦') + '</div>' +
+        '<div class="msgBody">' +
+          '<div class="msgRole">' + (isUser ? 'You' : 'Deep End AI') + '</div>' +
+          '<div class="msgText">' + text + '</div>' +
+        '</div>';
+      messages.appendChild(div);
+      messages.scrollTop = messages.scrollHeight;
+    }
+
+    function showTyping() {
+      var div = document.createElement('div');
+      div.className = 'msg msgAi';
+      div.id = 'typingIndicator';
+      div.innerHTML =
+        '<div class="msgAv">✦</div>' +
+        '<div class="msgBody">' +
+          '<div class="msgRole">Deep End AI</div>' +
+          '<div class="typing"><span></span><span></span><span></span></div>' +
+        '</div>';
+      messages.appendChild(div);
+      messages.scrollTop = messages.scrollHeight;
+    }
+
+    function removeTyping() {
+      var el = document.getElementById('typingIndicator');
+      if (el) el.remove();
+    }
+
+    function send(text) {
+      if (!text.trim()) return;
+      addMsg('user', escapeHtml(text.trim()));
+      input.value = '';
+      suggestionsEl.style.display = 'none';
+      showTyping();
+      var response = findResponse(text);
+      setTimeout(function() {
+        removeTyping();
+        addMsg('ai', response);
+      }, 700 + Math.random() * 500);
+    }
+
+    sendBtn.addEventListener('click', function() { send(input.value); });
+    input.addEventListener('keydown', function(e) {
+      if (e.key === 'Enter') { e.preventDefault(); send(input.value); }
+    });
+
+    suggestionsEl.addEventListener('click', function(e) {
+      var chip = e.target.closest('.chip');
+      if (chip) send(chip.getAttribute('data-msg'));
+    });
+  })();
+  </script>
+</body>
+</html>

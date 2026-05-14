@@ -1,0 +1,37 @@
+.editor {
+  flex: 1;
+  overflow-y: auto;
+  background: var(--bg-base);
+  /* Config drawer (right pane): 32px left gutter instead of form-only 16px */
+  padding-left: 32px;
+}
+
+/* Step forms use `padding: var(--sp-6)` (16px) on all sides; shift left inset here */
+.editor > div {
+  padding-left: 0;
+}
+
+.empty {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: var(--bg-base);
+  gap: var(--sp-4);
+}
+
+.emptyIcon {
+  opacity: 0.5;
+}
+
+.emptyTitle {
+  font-size: var(--fs-md);
+  color: var(--text-secondary);
+  font-weight: 500;
+}
+
+.emptySubtitle {
+  font-size: var(--fs-xs);
+  color: var(--text-muted);
+}

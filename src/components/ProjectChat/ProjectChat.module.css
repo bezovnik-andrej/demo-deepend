@@ -1,0 +1,507 @@
+.root {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: 0;
+  background: var(--bg-base);
+  overflow: hidden;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 680px;
+  height: 100%;
+  margin: 0 auto;
+}
+
+/* ── Wizard progress strip ── */
+.progressStrip {
+  flex-shrink: 0;
+  position: relative;
+  padding: 14px 20px 12px;
+  background: linear-gradient(
+    180deg,
+    color-mix(in srgb, var(--accent) 14%, var(--bg-titlebar)) 0%,
+    color-mix(in srgb, var(--accent) 5%, var(--bg-titlebar)) 100%
+  );
+  border-top: 1px solid color-mix(in srgb, var(--accent) 22%, transparent);
+  border-bottom: 1px solid color-mix(in srgb, var(--accent) 18%, var(--border));
+  box-shadow:
+    inset 0 1px 0 color-mix(in srgb, var(--accent) 10%, transparent),
+    0 1px 6px color-mix(in srgb, var(--accent) 8%, transparent);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.progressTrack {
+  height: 4px;
+  border-radius: 2px;
+  background: color-mix(in srgb, var(--accent) 15%, var(--border-light));
+  overflow: hidden;
+  box-shadow: inset 0 0 3px color-mix(in srgb, var(--accent) 6%, transparent);
+}
+
+.progressFill {
+  height: 100%;
+  border-radius: 2px;
+  background: linear-gradient(90deg, var(--accent), color-mix(in srgb, var(--success) 50%, var(--accent)));
+  transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 0 10px color-mix(in srgb, var(--accent) 50%, transparent);
+}
+
+.progressShimmer {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.25) 50%,
+    transparent 100%
+  );
+  animation: shimmer 2s ease-in-out infinite;
+}
+
+@keyframes shimmer {
+  0%   { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+
+.progressSegments {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0;
+}
+
+.progressSegment {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex: 1;
+  min-width: 0;
+}
+
+.progressSegment:last-child {
+  flex: 0 0 auto;
+}
+
+.progressDot {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1.5px solid color-mix(in srgb, var(--accent) 20%, var(--border));
+  background: color-mix(in srgb, var(--accent) 4%, var(--bg-input));
+  transition: all 0.3s ease;
+}
+
+.progressDotDone {
+  border-color: var(--success);
+  background: color-mix(in srgb, var(--success) 18%, transparent);
+  color: var(--success);
+}
+
+.progressDotCurrent {
+  border-color: var(--accent);
+  background: color-mix(in srgb, var(--accent) 15%, transparent);
+  box-shadow:
+    0 0 0 3px color-mix(in srgb, var(--accent) 20%, transparent),
+    0 0 10px color-mix(in srgb, var(--accent) 15%, transparent);
+  animation: dotPulse 2.4s ease-in-out infinite;
+}
+
+@keyframes dotPulse {
+  0%, 100% { box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 20%, transparent), 0 0 10px color-mix(in srgb, var(--accent) 15%, transparent); }
+  50%      { box-shadow: 0 0 0 5px color-mix(in srgb, var(--accent) 12%, transparent), 0 0 16px color-mix(in srgb, var(--accent) 10%, transparent); }
+}
+
+.progressConnector {
+  flex: 1;
+  height: 1.5px;
+  background: color-mix(in srgb, var(--accent) 12%, var(--border));
+  border-radius: 1px;
+  transition: background 0.3s ease;
+}
+
+.progressConnectorDone {
+  background: linear-gradient(90deg, var(--success), color-mix(in srgb, var(--success) 40%, var(--border)));
+}
+
+.progressSegLabel {
+  font-size: 10px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--text-muted);
+  white-space: nowrap;
+  transition: color 0.2s ease;
+}
+
+.progressSegLabelActive {
+  color: var(--accent);
+}
+
+.progressSegLabelDone {
+  color: var(--success);
+}
+
+.progressPct {
+  position: absolute;
+  top: 8px;
+  right: 20px;
+  font-size: 10px;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  color: var(--accent);
+  letter-spacing: 0.02em;
+  opacity: 0.9;
+  text-shadow: 0 0 8px color-mix(in srgb, var(--accent) 30%, transparent);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .progressShimmer { animation: none; }
+  .progressDotCurrent { animation: none; }
+  .progressFill { transition-duration: 0.01ms; }
+}
+
+@media (max-width: 480px) {
+  .progressSegLabel { display: none; }
+  .progressStrip { padding: 10px 14px 8px; }
+}
+
+/* ── Messages area ── */
+.messages {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  padding: var(--sp-8) var(--sp-6);
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-6);
+}
+
+/* ── Single message ── */
+.msg {
+  display: flex;
+  gap: var(--sp-4);
+  align-items: flex-start;
+  max-width: 100%;
+  animation: fadeIn 0.25s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.msgUser {
+  flex-direction: row-reverse;
+}
+
+.msgAssistant {
+  flex-direction: row;
+}
+
+/* ── Avatar ── */
+.avatar {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  background: rgba(74, 158, 255, 0.12);
+  color: var(--accent);
+  border: 1px solid rgba(74, 158, 255, 0.25);
+  margin-top: 2px;
+}
+
+/* ── Bubble ── */
+.bubble {
+  max-width: 85%;
+  min-width: 0;
+}
+
+.msgUser .bubble {
+  margin-left: auto;
+}
+
+.bubbleText {
+  font-size: var(--fs-base);
+  line-height: 1.6;
+  color: var(--text-primary);
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.msgUser .bubbleText {
+  background: rgba(74, 158, 255, 0.1);
+  border: 1px solid rgba(74, 158, 255, 0.2);
+  border-radius: var(--radius) var(--radius) var(--radius-sm) var(--radius);
+  padding: var(--sp-4) var(--sp-5);
+}
+
+.msgAssistant .bubbleText {
+  color: var(--text-primary);
+}
+
+/* ── Options ── */
+.options {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--sp-3);
+  margin-top: var(--sp-4);
+}
+
+.optionsMulti {
+  flex-direction: column;
+  flex-wrap: nowrap;
+}
+
+.optionBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sp-3);
+  padding: var(--sp-3) var(--sp-5);
+  font-size: var(--fs-base);
+  line-height: 1.4;
+  color: var(--text-primary);
+  background: var(--bg-panel);
+  border: 1px solid var(--border);
+  border-radius: 100px;
+  cursor: pointer;
+  transition:
+    background 0.12s ease,
+    border-color 0.12s ease,
+    color 0.12s ease;
+  white-space: nowrap;
+}
+
+.optionBtn:hover:not(:disabled) {
+  border-color: var(--accent);
+  background: rgba(74, 158, 255, 0.08);
+  color: var(--text-bright);
+}
+
+.optionBtn:disabled {
+  opacity: 0.35;
+  cursor: default;
+}
+
+.optionSelected {
+  border-color: var(--accent);
+  background: rgba(74, 158, 255, 0.15);
+  color: var(--accent);
+}
+
+.optionSelected:hover:not(:disabled) {
+  background: rgba(74, 158, 255, 0.2);
+}
+
+.optionUnsure {
+  border-style: dashed;
+  color: var(--text-secondary);
+  background: transparent;
+}
+
+.optionUnsure:hover:not(:disabled) {
+  color: var(--text-primary);
+  border-color: var(--text-muted);
+  background: rgba(255, 255, 255, 0.03);
+}
+
+/* ── Multi-select checkbox ── */
+.checkbox {
+  width: 16px;
+  height: 16px;
+  border-radius: 3px;
+  border: 1.5px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: border-color 0.12s, background 0.12s;
+}
+
+.optionSelected .checkbox {
+  border-color: var(--accent);
+  background: var(--accent);
+}
+
+.checkmark {
+  width: 8px;
+  height: 8px;
+  border-radius: 1px;
+  background: #fff;
+}
+
+.confirmMultiBtn {
+  align-self: flex-start;
+  margin-top: var(--sp-2);
+  padding: var(--sp-3) var(--sp-5);
+  font-size: var(--fs-base);
+  font-weight: 600;
+  color: #fff;
+  background: var(--accent);
+  border: none;
+  border-radius: 100px;
+  cursor: pointer;
+  transition: background 0.12s;
+}
+
+.confirmMultiBtn:hover:not(:disabled) {
+  background: var(--accent-hover);
+}
+
+.confirmMultiBtn:disabled {
+  opacity: 0.4;
+  cursor: default;
+}
+
+/* ── Typing indicator ── */
+.typing {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: var(--sp-2) 0;
+}
+
+.typing span {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--text-muted);
+  animation: typingDot 1.2s infinite ease-in-out;
+}
+
+.typing span:nth-child(2) {
+  animation-delay: 0.2s;
+}
+
+.typing span:nth-child(3) {
+  animation-delay: 0.4s;
+}
+
+@keyframes typingDot {
+  0%, 60%, 100% { opacity: 0.3; transform: scale(0.8); }
+  30% { opacity: 1; transform: scale(1); }
+}
+
+/* ── Bottom bar ── */
+.bottomBar {
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--sp-3);
+  padding: var(--sp-5) var(--sp-6) var(--sp-5);
+  border-top: 1px solid var(--border-light);
+  background: var(--bg-base);
+}
+
+.inputRow {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-3);
+  width: 100%;
+}
+
+.doneRow {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+
+.skipLink {
+  background: none;
+  border: none;
+  padding: var(--sp-2);
+  font-size: var(--fs-sm);
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: color 0.12s;
+}
+
+.skipLink:hover {
+  color: var(--text-secondary);
+  text-decoration: underline;
+}
+
+.input {
+  flex: 1;
+  height: 44px;
+  background: var(--bg-panel);
+  border: 1px solid var(--border);
+  border-radius: 100px;
+  color: var(--text-primary);
+  font-size: var(--fs-base);
+  padding: 0 var(--sp-6);
+  outline: none;
+  transition: border-color 0.15s;
+}
+
+.input::placeholder {
+  color: var(--text-muted);
+}
+
+.input:focus {
+  border-color: var(--accent);
+}
+
+.input:disabled {
+  opacity: 0.5;
+}
+
+.sendBtn {
+  width: 44px;
+  height: 44px;
+  min-width: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--accent);
+  border: none;
+  border-radius: 50%;
+  color: #fff;
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: background 0.12s, opacity 0.12s;
+}
+
+.sendBtn:hover:not(:disabled) {
+  background: var(--accent-hover);
+}
+
+.sendBtn:disabled {
+  opacity: 0.3;
+  cursor: default;
+}
+
+.enterBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sp-3);
+  padding: var(--sp-4) var(--sp-8);
+  font-size: var(--fs-base);
+  font-weight: 600;
+  color: #fff;
+  background: var(--accent);
+  border: none;
+  border-radius: 100px;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.enterBtn:hover {
+  background: var(--accent-hover);
+}

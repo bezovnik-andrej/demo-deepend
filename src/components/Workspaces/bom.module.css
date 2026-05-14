@@ -1,0 +1,989 @@
+.outer {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  background: var(--bg-surface);
+}
+
+.supplierChipRow {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+  padding: var(--sp-2) var(--sp-4);
+  border-bottom: 1px solid var(--border-light);
+  background: var(--bg-panel);
+  flex-shrink: 0;
+}
+
+.supplierChipLabel {
+  font-size: 10px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--text-muted);
+  margin-right: 4px;
+}
+
+.supplierChip {
+  padding: 4px 10px;
+  font-size: var(--fs-xs);
+  font-weight: 500;
+  font-family: inherit;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: var(--bg-input);
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition:
+    background 0.15s,
+    border-color 0.15s,
+    color 0.15s;
+}
+
+.supplierChip:hover {
+  border-color: color-mix(in srgb, var(--accent) 35%, var(--border));
+  color: var(--text-primary);
+}
+
+.supplierChipActive {
+  border-color: color-mix(in srgb, var(--accent) 55%, var(--border));
+  background: color-mix(in srgb, var(--accent) 14%, var(--bg-input));
+  color: var(--text-bright);
+}
+
+/* ── Unified top bar: view tabs (left) + contextual actions (right) ── */
+.topBar {
+  display: flex;
+  align-items: stretch;
+  justify-content: space-between;
+  gap: var(--sp-3);
+  background: var(--bg-panel);
+  border-bottom: 1px solid var(--border);
+  flex-shrink: 0;
+  padding: 0 var(--sp-4);
+  min-height: 40px;
+}
+
+.viewTabs {
+  display: flex;
+  align-items: stretch;
+  gap: 0;
+  flex-shrink: 0;
+}
+
+.viewTab {
+  padding: var(--sp-2) var(--sp-4);
+  font-size: var(--fs-xs);
+  font-weight: 500;
+  color: var(--text-muted);
+  background: none;
+  border: none;
+  border-bottom: 2px solid transparent;
+  cursor: pointer;
+  transition: color 0.15s, border-color 0.15s;
+  white-space: nowrap;
+}
+
+.viewTab:hover {
+  color: var(--text-primary);
+}
+
+.viewTabActive {
+  color: var(--accent);
+  border-bottom-color: var(--accent);
+}
+
+.viewTabAttention {
+  border-bottom-color: color-mix(in srgb, var(--text-muted) 50%, transparent);
+}
+
+.orderGuard {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--sp-4);
+  padding: var(--sp-6) var(--sp-5);
+  font-size: var(--fs-sm);
+  color: var(--text-muted);
+  max-width: 520px;
+}
+
+.orderGuard p {
+  margin: 0;
+  line-height: 1.5;
+}
+
+.topBarRight {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-3);
+  padding: var(--sp-2) 0;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  min-width: 0;
+}
+
+.searchWrap {
+  position: relative;
+  width: 220px;
+  flex-shrink: 0;
+}
+
+.searchIcon {
+  position: absolute;
+  left: 8px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--text-muted);
+  pointer-events: none;
+}
+
+.searchInput {
+  width: 100%;
+  height: var(--control-h);
+  min-height: var(--control-h);
+  background: var(--bg-input);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  color: var(--text-primary);
+  font-size: var(--fs-xs);
+  padding: 0 8px 0 26px;
+  outline: none;
+}
+
+.searchInput:focus {
+  border-color: var(--accent);
+}
+
+.toolBtn {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  height: var(--control-h);
+  min-height: var(--control-h);
+  background: none;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  color: var(--text-secondary);
+  font-size: var(--fs-xs);
+  padding: 0 12px;
+  cursor: pointer;
+  transition: background 0.1s, color 0.1s;
+}
+
+.toolBtn:hover {
+  background: var(--bg-hover);
+  color: var(--text-primary);
+}
+
+.toolBtnPrimary {
+  composes: toolBtn;
+  background: rgba(74, 158, 255, 0.1);
+  border-color: rgba(74, 158, 255, 0.3);
+  color: var(--accent);
+}
+
+.toolBtnPrimary:hover {
+  background: rgba(74, 158, 255, 0.2);
+}
+
+.toolBtnMuted {
+  opacity: 0.85;
+}
+
+/* ── Order Summary view: Show-cheapest toggle ── */
+.cheapBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  height: var(--control-h);
+  padding: 0 10px;
+  font-size: var(--fs-xs);
+  font-weight: 500;
+  color: var(--text-secondary);
+  background: none;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: background 0.1s, color 0.1s, border-color 0.1s;
+  white-space: nowrap;
+}
+
+.cheapBtn:hover {
+  background: var(--bg-hover);
+  color: var(--text-primary);
+}
+
+.cheapBtnActive {
+  color: var(--success);
+  background: rgba(78, 201, 176, 0.1);
+  border-color: rgba(78, 201, 176, 0.4);
+}
+
+.cheapBtnActive:hover {
+  background: rgba(78, 201, 176, 0.16);
+}
+
+/* ── Supplier filter chips ── */
+.chipBar {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-2);
+  padding: var(--sp-2) var(--sp-4);
+  border-bottom: 1px solid var(--border);
+  background: var(--bg-panel);
+  flex-shrink: 0;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: thin;
+}
+
+.chipBar::-webkit-scrollbar {
+  height: 3px;
+}
+
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 3px 10px;
+  font-size: var(--fs-sm);
+  font-weight: 500;
+  color: var(--text-muted);
+  background: transparent;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  cursor: pointer;
+  white-space: nowrap;
+  flex-shrink: 0;
+  transition: background 0.1s, color 0.1s, border-color 0.1s;
+}
+
+.chip:hover {
+  color: var(--text-primary);
+  background: var(--bg-hover);
+}
+
+.chipActive {
+  color: var(--accent);
+  background: rgba(74, 158, 255, 0.1);
+  border-color: rgba(74, 158, 255, 0.35);
+}
+
+.chipActive:hover {
+  background: rgba(74, 158, 255, 0.16);
+}
+
+.chipX {
+  flex-shrink: 0;
+  opacity: 0.7;
+}
+
+/* ── Summary strip ── */
+.summary {
+  display: flex;
+  gap: var(--sp-5);
+  padding: var(--sp-3) var(--sp-4);
+  border-bottom: 1px solid var(--border);
+  background: var(--bg-titlebar);
+  flex-shrink: 0;
+}
+
+.summaryItem {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+
+.summaryLabel {
+  font-size: var(--fs-sm);
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+}
+
+.summaryValue {
+  font-size: var(--fs-sm);
+  color: var(--text-bright);
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+
+.summaryValueAccent {
+  composes: summaryValue;
+  color: var(--success);
+}
+
+.summaryValueWarn {
+  composes: summaryValue;
+  color: var(--warning);
+}
+
+/* ── Empty state ── */
+.emptyRow {
+  padding: var(--sp-8) var(--sp-4);
+  text-align: center;
+  color: var(--text-muted);
+  font-size: var(--fs-xs);
+}
+
+/* ── Table ── */
+.tableWrap {
+  flex: 1;
+  overflow: auto;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: var(--fs-xs);
+}
+
+.table th {
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  background: var(--bg-panel);
+  padding: 6px 10px;
+  font-size: var(--fs-sm);
+  font-weight: 600;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+  text-align: left;
+  border-bottom: 1px solid var(--border);
+  white-space: nowrap;
+}
+
+.thPartNo {
+  min-width: 148px;
+  width: 148px;
+}
+.thBrand { width: 88px; }
+.thDesc { min-width: 140px; }
+.thQty { width: 50px; text-align: right; }
+.thUnit { width: 44px; text-align: center; }
+.thCost { width: 90px; text-align: right; }
+.thSupplier { width: 120px; }
+.thCatalog { width: 72px; text-align: center; }
+
+.cellCatalog {
+  text-align: center;
+  vertical-align: middle;
+}
+
+.catalogCellInner {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+}
+
+.catalogDash {
+  color: var(--text-muted);
+  opacity: 0.5;
+}
+
+.staleDot {
+  color: #f97316;
+  font-size: 10px;
+  line-height: 1;
+  cursor: help;
+}
+
+.catRefreshBtn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2px 4px;
+  border: none;
+  border-radius: 4px;
+  background: transparent;
+  color: var(--text-muted);
+  cursor: pointer;
+}
+
+.catRefreshBtn:hover {
+  background: var(--bg-hover);
+  color: var(--accent);
+}
+.thStatus { width: 110px; }
+
+/* ── Category row ── */
+.catRow {
+  cursor: pointer;
+  background: rgba(255, 255, 255, 0.02);
+}
+
+.catRow:hover {
+  background: var(--bg-hover);
+}
+
+.catRow td {
+  padding: 7px 10px;
+  border-bottom: 1px solid var(--border-light);
+}
+
+.catCell {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.catName {
+  font-size: var(--fs-xs);
+}
+
+.catCount {
+  font-size: var(--fs-sm);
+  color: var(--text-muted);
+  font-weight: 400;
+}
+
+.catTotal {
+  text-align: right;
+  font-weight: 600;
+  color: var(--success);
+  font-variant-numeric: tabular-nums;
+}
+
+/* ── Item row ── */
+.itemRow {
+  cursor: pointer;
+  transition: background 0.08s;
+}
+
+.itemRow:hover {
+  background: var(--bg-hover);
+}
+
+.itemRowActive {
+  background: rgba(74, 158, 255, 0.1) !important;
+  box-shadow: inset 3px 0 0 var(--accent);
+}
+
+.itemRowActive:hover {
+  background: rgba(74, 158, 255, 0.12) !important;
+}
+
+.itemRowActive td {
+  color: var(--text-primary);
+}
+
+.itemRow td {
+  padding: 5px 10px;
+  border-bottom: 1px solid var(--border-light);
+  color: var(--text-secondary);
+  vertical-align: middle;
+}
+
+.cellPartNo {
+  font-family: var(--font-mono);
+  font-size: var(--fs-sm);
+  color: var(--text-muted);
+  min-width: 148px;
+}
+
+.partWithIcon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 0;
+  width: 100%;
+}
+
+.partNoText {
+  flex: 1;
+  min-width: 0;
+  padding-right: 4px;
+}
+
+.swapIconWrap {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  margin-left: 12px;
+  padding: 3px 5px;
+  border-radius: var(--radius-sm);
+  border: 1px solid transparent;
+  transition: border-color 0.1s, background 0.1s;
+}
+
+.swapHint {
+  color: var(--accent);
+  opacity: 0.55;
+}
+
+.itemRow:hover .swapIconWrap {
+  border-color: rgba(74, 158, 255, 0.35);
+  background: rgba(74, 158, 255, 0.06);
+}
+
+.itemRow:hover .swapHint {
+  opacity: 1;
+}
+
+.itemRowActive .swapIconWrap {
+  border-color: rgba(74, 158, 255, 0.55);
+  background: rgba(74, 158, 255, 0.15);
+}
+
+.itemRowActive .swapHint {
+  opacity: 1;
+  color: var(--accent);
+}
+
+.cellBrand {
+  color: var(--text-bright);
+  font-weight: 500;
+  font-size: var(--fs-sm);
+}
+
+.cellDesc {
+  color: var(--text-primary);
+}
+
+.cellQty {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+.cellUnit {
+  text-align: center;
+  color: var(--text-muted);
+}
+
+.cellCost {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+.cellSupplier {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.supplierLink {
+  color: var(--text-muted);
+  opacity: 0;
+  transition: opacity 0.1s;
+}
+
+.itemRow:hover .supplierLink {
+  opacity: 1;
+}
+
+/* ── Status badges ── */
+.statusBadge {
+  display: inline-block;
+  font-size: var(--fs-sm);
+  padding: 1px 8px;
+  border-radius: 10px;
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+.statusPurchased {
+  background: rgba(78, 201, 176, 0.12);
+  color: var(--success);
+}
+
+.statusToPurchase {
+  background: rgba(74, 158, 255, 0.12);
+  color: var(--accent);
+}
+
+.statusOnOrder {
+  background: rgba(255, 183, 77, 0.12);
+  color: var(--warning);
+}
+
+.statusNotRequired {
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--text-muted);
+}
+
+.statusCell {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: var(--sp-2);
+}
+
+.statusSelect {
+  appearance: none;
+  max-width: 124px;
+  border: 1px solid transparent;
+  border-radius: 10px;
+  padding: 2px 22px 2px 8px;
+  color: inherit;
+  font: inherit;
+  font-size: var(--fs-sm);
+  font-weight: 600;
+  cursor: pointer;
+  background-image:
+    linear-gradient(45deg, transparent 50%, currentColor 50%),
+    linear-gradient(135deg, currentColor 50%, transparent 50%);
+  background-position:
+    calc(100% - 12px) 50%,
+    calc(100% - 8px) 50%;
+  background-size: 4px 4px, 4px 4px;
+  background-repeat: no-repeat;
+}
+
+.statusSelect:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+/* ── Responsive ── */
+
+/* The parts table has a hard minimum width (sum of column min-widths).
+   Below that, let it scroll horizontally instead of squeezing cells. */
+.tableWrap {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.table {
+  min-width: 920px;
+}
+
+/* Medium-narrow: keep one row, but trim the search and tighten the chip bar. */
+@media (max-width: 1200px) {
+  .topBar {
+    padding: 0 var(--sp-3);
+  }
+
+  .searchWrap {
+    width: 180px;
+  }
+
+  .chipBar {
+    padding: var(--sp-2) var(--sp-3);
+  }
+}
+
+/* Narrower: shrink the search further and let the top bar wrap if needed. */
+@media (max-width: 960px) {
+  .topBar {
+    flex-wrap: wrap;
+    padding-bottom: var(--sp-2);
+    min-height: 0;
+  }
+
+  .topBarRight {
+    flex: 1 1 100%;
+    justify-content: flex-start;
+    padding-top: 0;
+  }
+
+  .searchWrap {
+    flex: 1 1 auto;
+    width: auto;
+    min-width: 140px;
+    max-width: 280px;
+  }
+}
+
+/* Phone: stack search to its own row, keep buttons right-aligned. */
+@media (max-width: 640px) {
+  .searchWrap {
+    flex-basis: 100%;
+    max-width: none;
+    order: 99;
+  }
+
+  .summary {
+    flex-wrap: wrap;
+    gap: var(--sp-3);
+  }
+
+  /* Popover becomes a full-width sheet on narrow screens so it never
+     overflows the viewport. */
+  .filterPopover {
+    right: 0;
+    left: 0;
+    max-width: none;
+  }
+}
+
+/* ── Filter button + popover ──────────────────────────────────────────────
+   Single dropdown that hosts Supplier / Cost Code / Status. Replaces the
+   legacy chip strip, which was visually noisy for 10+ suppliers. */
+.filterWrap {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+}
+
+.toolBtnActive {
+  color: var(--accent);
+  background: rgba(74, 158, 255, 0.1);
+  border-color: rgba(74, 158, 255, 0.35);
+}
+
+.toolBtnActive:hover {
+  background: rgba(74, 158, 255, 0.18);
+  color: var(--accent);
+}
+
+.filterBadge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 16px;
+  height: 16px;
+  padding: 0 5px;
+  margin-left: 2px;
+  font-size: 10px;
+  font-weight: 700;
+  color: #fff;
+  background: var(--accent);
+  border-radius: 8px;
+  font-variant-numeric: tabular-nums;
+}
+
+.filterPopover {
+  position: absolute;
+  top: calc(100% + 6px);
+  right: 0;
+  z-index: 40;
+  width: 280px;
+  max-width: calc(100vw - 24px);
+  max-height: 480px;
+  overflow-y: auto;
+  background: var(--bg-panel);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35), 0 2px 6px rgba(0, 0, 0, 0.2);
+  display: flex;
+  flex-direction: column;
+}
+
+.filterPopHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--sp-3) var(--sp-4);
+  border-bottom: 1px solid var(--border);
+  position: sticky;
+  top: 0;
+  background: var(--bg-panel);
+  z-index: 1;
+}
+
+.filterPopTitle {
+  font-size: var(--fs-xs);
+  font-weight: 600;
+  color: var(--text-bright);
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+}
+
+.filterClearLink {
+  font-size: var(--fs-xs);
+  font-weight: 500;
+  color: var(--accent);
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 2px 4px;
+}
+
+.filterClearLink:hover:not(:disabled) {
+  text-decoration: underline;
+}
+
+.filterClearLink:disabled {
+  color: var(--text-muted);
+  cursor: default;
+}
+
+.filterSection {
+  padding: var(--sp-3) var(--sp-2) var(--sp-2);
+  border-bottom: 1px solid var(--border-light);
+}
+
+.filterSection:last-child {
+  border-bottom: none;
+}
+
+.filterSectionHeader {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  padding: 0 var(--sp-3);
+  margin-bottom: 4px;
+}
+
+.filterSectionTitle {
+  font-size: 10px;
+  font-weight: 700;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.filterSectionCount {
+  font-size: 10px;
+  font-weight: 600;
+  color: var(--accent);
+  font-variant-numeric: tabular-nums;
+}
+
+.filterList {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+
+.filterOption {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: var(--sp-3);
+  padding: 5px var(--sp-3);
+  background: none;
+  border: none;
+  border-radius: var(--radius-sm);
+  color: var(--text-primary);
+  font-size: var(--fs-xs);
+  font-weight: 500;
+  text-align: left;
+  cursor: pointer;
+  transition: background 0.1s, color 0.1s;
+}
+
+.filterOption:hover {
+  background: var(--bg-hover);
+}
+
+.filterOption:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: -2px;
+}
+
+.filterOptionOn {
+  color: var(--text-bright);
+}
+
+.filterOptionLabel {
+  flex: 1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.filterCheckbox {
+  width: 14px;
+  height: 14px;
+  border: 1px solid var(--border);
+  border-radius: 3px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  background: var(--bg-input);
+  color: #fff;
+  transition: background 0.1s, border-color 0.1s;
+}
+
+.filterCheckboxOn {
+  background: var(--accent);
+  border-color: var(--accent);
+}
+
+/* ── Markup controls ──────────────────────────────────────────────────────
+   Toggle sits in the top bar; column + inline editor live in the table. */
+.markupToggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  height: var(--control-h);
+  padding: 0 10px;
+  font-size: var(--fs-xs);
+  font-weight: 500;
+  color: var(--text-secondary);
+  background: none;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: background 0.1s, color 0.1s, border-color 0.1s;
+  white-space: nowrap;
+}
+
+.markupToggle:hover {
+  background: var(--bg-hover);
+  color: var(--text-primary);
+}
+
+.markupToggleOn {
+  color: var(--accent);
+  background: rgba(74, 158, 255, 0.1);
+  border-color: rgba(74, 158, 255, 0.35);
+}
+
+.markupToggleOn:hover {
+  background: rgba(74, 158, 255, 0.18);
+  color: var(--accent);
+}
+
+.thMarkup {
+  width: 88px;
+  text-align: right;
+}
+
+.cellMarkup {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+  padding: 5px 10px;
+}
+
+/* The input IS the display — value is pre-formatted as "$264" when idle so
+   the column reads identically to Unit Cost. We match Unit Cost's inherited
+   font (fs-xs / text-secondary / normal weight) and right-align the number. */
+.markupInput {
+  width: 72px;
+  height: 22px;
+  padding: 0 4px;
+  font: inherit;
+  font-size: var(--fs-xs);
+  font-weight: normal;
+  font-variant-numeric: tabular-nums;
+  color: inherit;
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: var(--radius-sm);
+  outline: none;
+  text-align: right;
+  cursor: text;
+  line-height: 1;
+  transition: background 0.1s, border-color 0.1s;
+}
+
+.markupInput::-webkit-outer-spin-button,
+.markupInput::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.markupInput:hover {
+  background: var(--bg-input);
+  border-color: var(--border);
+}
+
+.markupInput:focus {
+  background: var(--bg-input);
+  border-color: var(--accent);
+}

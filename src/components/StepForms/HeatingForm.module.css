@@ -1,0 +1,503 @@
+/* Heading keeps its default `.formTitle` underline (sized to the text).
+   Badge sits to the right, top-aligned. */
+.titleRow {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--sp-3);
+}
+
+.titleRow > h2 {
+  line-height: 1.2;
+}
+
+.completeBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  flex-shrink: 0;
+  font-size: var(--fs-xs);
+  font-weight: 500;
+  color: #2dbf72;
+  letter-spacing: 0.2px;
+  padding: 2px 8px;
+  border-radius: 999px;
+  background: color-mix(in srgb, #2dbf72 12%, transparent);
+}
+
+/* Section labels — secondary tier below the h2 form title. Visually lighter
+   so "HEATING SYSTEM" / "POOL ENVIRONMENT" read as sub-sections, not peers
+   of the h2 "HEATING & HEATER SIZING" title above. */
+.sectionLabel {
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  margin: var(--sp-6) 0 var(--sp-2);
+  padding-top: var(--sp-3);
+  border-top: 1px solid var(--border-light);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+/* First section label doesn't need an extra divider under the title. */
+.sectionLabel:first-of-type {
+  border-top: none;
+  margin-top: var(--sp-4);
+  padding-top: 0;
+}
+
+.hint {
+  font-size: var(--fs-xs);
+  color: var(--text-muted);
+  margin: var(--sp-1) 0 var(--sp-3);
+  line-height: 1.5;
+}
+
+.envRow {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--sp-3);
+  margin-bottom: var(--sp-2);
+}
+
+.envChip {
+  display: inline-flex;
+  align-items: center;
+  padding: 6px 12px;
+  border-radius: 999px;
+  font-size: var(--fs-sm);
+  font-weight: 600;
+  color: var(--text-primary);
+  background: color-mix(in srgb, var(--accent) 14%, var(--bg-input));
+  border: 1px solid color-mix(in srgb, var(--accent) 28%, var(--border));
+}
+
+.envEditLink {
+  font: inherit;
+  font-size: var(--fs-sm);
+  font-weight: 500;
+  color: var(--accent);
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.envEditLink:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+/* Field grid */
+.fieldGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--sp-4);
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-width: 0;
+}
+
+.fieldLabel {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+  font-size: var(--fs-xs);
+  color: var(--text-secondary);
+  font-weight: 500;
+}
+
+.fieldHint {
+  color: var(--text-muted);
+  font-weight: 400;
+}
+
+/* Inputs */
+.input {
+  height: var(--control-h);
+  width: 100%;
+  background: var(--bg-input);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 0 10px;
+  color: var(--text-primary);
+  font-size: var(--fs-sm);
+  font-family: inherit;
+  transition: border-color 0.15s, box-shadow 0.15s, background 0.15s;
+}
+
+.input:hover:not(:disabled) {
+  border-color: color-mix(in srgb, var(--accent) 30%, var(--border));
+}
+
+.input:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 2px color-mix(in srgb, var(--accent) 30%, transparent);
+}
+
+.input:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.inputNum {
+  text-align: left;
+  padding-right: 36px;
+  font-variant-numeric: tabular-nums;
+  appearance: textfield;
+  -moz-appearance: textfield;
+}
+.inputNum::-webkit-outer-spin-button,
+.inputNum::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.numWrap {
+  position: relative;
+  width: 100%;
+  display: flex;
+  align-items: center;
+}
+
+.unit {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: var(--fs-xs);
+  color: var(--text-muted);
+  pointer-events: none;
+  letter-spacing: 0.3px;
+}
+
+/* ── Summary strip ── */
+.summaryStrip {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--sp-3);
+}
+
+/* ── Required output strip: "max(A, B) ÷ eff → result" layout ── */
+.requiredOutputStrip {
+  display: flex;
+  align-items: stretch;
+  gap: var(--sp-3);
+  flex-wrap: wrap;
+}
+
+.routInputs {
+  display: flex;
+  align-items: stretch;
+  gap: var(--sp-2);
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.routVs {
+  display: flex;
+  align-items: center;
+  font-size: var(--fs-xs);
+  font-weight: 700;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  flex-shrink: 0;
+  padding: 0 2px;
+  user-select: none;
+}
+
+.routGoverning {
+  border-color: color-mix(in srgb, var(--accent) 45%, var(--border));
+  background: color-mix(in srgb, var(--accent) 7%, var(--bg-input));
+  flex: 1 1 0;
+}
+
+.routLoser {
+  opacity: 0.5;
+  flex: 1 1 0;
+}
+
+.routTag {
+  display: inline-block;
+  margin-left: var(--sp-2);
+  font-size: 9px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--accent);
+  background: color-mix(in srgb, var(--accent) 12%, transparent);
+  border: 1px solid color-mix(in srgb, var(--accent) 30%, transparent);
+  border-radius: 999px;
+  padding: 0px 5px;
+  vertical-align: middle;
+}
+
+.routDivider {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  flex-shrink: 0;
+  padding: 0 2px;
+}
+
+.routDividerLabel {
+  font-size: 10px;
+  font-weight: 500;
+  color: var(--text-muted);
+  white-space: nowrap;
+}
+
+.routArrow {
+  font-size: var(--fs-base);
+  color: var(--text-muted);
+}
+
+.routResult {
+  flex-shrink: 0;
+  min-width: 140px;
+}
+
+.summaryCard {
+  background: var(--bg-input);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: var(--sp-3) var(--sp-4);
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.summaryCardAccent {
+  border-color: color-mix(in srgb, var(--accent) 40%, var(--border));
+  background: color-mix(in srgb, var(--accent) 6%, var(--bg-input));
+}
+
+.summaryLabel {
+  font-size: var(--fs-xs);
+  color: var(--text-muted);
+  font-weight: 500;
+}
+
+.summaryValue {
+  font-size: var(--fs-md);
+  font-weight: 600;
+  color: var(--text-bright);
+  font-variant-numeric: tabular-nums;
+}
+
+/* ── Comparison table ── */
+.compTable {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.compHead {
+  display: grid;
+  grid-template-columns: 22px minmax(88px, 100px) 84px 1fr minmax(72px, 88px);
+  gap: var(--sp-2);
+  align-items: center;
+  padding: 0 var(--sp-3);
+  box-sizing: border-box;
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--text-muted);
+}
+
+.compHeadRadio {
+  padding: 0;
+}
+
+.compHeadCost {
+  text-align: right;
+  justify-self: stretch;
+}
+
+.compRow {
+  display: grid;
+  grid-template-columns: 22px minmax(88px, 100px) 84px 1fr minmax(72px, 88px);
+  gap: var(--sp-2);
+  box-sizing: border-box;
+  min-height: var(--control-h);
+  align-items: center;
+  padding: 0 var(--sp-3);
+  background: var(--bg-input);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  cursor: pointer;
+  transition: background 0.15s, border-color 0.15s;
+  text-align: left;
+  font-family: inherit;
+  font-size: var(--fs-sm);
+  color: var(--text-primary);
+  width: 100%;
+}
+
+.compRow:hover:not(:disabled) {
+  background: var(--bg-hover);
+  border-color: color-mix(in srgb, var(--accent) 30%, var(--border));
+}
+
+.compRow:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.compRowSelected {
+  border-color: var(--accent);
+  background: color-mix(in srgb, var(--accent) 8%, var(--bg-input));
+}
+
+.compRowPass {
+  border-left: 3px solid #2dbf72;
+}
+
+.compRowFail {
+  border-left: 3px solid color-mix(in srgb, var(--text-muted) 40%, transparent);
+}
+
+.compCell {
+  display: flex;
+  align-items: center;
+  min-width: 0;
+  font-variant-numeric: tabular-nums;
+}
+
+.verdictPass {
+  color: #2dbf72;
+  font-weight: 500;
+}
+
+.verdictFail {
+  color: var(--text-muted);
+}
+
+.compCost {
+  font-size: var(--fs-xs);
+  color: var(--text-muted);
+  justify-content: flex-end;
+  text-align: right;
+}
+
+.compSelectCell {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 0;
+}
+
+.compRadio {
+  box-sizing: border-box;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  border: 1.5px solid var(--border);
+  flex-shrink: 0;
+  position: relative;
+  line-height: 0;
+  transition: border-color 0.15s;
+}
+
+.compRow:hover:not(:disabled) .compRadio {
+  border-color: var(--text-muted);
+}
+
+.compRowSelected .compRadio {
+  border-color: var(--accent);
+}
+
+.compRadioInner {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--accent);
+}
+
+/* Responsive */
+@media (max-width: 720px) {
+  .fieldGrid {
+    grid-template-columns: 1fr;
+  }
+  .summaryStrip {
+    grid-template-columns: 1fr;
+    gap: var(--sp-2);
+  }
+
+  .requiredOutputStrip {
+    flex-direction: column;
+  }
+
+  .routInputs {
+    flex-direction: column;
+  }
+
+  .routDivider {
+    flex-direction: row;
+    justify-content: flex-start;
+    gap: var(--sp-2);
+  }
+
+  .routResult {
+    min-width: 0;
+  }
+
+  .compHead {
+    display: none;
+  }
+  .compRow {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    grid-template-rows: auto auto;
+    gap: var(--sp-2);
+    min-height: auto;
+    align-items: start;
+    padding: var(--sp-3);
+  }
+  .compRow > .compSelectCell {
+    grid-row: 1;
+    grid-column: 1;
+    align-self: center;
+    justify-content: flex-start;
+  }
+  .compRow > .compCell:nth-child(2) {
+    grid-row: 1;
+    grid-column: 2;
+    font-weight: 600;
+  }
+  .compRow > .compCell:nth-child(3) {
+    grid-row: 1;
+    grid-column: 3;
+    justify-content: flex-end;
+  }
+  .compRow > .compCell:nth-child(4) {
+    grid-row: 2;
+    grid-column: 1 / span 2;
+    align-self: center;
+  }
+  .compRow > .compCell:nth-child(5) {
+    grid-row: 2;
+    grid-column: 3;
+    justify-content: flex-end;
+  }
+}

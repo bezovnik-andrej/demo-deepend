@@ -1,0 +1,266 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+/* Search */
+.searchWrap {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-2);
+  min-height: var(--control-h);
+  padding: 0 var(--sp-4);
+  border-bottom: 1px solid var(--border-light);
+}
+
+.searchIcon {
+  color: var(--text-muted);
+  flex-shrink: 0;
+}
+
+.searchInput {
+  flex: 1;
+  min-height: var(--control-h-sm);
+  background: none;
+  border: none;
+  color: var(--text-primary);
+  font-size: var(--fs-xs);
+  outline: none;
+  padding: 0;
+}
+
+.searchInput::placeholder {
+  color: var(--text-muted);
+}
+
+/* Tree */
+.tree {
+  flex: 1;
+  overflow-y: auto;
+  padding: var(--sp-1) 0;
+}
+
+/* Row */
+.row {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-2);
+  padding: 2px var(--sp-4);
+  cursor: default;
+  min-height: 24px;
+  font-size: var(--fs-xs);
+  transition: background 0.1s;
+}
+
+.row:hover {
+  background: var(--bg-hover);
+}
+
+/* Chevron */
+.chevron {
+  background: none;
+  border: none;
+  color: var(--text-muted);
+  cursor: pointer;
+  padding: 0;
+  display: flex;
+  flex-shrink: 0;
+  width: 12px;
+  justify-content: center;
+}
+
+.chevronSpace {
+  width: 12px;
+  flex-shrink: 0;
+}
+
+/* Visibility */
+.visBtn {
+  background: none;
+  border: none;
+  color: var(--text-muted);
+  cursor: pointer;
+  padding: 2px;
+  margin-right: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  opacity: 0.6;
+  transition: opacity 0.1s;
+}
+
+.row:hover .visBtn {
+  opacity: 1;
+}
+
+.visBtnOff {
+  opacity: 0.25;
+}
+
+/* Color dot */
+.colorDot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  margin-left: 2px;
+}
+
+/* Name */
+.name {
+  flex: 1;
+  color: var(--text-primary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  min-width: 0;
+}
+
+.groupMeta {
+  font-size: 10px;
+  color: var(--text-muted);
+  font-family: var(--font-mono);
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.nameHidden {
+  opacity: 0.35;
+}
+
+/* Quantity */
+.qty {
+  font-size: var(--fs-xs);
+  color: var(--text-muted);
+  font-family: var(--font-mono);
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+/* Price */
+.price {
+  font-size: var(--fs-xs);
+  color: var(--success);
+  font-family: var(--font-mono);
+  white-space: nowrap;
+  flex-shrink: 0;
+  min-width: 42px;
+  text-align: right;
+}
+
+/* Swap */
+.swapBtn {
+  background: none;
+  border: none;
+  color: var(--text-muted);
+  cursor: pointer;
+  padding: 2px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  opacity: 0;
+  border-radius: var(--radius-sm);
+  transition: opacity 0.1s, color 0.1s, background 0.1s;
+}
+
+.row:hover .swapBtn {
+  opacity: 0.65;
+}
+
+.swapBtn:hover {
+  opacity: 1 !important;
+  color: var(--accent);
+  background: rgba(74, 158, 255, 0.1);
+}
+
+/* Configure link */
+.configLink {
+  background: none;
+  border: none;
+  color: var(--text-muted);
+  cursor: pointer;
+  padding: 2px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  opacity: 0;
+  border-radius: var(--radius-sm);
+  transition: opacity 0.1s, color 0.1s, background 0.1s;
+}
+
+.row:hover .configLink {
+  opacity: 0.7;
+}
+
+.configLink:hover {
+  opacity: 1 !important;
+  color: var(--accent);
+  background: rgba(74, 158, 255, 0.1);
+}
+
+/* Footer */
+.footer {
+  border-top: 1px solid var(--border);
+  padding: var(--sp-3);
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-2);
+}
+
+.totalRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: var(--fs-xs);
+}
+
+.totalLabel {
+  color: var(--text-secondary);
+}
+
+.totalValue {
+  color: var(--success);
+  font-family: var(--font-mono);
+  font-weight: 600;
+  font-size: var(--fs-xs);
+}
+
+.footerBtn {
+  min-height: var(--control-h-sm);
+  background: var(--bg-input);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  color: var(--text-secondary);
+  font-size: var(--fs-xs);
+  padding: 0 var(--sp-3);
+  cursor: pointer;
+  text-align: center;
+  transition: background 0.1s, color 0.1s;
+}
+
+.footerBtn:hover {
+  background: var(--bg-hover);
+  color: var(--text-primary);
+}
+
+.footerBtnAccent {
+  min-height: var(--control-h-sm);
+  background: rgba(74, 158, 255, 0.1);
+  border: 1px solid rgba(74, 158, 255, 0.25);
+  border-radius: var(--radius-sm);
+  color: var(--accent);
+  font-size: var(--fs-xs);
+  padding: 0 var(--sp-3);
+  cursor: pointer;
+  text-align: center;
+  transition: background 0.1s, color 0.1s;
+  font-weight: 500;
+}
+
+.footerBtnAccent:hover {
+  background: rgba(74, 158, 255, 0.18);
+}

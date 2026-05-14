@@ -1,0 +1,279 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+/* Search */
+.searchWrap {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-2);
+  min-height: var(--control-h);
+  padding: 0 var(--sp-4);
+  border-bottom: 1px solid var(--border-light);
+}
+
+.searchIcon {
+  color: var(--text-muted);
+  flex-shrink: 0;
+}
+
+.searchInput {
+  flex: 1;
+  min-height: var(--control-h-sm);
+  background: none;
+  border: none;
+  color: var(--text-primary);
+  font-size: var(--fs-xs);
+  outline: none;
+  padding: 0;
+}
+
+.searchInput::placeholder {
+  color: var(--text-muted);
+}
+
+/* Scrollable list */
+.list {
+  flex: 1;
+  overflow-y: auto;
+  padding: var(--sp-1) 0;
+}
+
+/* Shared section (wizard groups + component categories) */
+.section {
+  border-bottom: 1px solid var(--border-light);
+  transition: background 0.3s;
+}
+
+.sectionHighlighted {
+  background: rgba(74, 158, 255, 0.08);
+}
+
+.sectionHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  min-height: var(--control-h);
+  background: none;
+  border: none;
+  padding: var(--sp-2) var(--sp-4);
+  cursor: pointer;
+  user-select: none;
+  font-size: var(--fs-xs);
+  font-weight: 600;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+  text-align: left;
+}
+
+.sectionHeader:hover {
+  background: var(--bg-hover);
+  color: var(--text-primary);
+}
+
+.sectionTitle {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-2);
+}
+
+.sectionMeta {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-2);
+  font-size: var(--fs-xs);
+  color: var(--text-muted);
+}
+
+.sectionCount {
+  font-family: var(--font-mono);
+  color: var(--text-secondary);
+  font-weight: 400;
+}
+
+.sectionCheck {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--success);
+  background: rgba(78, 201, 176, 0.15);
+  border: 1px solid rgba(78, 201, 176, 0.3);
+}
+
+/* Chevron */
+.chevron {
+  color: var(--text-muted);
+  transition: transform 0.15s;
+  flex-shrink: 0;
+}
+
+.chevronOpen {
+  transform: rotate(90deg);
+}
+
+/* Wizard step nodes */
+.sectionItems {
+  padding-bottom: var(--sp-1);
+}
+
+.stepNode {
+  display: flex;
+  flex-direction: column;
+  padding: var(--sp-1) var(--sp-4);
+  padding-left: var(--sp-8);
+  cursor: pointer;
+  border-left: 2px solid transparent;
+  transition: background 0.1s;
+  min-height: 28px;
+  justify-content: center;
+}
+
+.stepNode:hover {
+  background: var(--bg-hover);
+}
+
+.stepNodeActive {
+  background: var(--bg-selected);
+  border-left-color: var(--accent);
+}
+
+.stepRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.stepLabel {
+  font-size: var(--fs-xs);
+  color: var(--text-primary);
+  display: flex;
+  align-items: center;
+  gap: var(--sp-2);
+}
+
+.stepValue {
+  font-size: var(--fs-xs);
+  color: var(--text-muted);
+  font-family: var(--font-mono);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin-top: 1px;
+}
+
+.dot {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.dotComplete {
+  background: rgba(78, 201, 176, 0.2);
+  color: var(--success);
+  border: 1px solid rgba(78, 201, 176, 0.4);
+}
+
+.dotIncomplete {
+  background: transparent;
+  border: 1px solid var(--border);
+}
+
+/* Component items (drag-to-place) */
+.componentItems {
+  padding-bottom: var(--sp-2);
+}
+
+.componentItem {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-3);
+  padding: 0 var(--sp-4);
+  padding-left: var(--sp-3);
+  cursor: grab;
+  transition: background 0.1s;
+  min-height: var(--control-h);
+}
+
+.componentItem:hover {
+  background: var(--bg-hover);
+}
+
+.componentItem:active {
+  cursor: grabbing;
+  background: var(--bg-active);
+}
+
+.componentGrip {
+  color: var(--text-muted);
+  opacity: 0;
+  flex-shrink: 0;
+  display: flex;
+  transition: opacity 0.1s;
+}
+
+.componentItem:hover .componentGrip {
+  opacity: 0.6;
+}
+
+.componentIcon {
+  width: 22px;
+  height: 22px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--bg-input);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  font-size: var(--fs-xs);
+  color: var(--text-secondary);
+  flex-shrink: 0;
+}
+
+.componentInfo {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  flex: 1;
+}
+
+.componentName {
+  font-size: var(--fs-xs);
+  color: var(--text-primary);
+  line-height: 1.2;
+}
+
+.componentSpec {
+  font-size: var(--fs-xs);
+  color: var(--text-muted);
+  font-family: var(--font-mono);
+  line-height: 1.2;
+}
+
+.interactionBadge {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 18px;
+  height: 18px;
+  border-radius: var(--radius-sm);
+  background: var(--bg-input);
+  color: var(--text-muted);
+  flex-shrink: 0;
+  opacity: 0;
+  transition: opacity 0.1s;
+}
+
+.componentItem:hover .interactionBadge {
+  opacity: 0.7;
+}

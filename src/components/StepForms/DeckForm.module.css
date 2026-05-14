@@ -1,0 +1,269 @@
+/* Heading keeps its default `.formTitle` underline (sized to the text).
+   Badge sits to the right, top-aligned. */
+.titleRow {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--sp-3);
+}
+
+.titleRow > h2 {
+  line-height: 1.1;
+}
+
+.completeBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  flex-shrink: 0;
+  font-size: var(--fs-xs);
+  font-weight: 500;
+  color: #2dbf72;
+  letter-spacing: 0.2px;
+  padding: 2px 8px;
+  border-radius: 999px;
+  background: color-mix(in srgb, #2dbf72 12%, transparent);
+}
+
+.codeUnavailableBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  flex-shrink: 0;
+  max-width: min(100%, 280px);
+  font-size: var(--fs-xs);
+  font-weight: 500;
+  color: var(--text-secondary);
+  letter-spacing: 0.15px;
+  line-height: 1.25;
+  padding: 4px 10px;
+  border-radius: var(--radius-sm);
+  background: color-mix(in srgb, var(--warning) 14%, var(--bg-panel));
+  border: 1px solid color-mix(in srgb, var(--warning) 35%, var(--border));
+}
+
+/* Section / totals labels — same style as Volume Calculator. */
+.sectionLabel,
+.totalsLabel {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin: var(--sp-5) 0 var(--sp-3);
+}
+
+.totalsLabel {
+  margin-top: var(--sp-5);
+}
+
+/* ── Field row(s) ── */
+.fieldRow {
+  display: grid;
+  grid-template-columns: minmax(0, 320px);
+  gap: var(--sp-4);
+}
+
+.fieldGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--sp-4);
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-width: 0;
+}
+
+.fieldLabel {
+  font-size: var(--fs-xs);
+  color: var(--text-secondary);
+  font-weight: 500;
+}
+
+.fieldHint {
+  color: var(--text-muted);
+  font-weight: 400;
+}
+
+/* ── Inputs (mirrors VolumeForm input styling). ── */
+.input {
+  height: var(--control-h);
+  width: 100%;
+  background: var(--bg-input);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 0 10px;
+  color: var(--text-primary);
+  font-size: var(--fs-sm);
+  font-family: inherit;
+  transition: border-color 0.15s, box-shadow 0.15s, background 0.15s;
+}
+
+.input:hover:not(:disabled) {
+  border-color: color-mix(in srgb, var(--accent) 30%, var(--border));
+}
+
+.input:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 2px color-mix(in srgb, var(--accent) 30%, transparent);
+}
+
+.input:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.inputNum {
+  text-align: left;
+  padding-right: 32px;
+  font-variant-numeric: tabular-nums;
+  appearance: textfield;
+  -moz-appearance: textfield;
+}
+.inputNum::-webkit-outer-spin-button,
+.inputNum::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.numWrap {
+  position: relative;
+  width: 100%;
+  display: flex;
+  align-items: center;
+}
+
+.unit {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: var(--fs-xs);
+  color: var(--text-muted);
+  pointer-events: none;
+  letter-spacing: 0.3px;
+}
+
+/* ── Totals strip ── */
+.totals {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--sp-3);
+}
+
+.totalCard {
+  background: var(--bg-input);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: var(--sp-4);
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-width: 0;
+}
+
+.totalLabel {
+  font-size: var(--fs-xs);
+  color: var(--text-muted);
+  font-weight: 500;
+}
+
+.totalValueRow {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  font-variant-numeric: tabular-nums;
+}
+
+.totalValue {
+  font-size: 22px;
+  font-weight: 600;
+  color: var(--text-bright);
+  line-height: 1.1;
+}
+
+/* For non-numeric labels (e.g. "Minimum Deck"), drop tabular-nums-y look. */
+.totalValueText {
+  font-size: var(--fs-md);
+  font-weight: 600;
+}
+
+.totalUnit {
+  font-size: var(--fs-xs);
+  color: var(--text-muted);
+}
+
+/* Not applicable — pool class / codes hide this step until user overrides. */
+.naPanel {
+  margin-top: var(--sp-4);
+  padding: var(--sp-4);
+  border-radius: var(--radius-sm);
+  border: 1px dashed var(--border);
+  background: color-mix(in srgb, var(--bg-panel) 14%, var(--bg-input));
+}
+
+.naTitle {
+  font-size: var(--fs-sm);
+  font-weight: 600;
+  color: var(--text-primary);
+  margin: 0 0 var(--sp-2);
+}
+
+.naBody {
+  font-size: var(--fs-sm);
+  color: var(--text-secondary);
+  line-height: 1.55;
+  margin: 0 0 var(--sp-3);
+}
+
+.naActions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--sp-2);
+  align-items: center;
+}
+
+.naBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 14px;
+  font-size: var(--fs-sm);
+  font-weight: 500;
+  font-family: inherit;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--accent);
+  background: color-mix(in srgb, var(--accent) 12%, transparent);
+  color: var(--text-primary);
+  cursor: pointer;
+}
+
+.naBtn:hover:not(:disabled) {
+  background: color-mix(in srgb, var(--accent) 22%, transparent);
+}
+
+.naBtn:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+.naGhost {
+  font-size: var(--fs-xs);
+  color: var(--text-muted);
+}
+
+/* Responsive — collapse the totals + field grids on narrow drawers. */
+@media (max-width: 720px) {
+  .totals,
+  .fieldGrid {
+    grid-template-columns: 1fr;
+    gap: var(--sp-2);
+  }
+  .totalCard {
+    padding: var(--sp-3) var(--sp-4);
+  }
+}

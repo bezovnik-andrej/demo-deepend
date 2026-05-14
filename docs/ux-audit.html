@@ -1,0 +1,1543 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Design and UX audit of the Norveo Pool Configurator: usability, visual design, accessibility (WCAG-oriented), and SEO considerations. December 2025.">
+<meta name="keywords" content="Norveo, UX audit, pool configurator, accessibility, usability, design review">
+<meta name="author" content="Goran">
+<meta name="robots" content="index, follow">
+<meta property="og:title" content="UX Audit — Norveo Pool Configurator">
+<meta property="og:description" content="Design-focused evaluation: interaction patterns, visual consistency, accessibility, and discovery. Norveo Pool Configurator.">
+<meta property="og:type" content="article">
+<meta name="twitter:card" content="summary_large_image">
+<title>UX Audit — Norveo Pool Configurator</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --c-bg: #fafaf9;
+    --c-surface: #ffffff;
+    --c-border: #e7e5e4;
+    --c-border-light: #f0eeec;
+    --c-text: #1c1917;
+    --c-text-secondary: #57534e;
+    --c-text-muted: #a8a29e;
+    --c-accent: #1d4ed8;
+    --c-accent-bg: #eff6ff;
+    --c-accent-border: #bfdbfe;
+    --c-blocker: #991b1b;
+    --c-blocker-bg: #fef2f2;
+    --c-blocker-border: #fecaca;
+    --c-major: #c2410c;
+    --c-major-bg: #fff7ed;
+    --c-major-border: #fed7aa;
+    --c-minor: #a16207;
+    --c-minor-bg: #fefce8;
+    --c-minor-border: #fef08a;
+    --c-observation: #4338ca;
+    --c-observation-bg: #eef2ff;
+    --c-observation-border: #c7d2fe;
+    --c-strength: #166534;
+    --c-strength-bg: #f0fdf4;
+    --c-strength-border: #bbf7d0;
+    --font-sans: 'DM Sans', system-ui, -apple-system, sans-serif;
+    --font-mono: 'DM Mono', ui-monospace, monospace;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html {
+    font-size: 16px;
+    scroll-behavior: smooth;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  body {
+    font-family: var(--font-sans);
+    color: var(--c-text);
+    background: var(--c-bg);
+    line-height: 1.65;
+  }
+
+  /* ── Layout ── */
+  .wrapper {
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 0 24px;
+  }
+
+  /* ── Cover ── */
+  .cover {
+    padding: 80px 0 64px;
+    border-bottom: 1px solid var(--c-border);
+  }
+  .cover-eyebrow {
+    font-size: 0.75rem;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--c-accent);
+    margin-bottom: 16px;
+  }
+  .cover h1 {
+    font-size: 2.5rem;
+    font-weight: 700;
+    line-height: 1.15;
+    letter-spacing: -0.02em;
+    margin-bottom: 20px;
+  }
+  .cover-sub {
+    font-size: 1.15rem;
+    color: var(--c-text-secondary);
+    max-width: 600px;
+    line-height: 1.6;
+  }
+  .cover-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 32px;
+    margin-top: 40px;
+    padding-top: 24px;
+    border-top: 1px solid var(--c-border-light);
+  }
+  .cover-meta dt {
+    font-size: 0.7rem;
+    font-weight: 500;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--c-text-muted);
+    margin-bottom: 4px;
+  }
+  .cover-meta dd {
+    font-size: 0.9rem;
+    color: var(--c-text-secondary);
+  }
+
+  /* ── Section ── */
+  section { padding: 48px 0; }
+  section + section { border-top: 1px solid var(--c-border-light); }
+
+  h2 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    margin-bottom: 8px;
+  }
+  h3 {
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin-bottom: 6px;
+    margin-top: 32px;
+  }
+  h3:first-child { margin-top: 0; }
+
+  .section-lead {
+    color: var(--c-text-secondary);
+    margin-bottom: 32px;
+    max-width: 640px;
+  }
+
+  p + p { margin-top: 12px; }
+
+  /* ── Summary cards ── */
+  .summary-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+    margin-top: 24px;
+  }
+  .summary-card {
+    border: 1px solid var(--c-border);
+    border-radius: 10px;
+    padding: 20px 16px;
+    text-align: center;
+    background: var(--c-surface);
+  }
+  .summary-card .count {
+    font-size: 2rem;
+    font-weight: 700;
+    line-height: 1;
+  }
+  .summary-card .label {
+    font-size: 0.75rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-top: 6px;
+  }
+  .summary-card.blocker { border-color: var(--c-blocker-border); background: var(--c-blocker-bg); }
+  .summary-card.blocker .count { color: var(--c-blocker); }
+  .summary-card.blocker .label { color: var(--c-blocker); }
+  .summary-card.major { border-color: var(--c-major-border); background: var(--c-major-bg); }
+  .summary-card.major .count { color: var(--c-major); }
+  .summary-card.major .label { color: var(--c-major); }
+  .summary-card.minor { border-color: var(--c-minor-border); background: var(--c-minor-bg); }
+  .summary-card.minor .count { color: var(--c-minor); }
+  .summary-card.minor .label { color: var(--c-minor); }
+  .summary-card.observation { border-color: var(--c-observation-border); background: var(--c-observation-bg); }
+  .summary-card.observation .count { color: var(--c-observation); }
+  .summary-card.observation .label { color: var(--c-observation); }
+
+  /* ── Severity tags ── */
+  .tag {
+    display: inline-block;
+    font-size: 0.65rem;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    padding: 3px 8px;
+    border-radius: 4px;
+    vertical-align: middle;
+  }
+  .tag-blocker { background: var(--c-blocker-bg); color: var(--c-blocker); border: 1px solid var(--c-blocker-border); }
+  .tag-major { background: var(--c-major-bg); color: var(--c-major); border: 1px solid var(--c-major-border); }
+  .tag-minor { background: var(--c-minor-bg); color: var(--c-minor); border: 1px solid var(--c-minor-border); }
+  .tag-observation { background: var(--c-observation-bg); color: var(--c-observation); border: 1px solid var(--c-observation-border); }
+
+  /* ── Findings ── */
+  .finding {
+    background: var(--c-surface);
+    border: 1px solid var(--c-border);
+    border-radius: 10px;
+    padding: 24px 28px;
+    margin-top: 20px;
+    position: relative;
+  }
+  .finding-header {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    margin-bottom: 16px;
+  }
+  .finding-id {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    color: var(--c-text-muted);
+    min-width: 36px;
+    padding-top: 2px;
+  }
+  .finding-title {
+    font-size: 1rem;
+    font-weight: 600;
+    flex: 1;
+    line-height: 1.35;
+  }
+  .finding-body {
+    margin-left: 48px;
+  }
+  .finding-body dl {
+    display: grid;
+    grid-template-columns: 120px 1fr;
+    gap: 8px 16px;
+    font-size: 0.9rem;
+  }
+  .finding-body dt {
+    font-weight: 500;
+    color: var(--c-text-muted);
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    padding-top: 2px;
+  }
+  .finding-body dd {
+    color: var(--c-text-secondary);
+    line-height: 1.55;
+  }
+  .finding-body dd code {
+    font-family: var(--font-mono);
+    font-size: 0.82em;
+    background: #f5f5f4;
+    padding: 1px 5px;
+    border-radius: 3px;
+    color: var(--c-text);
+  }
+
+  /* ── Category headers ── */
+  .category {
+    margin-top: 48px;
+  }
+  .category:first-child { margin-top: 0; }
+  .category-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 4px;
+  }
+  .category-icon {
+    width: 36px;
+    height: 36px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.1rem;
+    flex-shrink: 0;
+  }
+  .category-desc {
+    font-size: 0.9rem;
+    color: var(--c-text-muted);
+    margin-bottom: 4px;
+  }
+
+  /* ── Strengths ── */
+  .strength-list {
+    list-style: none;
+    margin-top: 20px;
+  }
+  .strength-list li {
+    background: var(--c-strength-bg);
+    border: 1px solid var(--c-strength-border);
+    border-radius: 8px;
+    padding: 14px 20px;
+    margin-top: 10px;
+    font-size: 0.92rem;
+    color: #14532d;
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    line-height: 1.5;
+  }
+  .strength-list li::before {
+    content: "✓";
+    font-weight: 700;
+    color: var(--c-strength);
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+
+  /* ── Next steps ── */
+  .steps-list {
+    list-style: none;
+    counter-reset: step;
+    margin-top: 20px;
+  }
+  .steps-list li {
+    counter-increment: step;
+    position: relative;
+    padding: 16px 20px 16px 56px;
+    margin-top: 10px;
+    background: var(--c-surface);
+    border: 1px solid var(--c-border);
+    border-radius: 8px;
+    font-size: 0.92rem;
+  }
+  .steps-list li::before {
+    content: counter(step);
+    position: absolute;
+    left: 18px;
+    top: 16px;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background: var(--c-accent-bg);
+    color: var(--c-accent);
+    font-weight: 700;
+    font-size: 0.75rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid var(--c-accent-border);
+  }
+  .steps-list li strong {
+    color: var(--c-text);
+  }
+  .steps-list .effort-tag {
+    display: inline-block;
+    font-size: 0.65rem;
+    font-weight: 500;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    padding: 2px 6px;
+    border-radius: 3px;
+    margin-left: 8px;
+    background: var(--c-accent-bg);
+    color: var(--c-accent);
+    border: 1px solid var(--c-accent-border);
+    vertical-align: middle;
+  }
+
+  /* ── Methodology ── */
+  .method-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-top: 20px;
+  }
+  .method-card {
+    background: var(--c-surface);
+    border: 1px solid var(--c-border);
+    border-radius: 8px;
+    padding: 20px;
+  }
+  .method-card h4 {
+    font-size: 0.85rem;
+    font-weight: 600;
+    margin-bottom: 8px;
+  }
+  .method-card p, .method-card ul {
+    font-size: 0.85rem;
+    color: var(--c-text-secondary);
+  }
+  .method-card ul {
+    list-style: disc;
+    margin-left: 16px;
+    margin-top: 6px;
+  }
+  .method-card li + li { margin-top: 4px; }
+
+  /* ── Visual evidence (screenshots) ── */
+  .evidence-intro {
+    font-size: 0.9rem;
+    color: var(--c-text-secondary);
+    margin-bottom: 28px;
+    max-width: 640px;
+  }
+  .figure-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+    margin-top: 8px;
+  }
+  figure.evidence {
+    margin: 0;
+    background: var(--c-surface);
+    border: 1px solid var(--c-border);
+    border-radius: 10px;
+    overflow: hidden;
+    break-inside: avoid;
+  }
+  figure.evidence img {
+    display: block;
+    width: 100%;
+    height: auto;
+    vertical-align: top;
+  }
+  figure.evidence figcaption {
+    padding: 14px 18px 16px;
+    font-size: 0.88rem;
+    color: var(--c-text-secondary);
+    line-height: 1.55;
+    border-top: 1px solid var(--c-border-light);
+  }
+  figure.evidence figcaption strong {
+    display: block;
+    font-size: 0.78rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--c-text-muted);
+    margin-bottom: 6px;
+  }
+  figure.evidence figcaption .ref {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    color: var(--c-accent);
+    margin-top: 8px;
+  }
+
+  /* ── Table of Contents ── */
+  .toc {
+    margin-top: 24px;
+  }
+  .toc a {
+    display: block;
+    padding: 8px 0;
+    text-decoration: none;
+    color: var(--c-text-secondary);
+    font-size: 0.9rem;
+    border-bottom: 1px solid var(--c-border-light);
+    transition: color 0.15s;
+  }
+  .toc a:hover {
+    color: var(--c-accent);
+  }
+  .toc a span.toc-count {
+    float: right;
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    color: var(--c-text-muted);
+  }
+
+  /* ── Heuristic bar chart ── */
+  .heuristic-grid {
+    margin-top: 24px;
+  }
+  .heuristic-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 8px 0;
+    border-bottom: 1px solid var(--c-border-light);
+    font-size: 0.85rem;
+  }
+  .heuristic-row:last-child { border-bottom: none; }
+  .heuristic-label {
+    width: 220px;
+    flex-shrink: 0;
+    color: var(--c-text-secondary);
+  }
+  .heuristic-bar-track {
+    flex: 1;
+    height: 8px;
+    background: #f0eeec;
+    border-radius: 4px;
+    overflow: hidden;
+  }
+  .heuristic-bar-fill {
+    height: 100%;
+    border-radius: 4px;
+    transition: width 0.4s ease;
+  }
+  .heuristic-score {
+    width: 50px;
+    text-align: right;
+    font-family: var(--font-mono);
+    font-weight: 500;
+    font-size: 0.82rem;
+  }
+
+  /* ── Footer ── */
+  footer {
+    padding: 40px 0;
+    border-top: 1px solid var(--c-border);
+    text-align: center;
+    color: var(--c-text-muted);
+    font-size: 0.8rem;
+  }
+
+  /* ── Print ── */
+  @media print {
+    body { background: white; font-size: 11pt; }
+    .cover { padding: 40px 0 32px; }
+    .cover h1 { font-size: 22pt; }
+    section { padding: 24px 0; }
+    .finding { break-inside: avoid; }
+    .summary-grid { grid-template-columns: repeat(4, 1fr); }
+    .method-grid { grid-template-columns: 1fr 1fr; }
+    footer { display: none; }
+  }
+
+  @media (max-width: 640px) {
+    .cover h1 { font-size: 1.7rem; }
+    .summary-grid { grid-template-columns: repeat(2, 1fr); }
+    .method-grid { grid-template-columns: 1fr; }
+    .finding-body dl { grid-template-columns: 1fr; }
+    .finding-body dt { margin-top: 8px; }
+    .cover-meta { gap: 20px; }
+    .finding-body { margin-left: 0; margin-top: 12px; }
+    .heuristic-label { width: 140px; font-size: 0.75rem; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ════════════════════════════════════════════════════════ -->
+<!-- COVER                                                   -->
+<!-- ════════════════════════════════════════════════════════ -->
+<header class="cover">
+  <div class="wrapper">
+    <div class="cover-eyebrow">UX Audit Report</div>
+    <h1>Norveo Pool Configurator</h1>
+    <p class="cover-sub">A design-led evaluation of usability, visual language, interaction patterns, accessibility, and discovery — covering the configuration journey, workspace shells, engineering and estimate flows, and supporting documentation. Primary sources: UI specifications, design system tokens, screen flows, and high-fidelity review of the shipped product experience.</p>
+    <dl class="cover-meta">
+      <div>
+        <dt>Auditor</dt>
+        <dd>Goran</dd>
+      </div>
+      <div>
+        <dt>Date</dt>
+        <dd>December 2025</dd>
+      </div>
+      <div>
+        <dt>Sources</dt>
+        <dd>Design files, UI library &amp; design tokens, journey maps, live product review</dd>
+      </div>
+      <div>
+        <dt>Audience</dt>
+        <dd>Pool design professionals; design &amp; product teams</dd>
+      </div>
+    </dl>
+  </div>
+</header>
+
+<!-- ════════════════════════════════════════════════════════ -->
+<!-- TABLE OF CONTENTS                                       -->
+<!-- ════════════════════════════════════════════════════════ -->
+<section>
+  <div class="wrapper">
+    <h2>Contents</h2>
+    <nav class="toc">
+      <a href="#executive-summary">Executive Summary</a>
+      <a href="#methodology">Methodology &amp; Scope</a>
+      <a href="#seo-discovery">SEO &amp; discovery</a>
+      <a href="#visual-evidence">Visual evidence <span class="toc-count">10 screenshots</span></a>
+      <a href="#heuristic-overview">Heuristic Overview</a>
+      <a href="#severity-summary">Severity Summary <span class="toc-count">28 findings</span></a>
+      <a href="#findings">Findings by Category</a>
+      <a href="#cat-dead-ui">&nbsp;&nbsp;&nbsp;&nbsp;Misleading controls <span class="toc-count">5</span></a>
+      <a href="#cat-accessibility">&nbsp;&nbsp;&nbsp;&nbsp;Accessibility &amp; inclusive design <span class="toc-count">9</span></a>
+      <a href="#cat-wizard">&nbsp;&nbsp;&nbsp;&nbsp;Configuration flow &amp; content <span class="toc-count">7</span></a>
+      <a href="#cat-data">&nbsp;&nbsp;&nbsp;&nbsp;Trust &amp; feedback <span class="toc-count">3</span></a>
+      <a href="#cat-visual">&nbsp;&nbsp;&nbsp;&nbsp;Visual design &amp; content quality <span class="toc-count">2</span></a>
+      <a href="#cat-navigation">&nbsp;&nbsp;&nbsp;&nbsp;Navigation &amp; Interaction <span class="toc-count">2</span></a>
+      <a href="#strengths">Strengths</a>
+      <a href="#next-steps">Recommended Next Steps</a>
+    </nav>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════════════════ -->
+<!-- EXECUTIVE SUMMARY                                       -->
+<!-- ════════════════════════════════════════════════════════ -->
+<section id="executive-summary">
+  <div class="wrapper">
+    <h2>Executive Summary</h2>
+    <p class="section-lead">Norveo presents a coherent, domain-aware tool for pool professionals — but three systemic experience risks show up before users reach the product’s strengths.</p>
+    <p>First, <strong>progress is not preserved across sessions</strong>: long configuration work can be lost when the browser tab closes or the session ends. For people who work in the field and get interrupted often, that is the highest-risk gap in the journey.</p>
+    <p>Second, <strong>inclusive design is incomplete</strong>: labels and fields are not always clearly paired for assistive technology; icon-only navigation and custom controls lack clear names and selection states; keyboard and screen reader users are not on equal footing with mouse users.</p>
+    <p>Third, <strong>misleading affordances</strong>: many controls look active (Save, Export PDF, Templates, Share, Settings, context-menu “Add to plan” actions) but do not produce visible outcomes. That pattern trains users to doubt the whole interface.</p>
+    <p>The foundation is strong: grouped wizard steps, conditional visibility, template pre-fill, and a clear engineering narrative. Closing the gaps above is mostly about aligning design intent with behavior — clearer states, honest disabled or “coming soon” treatments, and consistent inclusive patterns.</p>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════════════════ -->
+<!-- METHODOLOGY                                             -->
+<!-- ════════════════════════════════════════════════════════ -->
+<section id="methodology">
+  <div class="wrapper">
+    <h2>Methodology &amp; Scope</h2>
+    <p class="section-lead">Heuristic evaluation against Nielsen’s ten usability principles, supplemented by WCAG-oriented accessibility review (perceivable, operable, understandable, robust) and task-based walkthroughs of the live experience — aligned with design specs, UI library documentation, and journey maps.</p>
+    <div class="method-grid">
+      <div class="method-card">
+        <h4>Surfaces reviewed</h4>
+        <ul>
+          <li>Full-screen configuration flow (template choice through final review)</li>
+          <li>Application shell: top bar, activity rail, tool strip, status bar, workspace tabs</li>
+          <li>All configuration steps and shared form patterns</li>
+          <li>Design workspace and drawing canvas</li>
+          <li>Engineering, Estimate, Bill of Materials, and Summary workspaces</li>
+          <li>Back-office administration (mock)</li>
+        </ul>
+      </div>
+      <div class="method-card">
+        <h4>Evaluation lenses</h4>
+        <ul>
+          <li><strong>Primary journeys</strong> — happy path from starting a project through reviewing engineering outputs</li>
+          <li><strong>Edge &amp; recovery</strong> — empty content, errors, partial completion, interrupted sessions</li>
+          <li><strong>Heuristic pass</strong> — Nielsen’s ten heuristics</li>
+          <li><strong>Accessibility</strong> — keyboard paths, screen reader compatibility, contrast and motion (WCAG 2.2 AA as reference)</li>
+          <li><strong>Visual &amp; language consistency</strong> — patterns, terminology, hierarchy, and theme behavior</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════════════════ -->
+<!-- SEO & DISCOVERY                                         -->
+<!-- ════════════════════════════════════════════════════════ -->
+<section id="seo-discovery">
+  <div class="wrapper">
+    <h2>SEO &amp; discovery</h2>
+    <p class="section-lead">Search and sharing considerations for a complex desktop-style application — relevant when marketing pages, help, or public demos ship.</p>
+    <div class="method-card" style="margin-top: 16px;">
+      <p><strong>Unique titles and descriptions.</strong> Each major entry point (portal, workspace areas, documentation) should carry a distinct page title and meta description when indexed or shared, so links in search and social previews read clearly.</p>
+      <p style="margin-top: 12px;"><strong>Stable, human-readable URLs.</strong> Hash-heavy routing limits how much search engines can treat as separate landing experiences; marketing and help content benefits from canonical URLs and structured landing pages for high-intent queries (for example pool quoting, pool engineering).</p>
+      <p style="margin-top: 12px;"><strong>Structured content.</strong> Public-facing docs and case studies should use a clear heading hierarchy (one main topic per page, logical subheads) and descriptive link text — good for both SEO and assistive technology.</p>
+    </div>
+    <p class="section-lead" style="margin-top: 24px; margin-bottom: 0;">This audit document itself uses a single descriptive title, meta description, and semantic headings to remain readable when shared or archived.</p>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════════════════ -->
+<!-- VISUAL EVIDENCE (SCREENSHOTS)                           -->
+<!-- ════════════════════════════════════════════════════════ -->
+<section id="visual-evidence">
+  <div class="wrapper">
+    <h2>Visual evidence</h2>
+    <p class="section-lead">Screenshots from the live product (December&nbsp;2025) illustrating the behaviors described in this audit. Each figure is labeled for context and accessibility.</p>
+    <p class="evidence-intro">Captured at desktop resolution (1440×900). Image files live alongside this document in <span class="font-mono" style="font-family:var(--font-mono);font-size:0.88em">docs/ux-audit-assets/</span> for archival and print.</p>
+    <div class="figure-grid">
+      <figure class="evidence">
+        <img src="ux-audit-assets/01-template-picker.png" width="1440" height="900" alt="Norveo template picker: four project template cards and Start project button" loading="lazy">
+        <figcaption>
+          <strong>Figure 1 — Template selection</strong>
+          Entry point for new configuration. Shows template choice and clear start action — supports strengths around pre-fill and conditional steps.
+        </figcaption>
+      </figure>
+      <figure class="evidence">
+        <img src="ux-audit-assets/02-wizard-configuration.png" width="1440" height="900" alt="Full-screen configuration wizard with horizontal stepper and Project Type form" loading="lazy">
+        <figcaption>
+          <strong>Figure 2 — Configuration wizard</strong>
+          Grouped stepper with sub-dots; Continue, Skip step, and Skip to workspace. Highlights risks of repeated screens within a group and weak validation between Continue and Skip.
+        </figcaption>
+      </figure>
+      <figure class="evidence">
+        <img src="ux-audit-assets/03-design-workspace.png" width="1440" height="900" alt="Design workspace with title bar icons, pool canvas, and status bar showing x y coordinates and zoom" loading="lazy">
+        <figcaption>
+          <strong>Figure 3 — Design workspace (shell)</strong>
+          Top bar shows Templates, Save, Finalize, Share, Settings (affordances that need clear outcomes). Status bar shows fixed coordinates and zoom — read as live data but not tied to cursor behavior. Left activity rail is icon-only (names need to be available to assistive tech).
+        </figcaption>
+      </figure>
+      <figure class="evidence">
+        <img src="ux-audit-assets/04-engineering-workspace.png" width="1440" height="900" alt="Engineering workspace with Export PDF button in toolbar" loading="lazy">
+        <figcaption>
+          <strong>Figure 4 — Engineering workspace</strong>
+          Toolbar includes <strong>Export PDF</strong> as a primary action — must either deliver a file or read as disabled. Mix of live-looking numbers and placeholder content should be visually distinct.
+        </figcaption>
+      </figure>
+      <figure class="evidence">
+        <img src="ux-audit-assets/05-estimate-workspace.png" width="1440" height="900" alt="Estimate workspace with spreadsheet mock and Save and Export buttons" loading="lazy">
+        <figcaption>
+          <strong>Figure 5 — Estimate workspace</strong>
+          Primary-styled <strong>Save</strong> and <strong>Export</strong> — users expect a visible save or export outcome. Spreadsheet-style layout without editable cells creates a confusing affordance.
+        </figcaption>
+      </figure>
+      <figure class="evidence">
+        <img src="ux-audit-assets/06-bom-workspace.png" width="1440" height="900" alt="BOM workspace with Export and Order Parts buttons" loading="lazy">
+        <figcaption>
+          <strong>Figure 6 — Bill of Materials workspace</strong>
+          Tab label: <strong>Bill of Materials</strong>. <strong>Export</strong> and <strong>Order Parts</strong> read as primary actions. Part swap is easy to miss without a visible label or onboarding.
+        </figcaption>
+      </figure>
+      <figure class="evidence">
+        <img src="ux-audit-assets/07-summary-workspace.png" width="1440" height="900" alt="Summary workspace showing pool area and estimated total figures" loading="lazy">
+        <figcaption>
+          <strong>Figure 7 — Summary workspace</strong>
+          Aggregate stats should either match the configured project or be clearly labeled as illustrative so users do not base decisions on numbers that do not reflect their design.
+        </figcaption>
+      </figure>
+      <figure class="evidence">
+        <img src="ux-audit-assets/08-config-drawer.png" width="1440" height="900" alt="Configuration drawer overlay over design workspace" loading="lazy">
+        <figcaption>
+          <strong>Figure 8 — Configuration drawer</strong>
+          Full-height overlay for step editing. Keyboard focus should stay inside the overlay until closed, and the close control should have a clear name — matching the stronger modal pattern used elsewhere (e.g. part swap).
+        </figcaption>
+      </figure>
+      <figure class="evidence">
+        <img src="ux-audit-assets/09-ai-chat-panel.png" width="1440" height="900" alt="AI Assistant panel showing chat messages with raw markdown asterisks" loading="lazy">
+        <figcaption>
+          <strong>Figure 9 — AI Assistant panel</strong>
+          Assistant messages show raw emphasis markers instead of formatted text, which feels unfinished. New replies should be announced to assistive technology without requiring the user to hunt for updates.
+        </figcaption>
+      </figure>
+      <figure class="evidence">
+        <img src="ux-audit-assets/10-canvas-context-menu.png" width="1440" height="900" alt="Right-click context menu on pool canvas with Add to plan items" loading="lazy">
+        <figcaption>
+          <strong>Figure 10 — Canvas context menu</strong>
+          “Add to plan” lists equipment types; choosing an item should place or preview the part — otherwise the menu should be hidden or labeled as future. Right-click-only flows need a keyboard-equivalent path for parity.
+        </figcaption>
+      </figure>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════════════════ -->
+<!-- HEURISTIC OVERVIEW                                      -->
+<!-- ════════════════════════════════════════════════════════ -->
+<section id="heuristic-overview">
+  <div class="wrapper">
+    <h2>Heuristic Overview</h2>
+    <p class="section-lead">Approximate fit to Nielsen’s ten heuristics based on design review. Scores reflect how often and how severely issues surface in each dimension — a directional map, not a formal benchmark.</p>
+    <div class="heuristic-grid">
+      <div class="heuristic-row">
+        <span class="heuristic-label">Visibility of system status</span>
+        <div class="heuristic-bar-track"><div class="heuristic-bar-fill" style="width:40%;background:#c2410c"></div></div>
+        <span class="heuristic-score" style="color:#c2410c">4 / 10</span>
+      </div>
+      <div class="heuristic-row">
+        <span class="heuristic-label">Match with real world</span>
+        <div class="heuristic-bar-track"><div class="heuristic-bar-fill" style="width:70%;background:#166534"></div></div>
+        <span class="heuristic-score" style="color:#166534">7 / 10</span>
+      </div>
+      <div class="heuristic-row">
+        <span class="heuristic-label">User control &amp; freedom</span>
+        <div class="heuristic-bar-track"><div class="heuristic-bar-fill" style="width:50%;background:#a16207"></div></div>
+        <span class="heuristic-score" style="color:#a16207">5 / 10</span>
+      </div>
+      <div class="heuristic-row">
+        <span class="heuristic-label">Consistency &amp; standards</span>
+        <div class="heuristic-bar-track"><div class="heuristic-bar-fill" style="width:50%;background:#a16207"></div></div>
+        <span class="heuristic-score" style="color:#a16207">5 / 10</span>
+      </div>
+      <div class="heuristic-row">
+        <span class="heuristic-label">Error prevention</span>
+        <div class="heuristic-bar-track"><div class="heuristic-bar-fill" style="width:30%;background:#991b1b"></div></div>
+        <span class="heuristic-score" style="color:#991b1b">3 / 10</span>
+      </div>
+      <div class="heuristic-row">
+        <span class="heuristic-label">Recognition over recall</span>
+        <div class="heuristic-bar-track"><div class="heuristic-bar-fill" style="width:60%;background:#a16207"></div></div>
+        <span class="heuristic-score" style="color:#a16207">6 / 10</span>
+      </div>
+      <div class="heuristic-row">
+        <span class="heuristic-label">Flexibility &amp; efficiency</span>
+        <div class="heuristic-bar-track"><div class="heuristic-bar-fill" style="width:50%;background:#a16207"></div></div>
+        <span class="heuristic-score" style="color:#a16207">5 / 10</span>
+      </div>
+      <div class="heuristic-row">
+        <span class="heuristic-label">Aesthetic &amp; minimalist design</span>
+        <div class="heuristic-bar-track"><div class="heuristic-bar-fill" style="width:80%;background:#166534"></div></div>
+        <span class="heuristic-score" style="color:#166534">8 / 10</span>
+      </div>
+      <div class="heuristic-row">
+        <span class="heuristic-label">Error recovery</span>
+        <div class="heuristic-bar-track"><div class="heuristic-bar-fill" style="width:30%;background:#991b1b"></div></div>
+        <span class="heuristic-score" style="color:#991b1b">3 / 10</span>
+      </div>
+      <div class="heuristic-row">
+        <span class="heuristic-label">Help &amp; documentation</span>
+        <div class="heuristic-bar-track"><div class="heuristic-bar-fill" style="width:40%;background:#c2410c"></div></div>
+        <span class="heuristic-score" style="color:#c2410c">4 / 10</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════════════════ -->
+<!-- SEVERITY SUMMARY                                        -->
+<!-- ════════════════════════════════════════════════════════ -->
+<section id="severity-summary">
+  <div class="wrapper">
+    <h2>Severity Summary</h2>
+    <p class="section-lead">28 unique findings across 6 categories, graded by user impact.</p>
+    <div class="summary-grid">
+      <div class="summary-card blocker">
+        <div class="count">4</div>
+        <div class="label">Blocker</div>
+      </div>
+      <div class="summary-card major">
+        <div class="count">11</div>
+        <div class="label">Major</div>
+      </div>
+      <div class="summary-card minor">
+        <div class="count">8</div>
+        <div class="label">Minor</div>
+      </div>
+      <div class="summary-card observation">
+        <div class="count">5</div>
+        <div class="label">Observation</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════════════════ -->
+<!-- FINDINGS                                                -->
+<!-- ════════════════════════════════════════════════════════ -->
+<section id="findings">
+  <div class="wrapper">
+    <h2>Findings</h2>
+    <p class="section-lead">Grouped by theme, ordered by severity within each group. Each item describes what people see, why it matters, and a design direction — not implementation detail.</p>
+
+    <div class="category" id="cat-dead-ui">
+      <div class="category-header">
+        <div class="category-icon" style="background:#fef2f2;color:#991b1b;">⊘</div>
+        <h3 style="margin:0">Misleading or inactive controls</h3>
+      </div>
+      <p class="category-desc">Controls that look actionable but do not produce a clear outcome — they erode trust across the product.</p>
+
+      <div class="finding">
+        <div class="finding-header">
+          <span class="finding-id">NF-1</span>
+          <span class="finding-title">Save, Templates, Share, and Settings show no outcome</span>
+          <span class="tag tag-blocker">Blocker</span>
+        </div>
+        <div class="finding-body">
+          <dl>
+            <dt>Surface</dt>
+            <dd>Top title bar — primary global actions</dd>
+            <dt>Evidence</dt>
+            <dd>Tapping Save, Templates, Share, or Settings does not open a flow, show confirmation, or change state. The keyboard save shortcut also gives no feedback — people cannot tell whether work is stored.</dd>
+            <dt>Impact</dt>
+            <dd>Everyone who expects to save or share hits a dead end; trust in the whole chrome drops.</dd>
+            <dt>Recommendation</dt>
+            <dd>Either ship the behavior or show disabled styling with short copy (“Coming soon” / “Not available in this preview”). Save should always acknowledge the gesture — even a lightweight “Saved” or “Save not available yet.”</dd>
+          </dl>
+        </div>
+      </div>
+
+      <div class="finding">
+        <div class="finding-header">
+          <span class="finding-id">NF-2</span>
+          <span class="finding-title">Export PDF in Engineering has no visible result</span>
+          <span class="tag tag-blocker">Blocker</span>
+        </div>
+        <div class="finding-body">
+          <dl>
+            <dt>Surface</dt>
+            <dd>Engineering workspace — toolbar</dd>
+            <dt>Evidence</dt>
+            <dd>Export PDF reads as the way to hand off calculations; nothing happens after click.</dd>
+            <dt>Impact</dt>
+            <dd>Blocks the natural “share with client” moment after reviewing engineering data.</dd>
+            <dt>Recommendation</dt>
+            <dd>Deliver a PDF or print view, or clearly mark the control as future and offer an interim (e.g. print stylesheet).</dd>
+          </dl>
+        </div>
+      </div>
+
+      <div class="finding">
+        <div class="finding-header">
+          <span class="finding-id">NF-3</span>
+          <span class="finding-title">Export and Save on Estimate read as primary but do nothing</span>
+          <span class="tag tag-major">Major</span>
+        </div>
+        <div class="finding-body">
+          <dl>
+            <dt>Surface</dt>
+            <dd>Estimate workspace — toolbar</dd>
+            <dt>Evidence</dt>
+            <dd>Save is visually emphasized; the grid looks editable like a spreadsheet but cells are not editable.</dd>
+            <dt>Impact</dt>
+            <dd>People expect a financial save path and a spreadsheet they can change — both are unclear.</dd>
+            <dt>Recommendation</dt>
+            <dd>Align visuals with capability: if not editable, soften the spreadsheet metaphor and disable or relabel Save/Export until they work.</dd>
+          </dl>
+        </div>
+      </div>
+
+      <div class="finding">
+        <div class="finding-header">
+          <span class="finding-id">NF-4</span>
+          <span class="finding-title">Canvas “Add to plan” menu closes without adding</span>
+          <span class="tag tag-major">Major</span>
+        </div>
+        <div class="finding-body">
+          <dl>
+            <dt>Surface</dt>
+            <dd>Design canvas — context menu</dd>
+            <dt>Evidence</dt>
+            <dd>Choosing an equipment type dismisses the menu with no placement or preview on the drawing.</dd>
+            <dt>Impact</dt>
+            <dd>Core design task (adding equipment) feels broken on first try.</dd>
+            <dt>Recommendation</dt>
+            <dd>Hide the menu until placement works, or show a clear “Preview / placement” step and feedback.</dd>
+          </dl>
+        </div>
+      </div>
+
+      <div class="finding">
+        <div class="finding-header">
+          <span class="finding-id">NF-5</span>
+          <span class="finding-title">Bill of Materials — Export and Order Parts lack outcomes</span>
+          <span class="tag tag-minor">Minor</span>
+        </div>
+        <div class="finding-body">
+          <dl>
+            <dt>Surface</dt>
+            <dd>Bill of Materials workspace — toolbar</dd>
+            <dt>Evidence</dt>
+            <dd>Order Parts is visually primary; taps do not start an order or export flow.</dd>
+            <dt>Impact</dt>
+            <dd>Lower than global Save, but still weakens trust in the BOM workspace.</dd>
+            <dt>Recommendation</dt>
+            <dd>Disable or relabel until flows exist; keep primary styling for the first real action only.</dd>
+          </dl>
+        </div>
+      </div>
+    </div>
+
+    <div class="category" id="cat-accessibility">
+      <div class="category-header">
+        <div class="category-icon" style="background:#eef2ff;color:#4338ca;">♿</div>
+        <h3 style="margin:0">Accessibility &amp; inclusive design</h3>
+      </div>
+      <p class="category-desc">Gaps aligned with WCAG-style expectations: perceivable information, operable controls, understandable relationships, robust support for assistive tech.</p>
+
+      <div class="finding">
+        <div class="finding-header">
+          <span class="finding-id">A-1</span>
+          <span class="finding-title">Form labels and fields are not clearly paired</span>
+          <span class="tag tag-blocker">Blocker</span>
+        </div>
+        <div class="finding-body">
+          <dl>
+            <dt>Surface</dt>
+            <dd>All project configuration steps — text fields</dd>
+            <dt>Evidence</dt>
+            <dd>Labels sit beside fields visually but are not reliably associated for assistive technology; required fields show an asterisk without a matching programmatic “required” signal.</dd>
+            <dt>Impact</dt>
+            <dd>Screen reader users cannot confidently know what each field is for; tap-to-focus from label may not work.</dd>
+            <dt>Recommendation</dt>
+            <dd>Pair every label with its control in the design system; document the pattern for designers and copy “required” where needed.</dd>
+          </dl>
+        </div>
+      </div>
+
+      <div class="finding">
+        <div class="finding-header">
+          <span class="finding-id">A-2</span>
+          <span class="finding-title">Option lists and multi-selects do not announce selection state</span>
+          <span class="tag tag-blocker">Blocker</span>
+        </div>
+        <div class="finding-body">
+          <dl>
+            <dt>Surface</dt>
+            <dd>Wizard — most choice steps</dd>
+            <dt>Evidence</dt>
+            <dd>Controls look like radio groups and checklists but behave like generic buttons; selection state is only visual.</dd>
+            <dt>Impact</dt>
+            <dd>Assistive tech cannot convey which option is chosen; keyboard users lack expected arrow-key patterns.</dd>
+            <dt>Recommendation</dt>
+            <dd>Specify in the design system: single-select vs multi-select, focus order, and announced state for each pattern.</dd>
+          </dl>
+        </div>
+      </div>
+
+      <div class="finding">
+        <div class="finding-header">
+          <span class="finding-id">A-3</span>
+          <span class="finding-title">Activity rail icons are unnamed in assistive tech</span>
+          <span class="tag tag-major">Major</span>
+        </div>
+        <div class="finding-body">
+          <dl>
+            <dt>Surface</dt>
+            <dd>Left activity rail — Objects, Configure, Components, AI</dd>
+            <dt>Evidence</dt>
+            <dd>Tooltips are hidden from assistive tech; only icons are exposed.</dd>
+            <dt>Impact</dt>
+            <dd>Primary navigation is unusable for many screen reader users.</dd>
+            <dt>Recommendation</dt>
+            <dd>Give each control a concise accessible name matching the visible tooltip.</dd>
+          </dl>
+        </div>
+      </div>
+
+      <div class="finding">
+        <div class="finding-header">
+          <span class="finding-id">A-4</span>
+          <span class="finding-title">Configuration overlay does not trap focus</span>
+          <span class="tag tag-major">Major</span>
+        </div>
+        <div class="finding-body">
+          <dl>
+            <dt>Surface</dt>
+            <dd>Full-height configuration drawer over the workspace</dd>
+            <dt>Evidence</dt>
+            <dd>Keyboard focus can move behind the overlay; closing does not return focus predictably; close control needs a clear name.</dd>
+            <dt>Impact</dt>
+            <dd>Keyboard and screen reader users lose orientation and may activate hidden content.</dd>
+            <dt>Recommendation</dt>
+            <dd>Match the modal pattern used elsewhere: keep focus inside until closed, restore focus to the opener, label the overlay and close.</dd>
+          </dl>
+        </div>
+      </div>
+
+      <div class="finding">
+        <div class="finding-header">
+          <span class="finding-id">A-5</span>
+          <span class="finding-title">Workspace tabs are not exposed as a tab pattern</span>
+          <span class="tag tag-major">Major</span>
+        </div>
+        <div class="finding-body">
+          <dl>
+            <dt>Surface</dt>
+            <dd>Bottom workspace switcher (Design, Summary, Engineering, …)</dd>
+            <dt>Evidence</dt>
+            <dd>Looks like tabs but does not follow tab keyboard conventions; layer tabs in the title bar share the issue.</dd>
+            <dt>Impact</dt>
+            <dd>Keyboard-only users cannot use arrow keys between tabs as expected.</dd>
+            <dt>Recommendation</dt>
+            <dd>Define tab semantics and keyboard behavior in the pattern library; apply consistently.</dd>
+          </dl>
+        </div>
+      </div>
+
+      <div class="finding">
+        <div class="finding-header">
+          <span class="finding-id">A-6</span>
+          <span class="finding-title">Status toggles and zoom do not expose on/off or action names</span>
+          <span class="tag tag-major">Major</span>
+        </div>
+        <div class="finding-body">
+          <dl>
+            <dt>Surface</dt>
+            <dd>Status bar — Grid, Snap, Dims, zoom; theme control in title bar</dd>
+            <dt>Evidence</dt>
+            <dd>On/off state is only visual; zoom buttons lack spoken names.</dd>
+            <dt>Impact</dt>
+            <dd>Screen readers hear “button” without whether Grid or Snap is active.</dd>
+            <dt>Recommendation</dt>
+            <dd>Expose pressed state and short labels for every icon-only control.</dd>
+          </dl>
+        </div>
+      </div>
+
+      <div class="finding">
+        <div class="finding-header">
+          <span class="finding-id">A-7</span>
+          <span class="finding-title">AI chat updates are not announced</span>
+          <span class="tag tag-major">Major</span>
+        </div>
+        <div class="finding-body">
+          <dl>
+            <dt>Surface</dt>
+            <dd>AI Assistant panel — message stream and input</dd>
+            <dt>Evidence</dt>
+            <dd>New assistant messages do not surface as a live region; input placeholder alone is not a reliable name.</dd>
+            <dt>Impact</dt>
+            <dd>People using screen readers may miss replies.</dd>
+            <dt>Recommendation</dt>
+            <dd>Design for polite announcements of new messages and a clear input label.</dd>
+          </dl>
+        </div>
+      </div>
+
+      <div class="finding">
+        <div class="finding-header">
+          <span class="finding-id">A-8</span>
+          <span class="finding-title">Page regions are not easy to skim by landmark</span>
+          <span class="tag tag-minor">Minor</span>
+        </div>
+        <div class="finding-body">
+          <dl>
+            <dt>Surface</dt>
+            <dd>Overall application shell</dd>
+            <dt>Evidence</dt>
+            <dd>Chrome, canvas, and tabs are not clearly marked as header, main content, navigation, and status.</dd>
+            <dt>Impact</dt>
+            <dd>Screen reader users cannot jump quickly between major regions.</dd>
+            <dt>Recommendation</dt>
+            <dd>Map regions in the layout spec: header, main, nav, footer/status.</dd>
+          </dl>
+        </div>
+      </div>
+
+      <div class="finding">
+        <div class="finding-header">
+          <span class="finding-id">A-9</span>
+          <span class="finding-title">Drawing canvas is not described; add menu is pointer-only</span>
+          <span class="tag tag-minor">Minor</span>
+        </div>
+        <div class="finding-body">
+          <dl>
+            <dt>Surface</dt>
+            <dd>Design canvas — drawing and context menu</dd>
+            <dt>Evidence</dt>
+            <dd>The plan graphic lacks a short description; add flows rely on right-click.</dd>
+            <dt>Impact</dt>
+            <dd>Blind users get little context; keyboard users cannot mirror the add flow.</dd>
+            <dt>Recommendation</dt>
+            <dd>Add a plain-language summary of the drawing and a keyboard path to the same actions.</dd>
+          </dl>
+        </div>
+      </div>
+    </div>
+
+    <div class="category" id="cat-wizard">
+      <div class="category-header">
+        <div class="category-icon" style="background:#fff7ed;color:#c2410c;">↻</div>
+        <h3 style="margin:0">Configuration flow &amp; content</h3>
+      </div>
+      <p class="category-desc">The project setup journey — structure, validation, and clarity of progress.</p>
+
+      <div class="finding">
+        <div class="finding-header">
+          <span class="finding-id">W-1</span>
+          <span class="finding-title">Session ends — long flows are not recovered</span>
+          <span class="tag tag-blocker">Blocker</span>
+        </div>
+        <div class="finding-body">
+          <dl>
+            <dt>Surface</dt>
+            <dd>Multi-step configuration wizard</dd>
+            <dt>Evidence</dt>
+            <dd>Closing the tab or browser loses in-progress answers; only lightweight preferences persist.</dd>
+            <dt>Impact</dt>
+            <dd>High for field workers interrupted mid-flow.</dd>
+            <dt>Recommendation</dt>
+            <dd>Design for resume: autosave, “Continue where you left off,” and clear messaging if session is lost.</dd>
+          </dl>
+        </div>
+      </div>
+
+      <div class="finding">
+        <div class="finding-header">
+          <span class="finding-id">W-2</span>
+          <span class="finding-title">Continue and Skip do not differ in rigor</span>
+          <span class="tag tag-major">Major</span>
+        </div>
+        <div class="finding-body">
+          <dl>
+            <dt>Surface</dt>
+            <dd>Wizard footer — Continue, Skip step</dd>
+            <dt>Evidence</dt>
+            <dd>Both advance without enforcing required answers; required markers are mostly visual.</dd>
+            <dt>Impact</dt>
+            <dd>People can enter the workspace with empty critical fields.</dd>
+            <dt>Recommendation</dt>
+            <dd>Continue should validate required fields; Skip should explicitly mark steps as deferred.</dd>
+          </dl>
+        </div>
+      </div>
+
+      <div class="finding">
+        <div class="finding-header">
+          <span class="finding-id">W-3</span>
+          <span class="finding-title">Repeated steps show the same screen</span>
+          <span class="tag tag-major">Major</span>
+        </div>
+        <div class="finding-body">
+          <dl>
+            <dt>Surface</dt>
+            <dd>Local code and mechanical groups — sub-steps</dd>
+            <dt>Evidence</dt>
+            <dd>Multiple dots in a group can open the same layout people just completed.</dd>
+            <dt>Impact</dt>
+            <dd>Confusion (“Didn’t I already fill this?”) and doubt about the wizard.</dd>
+            <dt>Recommendation</dt>
+            <dd>Merge into one expandable step or design distinct content per sub-step.</dd>
+          </dl>
+        </div>
+      </div>
+
+      <div class="finding">
+        <div class="finding-header">
+          <span class="finding-id">W-4</span>
+          <span class="finding-title">“None” can combine with real options</span>
+          <span class="tag tag-major">Major</span>
+        </div>
+        <div class="finding-body">
+          <dl>
+            <dt>Surface</dt>
+            <dd>Heating and water features — multi-select</dd>
+            <dt>Evidence</dt>
+            <dd>None can coexist with other choices — logically inconsistent.</dd>
+            <dt>Impact</dt>
+            <dd>Downstream specs may receive impossible combinations.</dd>
+            <dt>Recommendation</dt>
+            <dd>Design mutual exclusion: choosing None clears others; choosing an option clears None.</dd>
+          </dl>
+        </div>
+      </div>
+
+      <div class="finding">
+        <div class="finding-header">
+          <span class="finding-id">W-5</span>
+          <span class="finding-title">Review step never reads as complete</span>
+          <span class="tag tag-major">Major</span>
+        </div>
+        <div class="finding-body">
+          <dl>
+            <dt>Surface</dt>
+            <dd>Final review — stepper and summary table</dd>
+            <dt>Evidence</dt>
+            <dd>Completion indicator never turns “done”; long values are truncated in the table.</dd>
+            <dt>Impact</dt>
+            <dd>People doubt whether everything is ready; cannot verify full addresses.</dd>
+            <dt>Recommendation</dt>
+            <dd>Align completion rules with the rest of the journey; allow full text or expand-on-demand in review.</dd>
+          </dl>
+        </div>
+      </div>
+
+      <div class="finding">
+        <div class="finding-header">
+          <span class="finding-id">W-6</span>
+          <span class="finding-title">No focus move into new step content</span>
+          <span class="tag tag-minor">Minor</span>
+        </div>
+        <div class="finding-body">
+          <dl>
+            <dt>Surface</dt>
+            <dd>Wizard — step changes</dd>
+            <dt>Evidence</dt>
+            <dd>After Continue, focus stays on the button instead of the new question.</dd>
+            <dt>Impact</dt>
+            <dd>Extra tabbing for keyboard users across many steps.</dd>
+            <dt>Recommendation</dt>
+            <dd>Move focus to the step heading or first field — specify in the flow spec.</dd>
+          </dl>
+        </div>
+      </div>
+
+      <div class="finding">
+        <div class="finding-header">
+          <span class="finding-id">W-7</span>
+          <span class="finding-title">Sub-step dots are tiny and weakly labeled</span>
+          <span class="tag tag-minor">Minor</span>
+        </div>
+        <div class="finding-body">
+          <dl>
+            <dt>Surface</dt>
+            <dd>Wizard — dots under group circles</dd>
+            <dt>Evidence</dt>
+            <dd>Small hit targets; only hover title for names.</dd>
+            <dt>Impact</dt>
+            <dd>Hard to discover and operate for many users and assistive tech.</dd>
+            <dt>Recommendation</dt>
+            <dd>Increase target size, add visible labels or a simpler navigation pattern.</dd>
+          </dl>
+        </div>
+      </div>
+    </div>
+
+    <div class="category" id="cat-data">
+      <div class="category-header">
+        <div class="category-icon" style="background:#fefce8;color:#a16207;">⚠</div>
+        <h3 style="margin:0">Trust, feedback &amp; truth in numbers</h3>
+      </div>
+      <p class="category-desc">When the system is silent, or numbers look live but are not.</p>
+
+      <div class="finding">
+        <div class="finding-header">
+          <span class="finding-id">D-1</span>
+          <span class="finding-title">Finalize can lock or unlock without confirmation</span>
+          <span class="tag tag-major">Major</span>
+        </div>
+        <div class="finding-body">
+          <dl>
+            <dt>Surface</dt>
+            <dd>Title bar — finalize / lock</dd>
+            <dt>Evidence</dt>
+            <dd>Single action toggles lock; edits after lock may vanish without explanation.</dd>
+            <dt>Impact</dt>
+            <dd>Accidental lock or silent rejection of edits.</dd>
+            <dt>Recommendation</dt>
+            <dd>Confirm lock/unlock; when locked, show a persistent banner and disabled fields.</dd>
+          </dl>
+        </div>
+      </div>
+
+      <div class="finding">
+        <div class="finding-header">
+          <span class="finding-id">D-2</span>
+          <span class="finding-title">Summary and engineering figures can contradict the project</span>
+          <span class="tag tag-major">Major</span>
+        </div>
+        <div class="finding-body">
+          <dl>
+            <dt>Surface</dt>
+            <dd>Summary and Engineering workspaces</dd>
+            <dt>Evidence</dt>
+            <dd>Some headline numbers stay fixed regardless of configuration; labels like “calculated” can appear on static figures.</dd>
+            <dt>Impact</dt>
+            <dd>Wrong sizing or pricing decisions.</dd>
+            <dt>Recommendation</dt>
+            <dd>Bind numbers to real inputs or badge them clearly as sample / illustrative.</dd>
+          </dl>
+        </div>
+      </div>
+
+      <div class="finding">
+        <div class="finding-header">
+          <span class="finding-id">D-3</span>
+          <span class="finding-title">Status bar coordinates and zoom feel disconnected</span>
+          <span class="tag tag-minor">Minor</span>
+        </div>
+        <div class="finding-body">
+          <dl>
+            <dt>Surface</dt>
+            <dd>Status bar — coordinates and zoom</dd>
+            <dt>Evidence</dt>
+            <dd>Coordinates read as live but do not track; zoom may not match canvas scale.</dd>
+            <dt>Impact</dt>
+            <dd>Looks broken to precision users.</dd>
+            <dt>Recommendation</dt>
+            <dd>Sync to real pointer and zoom, or remove until the behavior is real.</dd>
+          </dl>
+        </div>
+      </div>
+    </div>
+
+    <div class="category" id="cat-visual">
+      <div class="category-header">
+        <div class="category-icon" style="background:#f0fdf4;color:#166534;">◑</div>
+        <h3 style="margin:0">Visual design &amp; content quality</h3>
+      </div>
+      <p class="category-desc">Theme, typography, and copy polish.</p>
+
+      <div class="finding">
+        <div class="finding-header">
+          <span class="finding-id">V-1</span>
+          <span class="finding-title">Light theme is uneven — logo, canvas, chrome</span>
+          <span class="tag tag-minor">Minor</span>
+        </div>
+        <div class="finding-body">
+          <dl>
+            <dt>Surface</dt>
+            <dd>Global — logo, drawing canvas, status bar, tabs</dd>
+            <dt>Evidence</dt>
+            <dd>Some colors stay fixed while the rest of the UI switches; contrast on canvas may suffer in light mode.</dd>
+            <dt>Impact</dt>
+            <dd>Brand and readability feel inconsistent in light theme.</dd>
+            <dt>Recommendation</dt>
+            <dd>Define light-theme tokens for logo, canvas strokes, and chrome in the design system.</dd>
+          </dl>
+        </div>
+      </div>
+
+      <div class="finding">
+        <div class="finding-header">
+          <span class="finding-id">V-2</span>
+          <span class="finding-title">AI messages show raw formatting markers</span>
+          <span class="tag tag-minor">Minor</span>
+        </div>
+        <div class="finding-body">
+          <dl>
+            <dt>Surface</dt>
+            <dd>AI Assistant — message content</dd>
+            <dt>Evidence</dt>
+            <dd>Bold markers and line breaks appear as plain characters instead of rich text.</dd>
+            <dt>Impact</dt>
+            <dd>Assistant feels unfinished.</dd>
+            <dt>Recommendation</dt>
+            <dd>Render simple rich text or strip markers in the content spec.</dd>
+          </dl>
+        </div>
+      </div>
+    </div>
+
+    <div class="category" id="cat-navigation">
+      <div class="category-header">
+        <div class="category-icon" style="background:#eff6ff;color:#1d4ed8;">⇄</div>
+        <h3 style="margin:0">Navigation &amp; discovery</h3>
+      </div>
+      <p class="category-desc">Finding the next project and understanding what applies where.</p>
+
+      <div class="finding">
+        <div class="finding-header">
+          <span class="finding-id">N-1</span>
+          <span class="finding-title">No obvious “new project” from the workspace</span>
+          <span class="tag tag-minor">Minor</span>
+        </div>
+        <div class="finding-body">
+          <dl>
+            <dt>Surface</dt>
+            <dd>Main workspace — global chrome</dd>
+            <dt>Evidence</dt>
+            <dd>Starting another project is not visible in the shell; back-office entry points may show placeholder messaging.</dd>
+            <dt>Impact</dt>
+            <dd>People must know to return to the hub.</dd>
+            <dt>Recommendation</dt>
+            <dd>Put “New project” in the title area or file menu; document in onboarding.</dd>
+          </dl>
+        </div>
+      </div>
+
+      <div class="finding">
+        <div class="finding-header">
+          <span class="finding-id">N-2</span>
+          <span class="finding-title">Canvas tools visible outside Design</span>
+          <span class="tag tag-observation">Observation</span>
+        </div>
+        <div class="finding-body">
+          <dl>
+            <dt>Surface</dt>
+            <dd>Status bar — grid, snap, dimensions</dd>
+            <dt>Evidence</dt>
+            <dd>Same controls appear on non-design workspaces where they do not apply.</dd>
+            <dt>Impact</dt>
+            <dd>Minor clutter and confusion.</dd>
+            <dt>Recommendation</dt>
+            <dd>Show canvas tools only in Design or dim them elsewhere.</dd>
+          </dl>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+
+<!-- ════════════════════════════════════════════════════════ -->
+<!-- STRENGTHS                                               -->
+<!-- ════════════════════════════════════════════════════════ -->
+<section id="strengths">
+  <div class="wrapper">
+    <h2>Strengths</h2>
+    <p class="section-lead">What already works well — these are foundations to build on, not just "the parts that aren't broken."</p>
+    <ul class="strength-list">
+      <li><strong>Wizard step grouping and conditional visibility</strong> — The 6 groups follow a logical progression (Project → Code → Design → Mechanical → Finishes → Review). Conditional steps like Tile Details and Code Details only appear when relevant, reducing cognitive load for simple projects.</li>
+      <li><strong>Template pre-filling with badge indicators</strong> — The "Pre-filled by template" badge clearly communicates which steps already have values, reducing perceived effort and giving users a head start.</li>
+      <li><strong>Back-navigation preserves data</strong> — Moving backward through wizard steps does not clear previously entered values. This is a frequently-overlooked detail that prevents frustration.</li>
+      <li><strong>Domain-rich engineering workspace</strong> — The Engineering workspace demonstrates real domain expertise: turnover rate calculations, pipe sizing tables with velocity indicators, and clear differentiation between code-minimum, calculated, and user-adjustable values.</li>
+      <li><strong>Bill of Materials part-swap pattern</strong> — The part swap flow uses a focused modal with clear title and purpose — a stronger pattern than some other overlays; it should be the reference for future modal work.</li>
+      <li><strong>Clean visual design language</strong> — Dark tool-inspired chrome, consistent type scale, and cohesive tokens create a professional, focused workspace. The design system’s three-tier type scale is clearly defined.</li>
+      <li><strong>Dual configuration entry points</strong> — Full-screen setup for first-time configuration and a side panel for in-workspace edits support different moments in the job.</li>
+      <li><strong>Escape key consistency</strong> — Escape closes overlays, drawers, and the chat panel consistently across the product, matching user expectations from desktop applications.</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════════════════ -->
+<!-- NEXT STEPS                                              -->
+<!-- ════════════════════════════════════════════════════════ -->
+<section id="next-steps">
+  <div class="wrapper">
+    <h2>Recommended Next Steps</h2>
+    <p class="section-lead">Prioritized by user impact and clarity of design intent. Ship honest states before new features.</p>
+    <ol class="steps-list">
+      <li>
+        <strong>Align every visible control with a real outcome</strong><br>
+        Global save/share/settings, export actions, and canvas add flows should either work or read as unavailable — never silent. Update the pattern library and component specs accordingly (NF-1–NF-5).
+      </li>
+      <li>
+        <strong>Pair labels with fields and required rules</strong><br>
+        Document and apply the same label–field pattern everywhere; make “required” mean the same thing in behavior and in assistive tech (A-1, W-2).
+      </li>
+      <li>
+        <strong>Name every icon-only control</strong><br>
+        Activity rail, zoom, theme, and close controls need short names that match what sighted users see in tooltips (A-3, A-6).
+      </li>
+      <li>
+        <strong>Specify selection patterns for radio and multi-select</strong><br>
+        Single-select and multi-select should look and behave consistently, including keyboard and screen reader behavior (A-2).
+      </li>
+      <li>
+        <strong>Design for session recovery</strong><br>
+        Autosave, resume prompts, and clear copy when session data cannot be restored (W-1).
+      </li>
+      <li>
+        <strong>Bring the configuration overlay up to the modal standard</strong><br>
+        Focus stays inside until closed; focus returns to the opener; overlay and close are named (A-4).
+      </li>
+      <li>
+        <strong>Validate on Continue; distinguish Skip</strong><br>
+        Flow spec: what Continue enforces vs. what Skip defers (W-2).
+      </li>
+      <li>
+        <strong>Protect Finalize with confirmation and visible locked state</strong><br>
+        Banner, disabled fields, and clear unlock path (D-1).
+      </li>
+      <li>
+        <strong>Document workspace tabs and layer tabs as one tab pattern</strong><br>
+        Same keyboard model and selection announcement everywhere (A-5).
+      </li>
+      <li>
+        <strong>Resolve duplicate sub-steps and “None” conflicts</strong><br>
+        Information architecture and content design for local code and mechanical groups; mutual exclusion for heating and features (W-3, W-4, W-5).
+      </li>
+    </ol>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════════════════ -->
+<!-- FOOTER                                                  -->
+<!-- ════════════════════════════════════════════════════════ -->
+<footer>
+  <div class="wrapper">
+    <p>UX Audit by Goran &middot; December 2025 &middot; Norveo Pool Configurator</p>
+  </div>
+</footer>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "UX Audit — Norveo Pool Configurator",
+  "description": "Design-led evaluation of usability, visual design, accessibility, and SEO for the Norveo pool configurator.",
+  "author": { "@type": "Person", "name": "Goran" },
+  "datePublished": "2025-12-01",
+  "dateModified": "2025-12-01",
+  "about": { "@type": "SoftwareApplication", "name": "Norveo Pool Configurator", "applicationCategory": "DesignApplication" }
+}
+</script>
+
+</body>
+</html>

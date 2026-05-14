@@ -1,0 +1,239 @@
+.panel {
+  width: 240px;
+  min-width: 240px;
+  background: var(--bg-panel);
+  border-left: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.header {
+  padding: 0 var(--sp-4);
+  font-size: var(--fs-xs);
+  font-weight: 600;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  background: var(--bg-titlebar);
+  border-bottom: 1px solid var(--border);
+  height: 32px;
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.body {
+  flex: 1;
+  overflow-y: auto;
+}
+
+/* ── Sections ── */
+.section {
+  padding: 0 8px;
+  padding-right: 16px;
+  border-bottom: 1px solid var(--border-light);
+  padding-bottom: 8px;
+}
+
+.sectionLast {
+  padding: 0 8px;
+  padding-right: 16px;
+}
+
+.sectionLabel {
+  font-size: var(--fs-xs);
+  font-weight: 600;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  padding: 7px 0;
+  line-height: 14px;
+}
+
+/* ── Selection card ── */
+.selectionCard {
+  background: var(--bg-input);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 8px 6px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.selectionTop {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.selectionSwatch {
+  width: 16px;
+  height: 16px;
+  border-radius: 3px;
+  background: var(--accent);
+  border: 1px solid var(--border);
+  flex-shrink: 0;
+}
+
+.selectionName {
+  font-size: var(--fs-xs);
+  font-weight: 500;
+  color: var(--text-bright);
+}
+
+.selectionBottom {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding-left: 0;
+}
+
+.selectionMeta {
+  font-size: var(--fs-xs);
+  color: var(--text-muted);
+  line-height: 14px;
+}
+
+.selectionDot {
+  width: 3px;
+  height: 3px;
+  border-radius: 1.5px;
+  background: var(--text-muted);
+  flex-shrink: 0;
+}
+
+/* ── Points grid (spreadsheet-style) ── */
+.pointsGrid {
+  border: 1px solid var(--border);
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.pointsHeader {
+  display: grid;
+  grid-template-columns: 24px 1fr 1fr;
+  height: 28px;
+  background: var(--bg-titlebar);
+  color: var(--text-muted);
+  text-align: center;
+  align-items: center;
+}
+
+.pointsHeaderIdx {
+  font-size: 9px;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+
+.pointsHeaderVal {
+  font-size: var(--fs-xs);
+  font-weight: 600;
+  border-left: 1px solid var(--border-light);
+}
+
+.pointsRow {
+  display: grid;
+  grid-template-columns: 24px 1fr 1fr;
+  height: 29px;
+  border-top: 1px solid var(--border-light);
+  align-items: center;
+}
+
+.pointIdx {
+  font-size: 9px;
+  color: var(--text-muted);
+  text-align: center;
+  font-variant-numeric: tabular-nums;
+}
+
+.pointCell {
+  font-size: var(--fs-xs);
+  color: var(--text-primary);
+  text-align: center;
+  background: var(--bg-input);
+  border-left: 1px solid var(--border-light);
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-variant-numeric: tabular-nums;
+}
+
+/* ── Property rows (Dimensions, Depth values, Appearance) ── */
+.propRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 28px;
+}
+
+.propLabel {
+  font-size: var(--fs-xs);
+  color: var(--text-secondary);
+}
+
+.propValue {
+  font-size: var(--fs-xs);
+  color: var(--text-primary);
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+/* ── Depth inputs ── */
+.depthInputs {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 4px;
+}
+
+.depthField {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.depthLabel {
+  font-size: var(--fs-xs);
+  font-weight: 500;
+  color: var(--text-muted);
+}
+
+.depthInput {
+  width: 100%;
+  min-width: 0;
+  height: 26px;
+  background: var(--bg-input);
+  border: 1px solid var(--border);
+  border-radius: 3px;
+  padding: 0 6px;
+  font-size: var(--fs-xs);
+  color: var(--text-primary);
+  font-variant-numeric: tabular-nums;
+  box-sizing: border-box;
+}
+
+/* ── Appearance values ── */
+.appearanceValue {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.colorSwatch {
+  width: 12px;
+  height: 12px;
+  border-radius: 2px;
+  border: 1px solid var(--border);
+  flex-shrink: 0;
+}
+
+.monoValue {
+  font-size: var(--fs-xs);
+  color: var(--text-primary);
+  font-variant-numeric: tabular-nums;
+}

@@ -1,0 +1,324 @@
+/* ── Floating AI Chat ── */
+
+.wrapper {
+  position: fixed;
+  bottom: 42px;
+  right: 20px;
+  z-index: 9999;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 10px;
+  pointer-events: none;
+}
+
+/* ── FAB Button ── */
+.fab {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  border: none;
+  background: var(--accent);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  pointer-events: auto;
+  box-shadow:
+    0 2px 8px rgba(0, 0, 0, 0.4),
+    0 0 0 1px rgba(74, 158, 255, 0.3);
+  transition: transform 0.2s, box-shadow 0.2s;
+  flex-shrink: 0;
+}
+
+.fab:hover {
+  transform: scale(1.08);
+  box-shadow:
+    0 4px 16px rgba(0, 0, 0, 0.5),
+    0 0 0 1px rgba(74, 158, 255, 0.5);
+}
+
+.fabOpen {
+  background: var(--bg-active);
+  box-shadow:
+    0 2px 8px rgba(0, 0, 0, 0.3),
+    0 0 0 1px var(--border);
+}
+
+.fabOpen:hover {
+  box-shadow:
+    0 4px 12px rgba(0, 0, 0, 0.4),
+    0 0 0 1px var(--border);
+}
+
+/* ── Panel ── */
+.panel {
+  width: 360px;
+  height: 480px;
+  max-height: calc(100vh - 200px);
+  background: var(--bg-panel);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  pointer-events: auto;
+  box-shadow:
+    0 8px 32px rgba(0, 0, 0, 0.5),
+    0 0 0 1px rgba(255, 255, 255, 0.04);
+  animation: panelIn 0.2s ease-out;
+}
+
+@keyframes panelIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px) scale(0.97);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* ── Header ── */
+.header {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-3);
+  padding: var(--sp-4) var(--sp-5);
+  border-bottom: 1px solid var(--border);
+  background: var(--bg-titlebar);
+  flex-shrink: 0;
+}
+
+.headerIcon {
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background: rgba(74, 158, 255, 0.15);
+  color: var(--accent);
+  border: 1px solid rgba(74, 158, 255, 0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.headerTitle {
+  flex: 1;
+  font-size: var(--fs-xs);
+  font-weight: 600;
+  color: var(--text-bright);
+}
+
+.headerSub {
+  font-size: var(--fs-xs);
+  color: var(--text-muted);
+  font-weight: 400;
+}
+
+.closeBtn {
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: none;
+  border: none;
+  border-radius: var(--radius-sm);
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: background 0.1s, color 0.1s;
+}
+
+.closeBtn:hover {
+  background: var(--bg-hover);
+  color: var(--text-primary);
+}
+
+/* ── Messages ── */
+.messages {
+  flex: 1;
+  overflow-y: auto;
+  padding: var(--sp-4);
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-4);
+}
+
+.msg {
+  display: flex;
+  gap: var(--sp-3);
+  align-items: flex-start;
+}
+
+.msgUser {
+  flex-direction: row-reverse;
+}
+
+.msgAvatar {
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+
+.msgAi .msgAvatar {
+  background: rgba(74, 158, 255, 0.12);
+  color: var(--accent);
+  border: 1px solid rgba(74, 158, 255, 0.25);
+}
+
+.msgUser .msgAvatar {
+  background: rgba(78, 201, 176, 0.12);
+  color: var(--success);
+  border: 1px solid rgba(78, 201, 176, 0.25);
+}
+
+.msgBody {
+  flex: 1;
+  min-width: 0;
+}
+
+.msgRole {
+  font-size: var(--fs-canvas);
+  font-weight: 600;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+  margin-bottom: 3px;
+}
+
+.msgUser .msgRole {
+  text-align: right;
+}
+
+.msgText {
+  font-size: var(--fs-xs);
+  color: var(--text-primary);
+  line-height: 1.6;
+  padding: var(--sp-3) var(--sp-4);
+  border-radius: 8px;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.msgAi .msgText {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid var(--border-light);
+}
+
+.msgUser .msgText {
+  background: rgba(74, 158, 255, 0.1);
+  border: 1px solid rgba(74, 158, 255, 0.2);
+}
+
+/* ── Typing ── */
+.typing {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: var(--sp-3) var(--sp-4);
+}
+
+.typing span {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--text-muted);
+  animation: typingDot 1.2s infinite ease-in-out;
+}
+
+.typing span:nth-child(2) { animation-delay: 0.2s; }
+.typing span:nth-child(3) { animation-delay: 0.4s; }
+
+@keyframes typingDot {
+  0%, 60%, 100% { opacity: 0.3; transform: scale(0.8); }
+  30% { opacity: 1; transform: scale(1); }
+}
+
+/* ── Suggestions ── */
+.suggestions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--sp-2);
+  padding: 0 var(--sp-4) var(--sp-3);
+}
+
+.suggestion {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid var(--border-light);
+  border-radius: 14px;
+  color: var(--text-secondary);
+  font-size: var(--fs-xs);
+  padding: var(--sp-1) var(--sp-4);
+  cursor: pointer;
+  text-align: left;
+  transition: background 0.12s, color 0.12s, border-color 0.12s;
+  white-space: nowrap;
+}
+
+.suggestion:hover {
+  background: var(--bg-hover);
+  color: var(--text-primary);
+  border-color: var(--accent);
+}
+
+/* ── Input ── */
+.inputBar {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-2);
+  padding: var(--sp-3) var(--sp-4);
+  border-top: 1px solid var(--border);
+  background: var(--bg-panel);
+}
+
+.input {
+  flex: 1;
+  background: var(--bg-input);
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  color: var(--text-primary);
+  font-size: var(--fs-xs);
+  padding: var(--sp-3) var(--sp-5);
+  outline: none;
+  transition: border-color 0.15s;
+}
+
+.input::placeholder {
+  color: var(--text-muted);
+}
+
+.input:focus {
+  border-color: var(--accent);
+}
+
+.sendBtn {
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--accent);
+  border: none;
+  border-radius: 50%;
+  color: #fff;
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: opacity 0.1s;
+}
+
+.sendBtn:hover {
+  opacity: 0.85;
+}
+
+.sendBtn:disabled {
+  opacity: 0.3;
+  cursor: default;
+}

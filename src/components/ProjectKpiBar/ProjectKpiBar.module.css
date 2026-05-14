@@ -1,0 +1,132 @@
+.strip {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-4);
+  padding: var(--sp-2) var(--sp-4);
+  background: var(--bg-titlebar);
+  border-bottom: 1px solid var(--border);
+  flex-shrink: 0;
+  z-index: 5;
+  overflow-x: auto;
+  scrollbar-width: thin;
+}
+
+/* ── Calculated KPIs (read-only) ── */
+.kpi {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.label {
+  font-size: 9px;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  font-weight: 500;
+  line-height: 1.2;
+}
+
+.value {
+  font-size: var(--fs-xs);
+  font-weight: 600;
+  font-family: var(--font-mono);
+  color: var(--text-bright);
+  line-height: 1.3;
+}
+
+.valueAccent {
+  font-size: var(--fs-xs);
+  font-weight: 600;
+  font-family: var(--font-mono);
+  color: var(--success);
+  line-height: 1.3;
+}
+
+.valueWarn {
+  font-size: var(--fs-xs);
+  font-weight: 600;
+  font-family: var(--font-mono);
+  color: var(--warning);
+  line-height: 1.3;
+}
+
+/* ── Configurable KPIs (clickable) ── */
+.configKpi {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  text-align: left;
+  gap: 0;
+  background: none;
+  border: 1px solid transparent;
+  border-radius: var(--radius-sm);
+  padding: 2px 6px;
+  cursor: pointer;
+  transition: background 0.12s, border-color 0.12s;
+}
+
+.configKpi:hover {
+  background: var(--bg-hover);
+  border-color: var(--border);
+}
+
+.configValueRow {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.valueConfig {
+  font-size: var(--fs-xs);
+  font-weight: 600;
+  font-family: var(--font-mono);
+  color: rgba(180, 130, 240, 0.9);
+  line-height: 1.3;
+}
+
+.valueMuted {
+  font-size: var(--fs-xs);
+  font-family: var(--font-mono);
+  color: var(--text-muted);
+  line-height: 1.3;
+}
+
+.editIcon {
+  color: var(--text-muted);
+  opacity: 0;
+  flex-shrink: 0;
+  transition: opacity 0.12s;
+}
+
+.configKpi:hover .editIcon {
+  opacity: 1;
+}
+
+/* ── Dividers ── */
+.divider {
+  width: 1px;
+  height: 22px;
+  background: var(--border);
+  flex-shrink: 0;
+}
+
+.separator {
+  width: 1px;
+  height: 26px;
+  background: var(--border);
+  flex-shrink: 0;
+  margin: 0 var(--sp-2);
+}
+
+@media (max-width: 1280px) {
+  .strip {
+    gap: var(--sp-3);
+    padding-inline: var(--sp-3);
+  }
+
+  .kpi {
+    min-width: max-content;
+  }
+}
+

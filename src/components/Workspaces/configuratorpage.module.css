@@ -1,0 +1,746 @@
+.outer {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  background: var(--bg-base);
+  overflow: hidden;
+}
+
+/* ── Project info banner ── */
+.banner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--sp-5);
+  padding: var(--sp-3) var(--sp-6);
+  background: var(--bg-titlebar);
+  border-bottom: 1px solid var(--border);
+  flex-shrink: 0;
+}
+
+.bannerFields {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-6);
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+}
+
+.bannerField {
+  display: flex;
+  align-items: baseline;
+  gap: var(--sp-2);
+  min-width: 0;
+}
+
+.bannerIcon {
+  color: var(--text-muted);
+  flex-shrink: 0;
+  opacity: 0.6;
+  align-self: center;
+}
+
+.bannerLabel {
+  font-size: 9px;
+  font-weight: 600;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  flex-shrink: 0;
+}
+
+.bannerValue {
+  font-size: var(--fs-xs);
+  color: var(--text-primary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.bannerAction {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sp-2);
+  font-size: var(--fs-xs);
+  font-weight: 500;
+  color: var(--accent);
+  text-decoration: none;
+  white-space: nowrap;
+  padding: var(--sp-2) var(--sp-4);
+  border: 1px solid color-mix(in srgb, var(--accent) 30%, transparent);
+  border-radius: var(--radius);
+  background: color-mix(in srgb, var(--accent) 5%, transparent);
+  cursor: default;
+  flex-shrink: 0;
+}
+
+.readOnlyBanner {
+  border-bottom: 1px solid color-mix(in srgb, var(--warning) 35%, var(--border-light));
+  background: color-mix(in srgb, var(--warning) 9%, var(--bg-panel));
+  color: var(--warning);
+  padding: var(--sp-3) var(--sp-6);
+  font-size: var(--fs-sm);
+  font-weight: 600;
+}
+
+/* ── Two-pane body ── */
+.body {
+  display: flex;
+  flex: 1;
+  min-height: 0;
+}
+
+/* ── Left: group nav ── */
+.groupNav {
+  width: 320px;
+  min-width: 320px;
+  background: var(--bg-panel);
+  border-right: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+  overflow-y: auto;
+}
+
+.progressHeader {
+  padding: var(--sp-6) var(--sp-6);
+  border-bottom: 1px solid var(--border-light);
+}
+
+.progressMeta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--sp-4);
+  margin-bottom: var(--sp-3);
+}
+
+.progressLabelRow {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-3);
+  min-width: 0;
+}
+
+.progressLabel {
+  font-size: var(--fs-base);
+  font-weight: 700;
+  color: var(--text-bright);
+  letter-spacing: 0.2px;
+}
+
+.progressCompleteBadge {
+  flex-shrink: 0;
+  font-size: var(--fs-canvas);
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--success);
+  background: color-mix(in srgb, var(--success) 12%, transparent);
+  padding: 2px 8px;
+  border-radius: 999px;
+  border: 1px solid color-mix(in srgb, var(--success) 32%, transparent);
+}
+
+.progressFraction {
+  font-size: var(--fs-xs);
+  color: var(--text-muted);
+  font-variant-numeric: tabular-nums;
+}
+
+.progressBarTrack {
+  height: 3px;
+  background: color-mix(in srgb, var(--text-muted) 20%, transparent);
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.progressBarFill {
+  height: 100%;
+  background: var(--accent);
+  border-radius: 2px;
+  transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* ── Nav items ── */
+.navItem {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-3);
+  width: 100%;
+  padding: var(--sp-5) var(--sp-6);
+  background: none;
+  border: none;
+  border-left: 3px solid transparent;
+  cursor: pointer;
+  text-align: left;
+  transition: background 0.15s, border-color 0.15s;
+}
+
+.navItem:hover {
+  background: var(--bg-hover);
+}
+
+.navItemActive {
+  background: color-mix(in srgb, var(--accent) 8%, transparent);
+  border-left-color: var(--accent);
+}
+
+.navItemActive:hover {
+  background: color-mix(in srgb, var(--accent) 12%, transparent);
+}
+
+.navItemDone:not(.navItemActive) {
+  border-left-color: color-mix(in srgb, var(--success) 40%, transparent);
+}
+
+.navItemActive.navItemDone {
+  background: color-mix(in srgb, var(--accent) 8%, transparent);
+  border-left-color: var(--accent);
+}
+
+.navItemActive.navItemDone:hover {
+  background: color-mix(in srgb, var(--accent) 12%, transparent);
+}
+
+.navTop {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--sp-3);
+}
+
+.navName {
+  font-size: var(--fs-base);
+  font-weight: 600;
+  color: var(--text-bright);
+}
+
+.navItemActive:not(.navItemDone) .navName {
+  color: var(--text-bright);
+}
+
+.navItemActive:not(.navItemDone) .navCount {
+  color: var(--text-bright);
+}
+
+.navItemActive.navItemDone .navName {
+  color: var(--success);
+}
+
+.navCount {
+  font-size: var(--fs-xs);
+  color: var(--text-secondary);
+  font-variant-numeric: tabular-nums;
+  font-weight: 500;
+}
+
+.navCountDone {
+  color: var(--success);
+}
+
+/* ── Nav sub-items (step rows under each group) ── */
+.navGroup {
+  display: flex;
+  flex-direction: column;
+  border-bottom: 1px solid var(--border-light);
+}
+
+.navGroup:last-child {
+  border-bottom: none;
+}
+
+/* Remove bottom border from the group button itself so the sub-items sit flush */
+.navGroup .navItem {
+  border-bottom: none;
+}
+
+.navSubItems {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  padding: 0 var(--sp-4) var(--sp-3) calc(var(--sp-6) + 3px);
+}
+
+.navSubItem {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-3);
+  padding: var(--sp-2) var(--sp-3);
+  background: none;
+  border: none;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  text-align: left;
+  width: 100%;
+  transition: background 0.12s;
+}
+
+.navSubItem:hover {
+  background: var(--bg-hover);
+}
+
+.navSubItemCurrent {
+  background: color-mix(in srgb, var(--accent) 10%, transparent);
+}
+
+.navSubItemCurrent:hover {
+  background: color-mix(in srgb, var(--accent) 14%, transparent);
+}
+
+.navSubDot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  background: color-mix(in srgb, var(--text-muted) 60%, transparent);
+  transition: background 0.2s, box-shadow 0.2s;
+}
+
+.navSubDotDone {
+  background: var(--success);
+  box-shadow: 0 0 4px color-mix(in srgb, var(--success) 40%, transparent);
+}
+
+.navSubLabel {
+  font-size: var(--fs-xs);
+  color: var(--text-secondary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  min-width: 0;
+  flex: 1;
+}
+
+.navSubItemDone .navSubLabel {
+  color: var(--text-primary);
+}
+
+.navSubItemCurrent .navSubLabel {
+  color: var(--accent);
+  font-weight: 500;
+}
+
+/* ── Step dots (shared) ── */
+.stepDots {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.stepDot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  transition: background 0.25s, box-shadow 0.25s;
+}
+
+.stepDotDone {
+  background: var(--success);
+  box-shadow: 0 0 5px color-mix(in srgb, var(--success) 45%, transparent);
+}
+
+.stepDotPending {
+  background: var(--text-muted);
+  opacity: 0.5;
+}
+
+/* ── Progress ring ── */
+.ring {
+  flex-shrink: 0;
+}
+
+.ringProgress {
+  transition: stroke-dashoffset 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* ── Center: active group content ── */
+.groupPane {
+  flex: 1;
+  overflow-y: auto;
+  min-width: 0;
+  background: var(--bg-base);
+}
+
+/* ── Right: live project summary (cost, hydraulics, bather load) ── */
+.summaryPane {
+  width: 268px;
+  min-width: 240px;
+  max-width: 300px;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  background: var(--bg-panel);
+  border-left: 1px solid var(--border);
+}
+
+.summaryPaneCollapsed {
+  width: 56px;
+  min-width: 56px;
+  max-width: 56px;
+  overflow: hidden;
+}
+
+.summaryInner {
+  padding: var(--sp-5) var(--sp-5) var(--sp-6);
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-5);
+}
+
+.summaryHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--sp-3);
+}
+
+.summaryTitle {
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.55px;
+  color: var(--text-muted);
+  margin: 0;
+}
+
+.summaryToggle {
+  width: 24px;
+  height: 24px;
+  padding: 0;
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-sm);
+  background: var(--bg-base);
+  color: var(--text-muted);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition:
+    color 0.15s ease,
+    border-color 0.15s ease,
+    background 0.15s ease;
+}
+
+.summaryToggle:hover {
+  color: var(--text-bright);
+  border-color: var(--border);
+  background: var(--bg-elevated);
+}
+
+.summaryToggle:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+.summaryRail {
+  flex: 1;
+  min-height: 0;
+  padding: var(--sp-5);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  justify-content: flex-start;
+  gap: var(--sp-4);
+}
+
+.summarySection {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-2);
+}
+
+.summarySectionHead {
+  font-size: var(--fs-xs);
+  font-weight: 600;
+  color: var(--text-bright);
+  padding-bottom: 2px;
+  border-bottom: 1px solid var(--border-light);
+}
+
+.summaryRow {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--sp-3);
+  font-size: var(--fs-xs);
+}
+
+.summaryLabel {
+  color: var(--text-secondary);
+  flex-shrink: 0;
+}
+
+.summaryValue {
+  color: var(--text-primary);
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+  text-align: right;
+  min-width: 0;
+  word-break: break-word;
+}
+
+.summaryBuildCell {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 2px;
+  min-width: 0;
+}
+
+.summaryMonthInput {
+  padding: 3px 6px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border);
+  background: var(--bg-input);
+  color: var(--text-primary);
+  font-size: var(--fs-xs);
+  font-family: inherit;
+}
+
+.summaryMonthInput:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.summaryHint {
+  font-size: 10px;
+  color: var(--text-muted);
+  text-align: right;
+  max-width: 160px;
+  line-height: 1.3;
+}
+
+.summaryValueAccent {
+  color: var(--accent);
+  font-weight: 600;
+}
+
+.summaryCost {
+  color: var(--success);
+  font-weight: 600;
+  font-size: var(--fs-sm);
+}
+
+.summaryDivider {
+  height: 1px;
+  margin: var(--sp-1) 0;
+  background: var(--border-light);
+}
+
+.summaryNote {
+  margin: 0;
+  font-size: 10px;
+  color: var(--text-muted);
+  line-height: 1.4;
+}
+
+@media (max-width: 1024px) {
+  .summaryPane {
+    display: none;
+  }
+}
+
+.paneHeader {
+  padding: var(--sp-6) var(--sp-8) var(--sp-6) 32px;
+  border-bottom: 1px solid var(--border-light);
+  background: var(--bg-panel);
+}
+
+.paneTitle {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--sp-4);
+  width: 100%;
+  font-size: var(--fs-md);
+  font-weight: 700;
+  color: var(--text-bright);
+}
+
+.paneTitleLeft {
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  gap: var(--sp-3);
+}
+
+.paneTitleText {
+  min-width: 0;
+}
+
+/* Incomplete hint stays on the right; the progress ring sits with the title. */
+.paneHeaderRight {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-3);
+  flex-shrink: 0;
+}
+
+.incompleteHint {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sp-2);
+  padding: var(--sp-1) var(--sp-3);
+  font-size: var(--fs-xs);
+  font-weight: 500;
+  color: var(--warning);
+  background: color-mix(in srgb, var(--warning) 6%, transparent);
+  border-radius: var(--radius-sm);
+}
+
+.stepSubNav {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--sp-3) var(--sp-4);
+  padding: var(--sp-3) var(--sp-8) var(--sp-4) 32px;
+  border-bottom: 1px solid var(--border-light);
+  background: color-mix(in srgb, var(--bg-panel) 92%, var(--bg-base));
+}
+
+.stepSubNavLabel {
+  font-size: 10px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--text-muted);
+  flex-shrink: 0;
+}
+
+.stepSubNavChips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--sp-2);
+  min-width: 0;
+}
+
+.stepSubNavChip {
+  font-size: var(--fs-xs);
+  font-weight: 500;
+  padding: var(--sp-2) var(--sp-3);
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border);
+  background: var(--bg-input);
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: border-color 0.15s, color 0.15s, background 0.15s;
+}
+
+.stepSubNavChip:hover {
+  border-color: color-mix(in srgb, var(--accent) 40%, var(--border));
+  color: var(--text-bright);
+}
+
+.stepSubNavChipDone {
+  border-color: color-mix(in srgb, var(--success) 35%, var(--border));
+  color: var(--success);
+}
+
+.stepSubNavChipCurrent {
+  border-color: color-mix(in srgb, var(--accent) 55%, var(--border));
+  box-shadow: 0 0 0 1px color-mix(in srgb, var(--accent) 22%, transparent);
+  color: var(--accent);
+}
+
+.paneBody {
+  max-width: 780px;
+  padding: var(--sp-2) 0 var(--sp-2) 32px;
+}
+
+/* ── Step blocks (forms inside right pane) ── */
+.stepBlock {
+  border-bottom: 1px solid var(--border-light);
+  padding-top: var(--sp-6);
+  padding-bottom: var(--sp-2);
+  transition: background 0.2s;
+}
+
+.stepBlock:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+.stepBlockDone {
+  /* No background tint — keeps the form clean and neutral. */
+}
+
+/* Brief landing highlight after NAVIGATE_TO_STEP — fades back to neutral. */
+.stepBlockHighlight {
+  position: relative;
+  animation: stepBlockPulse 1.6s ease-out;
+}
+
+.stepBlockHighlight::before {
+  content: '';
+  position: absolute;
+  inset: -8px -16px;
+  border-radius: var(--radius);
+  pointer-events: none;
+  border: 1px solid color-mix(in srgb, var(--accent) 60%, transparent);
+  background: color-mix(in srgb, var(--accent) 6%, transparent);
+  animation: stepBlockHighlightFade 1.6s ease-out forwards;
+}
+
+.prefillBadge {
+  display: inline-flex;
+  align-items: center;
+  margin-top: var(--sp-3);
+  margin-bottom: var(--sp-2);
+  padding: var(--sp-2) var(--sp-6);
+  border-radius: 999px;
+  font-size: var(--fs-xs);
+  font-weight: 500;
+  letter-spacing: 0.2px;
+  /* High contrast on dark (and light): bright label on accent-tinted chip, not accent-on-near-black */
+  color: var(--text-bright);
+  background: color-mix(in srgb, var(--accent) 22%, var(--bg-panel));
+  border: 1px solid color-mix(in srgb, var(--accent) 42%, var(--border));
+}
+
+@keyframes stepBlockPulse {
+  0%   { background: color-mix(in srgb, var(--accent) 8%, transparent); }
+  100% { background: transparent; }
+}
+
+@keyframes stepBlockHighlightFade {
+  0%   { opacity: 1; }
+  80%  { opacity: 0.5; }
+  100% { opacity: 0; }
+}
+
+.stepBlock :global(.form) {
+  max-width: none;
+}
+
+/* Pane body supplies left gutter; avoid double padding on form roots.
+   Exclude the pre-fill badge — it needs symmetric chip padding. */
+.stepBlock > div:not(.prefillBadge) {
+  padding-left: 0;
+}
+
+/* Form title rendered by each step component's <h2>. In the stacked
+   configurator view this is the primary section divider, so it gets
+   slightly larger text and heavier weight than the sub-labels below. */
+.stepBlock h2 {
+  font-size: var(--fs-sm);
+  font-weight: 700;
+  color: var(--text-bright);
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+  margin-bottom: var(--sp-4);
+  padding-bottom: var(--sp-3);
+  border-bottom: 1px solid var(--border-light);
+}
+
+.allDoneMsg {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-3);
+  padding: var(--sp-8) var(--sp-8) var(--sp-8) 0;
+  font-size: var(--fs-base);
+  color: var(--success);
+  font-weight: 500;
+}

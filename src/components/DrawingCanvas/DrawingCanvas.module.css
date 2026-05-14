@@ -1,0 +1,271 @@
+/* Canvas is 1440×900 for export; scales down on smaller viewports */
+.container {
+  flex: 1;
+  min-width: 0;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  justify-content: flex-start;
+  background: var(--bg-base);
+  overflow: hidden;
+}
+
+.estimatingBar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--sp-2, 8px);
+  padding: 6px 10px;
+  border-bottom: 1px solid var(--border-light);
+  background: var(--bg-panel);
+  font-size: 12px;
+  color: var(--text-muted);
+  flex-shrink: 0;
+}
+
+.estimatingHint {
+  flex: 1;
+  min-width: 140px;
+}
+
+.estimatingFile {
+  cursor: pointer;
+  padding: 4px 10px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border);
+  background: var(--bg-input);
+  color: var(--text-primary);
+  font-size: 11px;
+}
+
+.estimatingFileInput {
+  display: none;
+}
+
+.estimatingClear {
+  cursor: pointer;
+  font-size: 11px;
+  padding: 4px 8px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border);
+  background: transparent;
+  color: var(--text-muted);
+}
+
+.estimatingClear:hover {
+  color: var(--text-primary);
+}
+
+.planDropMessage {
+  flex-shrink: 0;
+  padding: 6px 10px;
+  font-size: 12px;
+  color: var(--warn, #e6a23c);
+  background: rgba(230, 162, 60, 0.08);
+  border-bottom: 1px solid var(--border-light);
+}
+
+.svg {
+  width: 1440px;
+  height: 900px;
+  max-width: 100%;
+  max-height: 100%;
+  display: block;
+  object-fit: contain;
+  flex: 1;
+  min-height: 0;
+  margin: 0 auto;
+}
+
+/* Deck / hardscape */
+.deckShape {
+  fill: none;
+  stroke: var(--border);
+  stroke-width: 1;
+  stroke-dasharray: 6, 4;
+}
+
+/* Pool shell */
+.poolShape {
+  fill: rgba(74, 158, 255, 0.04);
+  stroke: var(--accent);
+  stroke-width: 1.5;
+}
+
+/* Equipment pad */
+.equipShape {
+  fill: rgba(255, 138, 101, 0.08);
+  stroke: #ff8a65;
+  stroke-width: 1;
+  stroke-dasharray: 4, 3;
+}
+
+/* Equipment items - pop on canvas */
+.equipPump {
+  fill: rgba(74, 158, 255, 0.25);
+  stroke: #4a9eff;
+  stroke-width: 1.25;
+}
+
+.equipFilter {
+  fill: rgba(78, 201, 176, 0.25);
+  stroke: #4ec9b0;
+  stroke-width: 1.25;
+}
+
+.equipHeater {
+  fill: rgba(255, 138, 101, 0.3);
+  stroke: #ff8a65;
+  stroke-width: 1.25;
+}
+
+.equipChlor {
+  fill: rgba(206, 145, 120, 0.25);
+  stroke: #ce9178;
+  stroke-width: 1.25;
+}
+
+.equipLabel {
+  fill: var(--text-primary);
+  font-size: var(--fs-canvas);
+  font-family: var(--font-mono);
+  font-weight: 600;
+  letter-spacing: 0.3px;
+}
+
+.equipPadLabel {
+  fill: var(--text-muted);
+  font-size: var(--fs-canvas);
+  font-family: var(--font-mono);
+  font-weight: 600;
+  letter-spacing: 0.5px;
+}
+
+/* Control points */
+.controlPoint {
+  cursor: move;
+}
+
+.controlPoint:hover {
+  filter: brightness(1.3);
+}
+
+/* Labels */
+.dimLabel {
+  fill: var(--text-secondary);
+  font-size: var(--fs-canvas);
+  font-family: var(--font-mono);
+}
+
+.dimLabelSpa {
+  fill: #7986cb;
+  font-size: var(--fs-canvas);
+  font-family: var(--font-mono);
+}
+
+.dimLabelSmall {
+  fill: var(--text-muted);
+  font-size: var(--fs-canvas);
+  font-family: var(--font-mono);
+}
+
+.depthLabel {
+  fill: #5a7a9e;
+  font-size: var(--fs-canvas);
+  font-family: var(--font-mono);
+  opacity: 0.7;
+}
+
+.labelSmall {
+  fill: var(--text-muted);
+  font-size: var(--fs-canvas);
+  font-family: var(--font-mono);
+  letter-spacing: 0.5px;
+}
+
+.labelTiny {
+  fill: var(--text-muted);
+  font-size: var(--fs-canvas);
+  font-family: var(--font-mono);
+}
+
+.labelAccent {
+  fill: #7986cb;
+  font-size: var(--fs-canvas);
+  font-family: var(--font-mono);
+  font-weight: 500;
+}
+
+/* ── Right-click context menu (Add to plan) ── */
+.ctxMenu {
+  z-index: 300;
+  background: var(--bg-panel);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 0;
+  min-width: 220px;
+  max-width: 260px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.45);
+  animation: ctxFade 0.12s ease-out;
+  overflow: hidden;
+}
+
+@keyframes ctxFade {
+  from { opacity: 0; transform: scale(0.97); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+.ctxHeader {
+  font-size: var(--fs-sm);
+  font-weight: 700;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  padding: 10px 14px 4px;
+}
+
+.ctxHint {
+  font-size: var(--fs-sm);
+  color: var(--text-muted);
+  padding: 0 14px 10px;
+  border-bottom: 1px solid var(--border-light);
+  margin-bottom: 6px;
+}
+
+.ctxGroup {
+  padding: 4px 0 6px;
+}
+
+.ctxGroup:last-child {
+  padding-bottom: 8px;
+}
+
+.ctxGroupLabel {
+  font-size: var(--fs-sm);
+  font-weight: 600;
+  color: var(--text-muted);
+  padding: 2px 14px 4px;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+}
+
+.ctxItem {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  min-height: var(--control-h);
+  text-align: left;
+  background: none;
+  border: none;
+  color: var(--text-primary);
+  font-size: var(--fs-xs);
+  padding: 0 14px;
+  cursor: pointer;
+  transition: background 0.08s, color 0.08s;
+}
+
+.ctxItem:hover {
+  background: rgba(74, 158, 255, 0.12);
+  color: var(--accent);
+}

@@ -1,0 +1,319 @@
+.srOnly {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* ── Shell (Cursor marketing–inspired: warm canvas, Inter, calm contrast) ── */
+.shell {
+  display: flex;
+  gap: 20px;
+  height: 100vh;
+  width: 100vw;
+  padding: 20px 24px 24px;
+  overflow: hidden;
+  font-family: 'Inter', var(--font-sans);
+  font-size: 15px;
+  line-height: 1.5;
+  letter-spacing: -0.01em;
+  -webkit-font-smoothing: antialiased;
+  /* Tokens (inherit into Companies / Projects) */
+  --bo-canvas: #f7f7f4;
+  --bo-surface: #ffffff;
+  --bo-surface-muted: #f0efec;
+  --bo-border: rgba(20, 18, 11, 0.1);
+  --bo-border-strong: rgba(20, 18, 11, 0.14);
+  --bo-text: #14120b;
+  --bo-text-secondary: #5c5754;
+  --bo-text-muted: #8a8580;
+  --bo-accent: #155eef;
+  --bo-accent-soft: rgba(21, 94, 239, 0.08);
+  background: var(--bo-canvas);
+  color: var(--bo-text);
+}
+
+[data-theme="dark"] .shell {
+  --bo-canvas: #0e0d0c;
+  --bo-surface: #171513;
+  --bo-surface-muted: #1f1d1a;
+  --bo-border: rgba(255, 255, 255, 0.08);
+  --bo-border-strong: rgba(255, 255, 255, 0.12);
+  --bo-text: #f4f3f0;
+  --bo-text-secondary: #b8b3ab;
+  --bo-text-muted: #8a8580;
+  --bo-accent-soft: rgba(94, 156, 255, 0.12);
+  background: var(--bo-canvas);
+  color: var(--bo-text);
+}
+
+/* ── Sidebar ── */
+.sidebar {
+  width: 280px;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 16px 20px 16px;
+  height: 60px;
+}
+
+.logoIcon {
+  width: 28px;
+  height: 28px;
+  background: #16b364;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  font-size: 12px;
+  font-weight: 700;
+  color: #fff;
+  line-height: 1;
+}
+
+.logoText {
+  font-size: 17px;
+  font-weight: 600;
+  color: var(--bo-text);
+  letter-spacing: -0.03em;
+  text-transform: none;
+}
+
+/* ── Sidebar inner panel ── */
+.sidebarPanel {
+  flex: 1;
+  background: var(--bo-surface);
+  border: 1px solid var(--bo-border-strong);
+  border-radius: 14px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+.panelTop {
+  padding: 16px;
+}
+
+.createBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 40px;
+  background: #16b364;
+  border: 2px solid rgba(255, 255, 255, 0.12);
+  border-radius: 32px;
+  color: #fff;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  font-family: inherit;
+  transition: background 0.15s;
+}
+
+.createBtn:hover {
+  background: #15a35a;
+}
+
+.panelDivider {
+  height: 1px;
+  background: #e7e7e7;
+  margin: 0;
+}
+
+[data-theme="dark"] .panelDivider {
+  background: var(--border);
+}
+
+.panelNav {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 16px;
+}
+
+.navLink {
+  display: flex;
+  align-items: center;
+  padding: 8px 16px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--bo-text-secondary);
+  text-decoration: none;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  font-family: inherit;
+  text-align: left;
+  width: 100%;
+  transition: background 0.12s, color 0.12s;
+  line-height: 1.4;
+  letter-spacing: -0.02em;
+}
+
+.navLink:hover {
+  background: var(--bo-accent-soft);
+  color: var(--bo-text);
+}
+
+.navLinkActive {
+  background: var(--bo-accent);
+  color: #fff;
+}
+
+.navLinkActive:hover {
+  background: #1249c4;
+  color: #fff;
+}
+
+.sidebarSpacer {
+  flex: 1;
+}
+
+.sidebarDivider2 {
+  height: 1px;
+  background: #e7e7e7;
+  margin: 0 16px;
+}
+
+[data-theme="dark"] .sidebarDivider2 {
+  background: var(--border);
+}
+
+/* ── Main area ── */
+.main {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+/* ── Top bar (profile) ── */
+.topBar {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  min-height: 48px;
+  padding: 0 4px 0 0;
+  flex-shrink: 0;
+}
+
+.topBarActions {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.textLinkBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  border: none;
+  background: transparent;
+  color: var(--bo-text-secondary);
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  font-family: inherit;
+  padding: 4px 0;
+  letter-spacing: -0.01em;
+}
+
+.textLinkBtn:hover {
+  color: var(--bo-text);
+}
+
+[data-theme="dark"] .textLinkBtn:hover {
+  color: var(--bo-text);
+}
+
+.alertCount {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 20px;
+  height: 18px;
+  padding: 0 6px;
+  background: #f04438;
+  border-radius: 999px;
+  font-size: 10px;
+  font-weight: 600;
+  color: #fff;
+  line-height: 1;
+}
+
+.profileBtn {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  padding: 0;
+  font-family: inherit;
+}
+
+.profileAvatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 16px;
+  border: 1px solid #bbb;
+  object-fit: cover;
+}
+
+.profileAvatarFallback {
+  width: 32px;
+  height: 32px;
+  border-radius: 16px;
+  border: 1px solid #bbb;
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.profileName {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--bo-text-secondary);
+  white-space: nowrap;
+}
+
+/* ── Page header ── */
+.pageHeader {
+  padding: 8px 16px 20px 4px;
+}
+
+.pageTitle {
+  font-size: clamp(1.5rem, 2.5vw, 1.875rem);
+  font-weight: 600;
+  color: var(--bo-text);
+  line-height: 1.15;
+  letter-spacing: -0.035em;
+}
+
+/* ── Content ── */
+.content {
+  flex: 1;
+  min-height: 0;
+  overflow: auto;
+  padding: 0 4px 8px 4px;
+}

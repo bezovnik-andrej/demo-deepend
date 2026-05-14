@@ -1,0 +1,326 @@
+/* Heading underline sized to the heading text only (default `.formTitle`).
+   Badge sits at the top of the row, separate from the rule. */
+.titleRow {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--sp-4);
+  width: 100%;
+}
+
+.titleRow .volumeTitle {
+  line-height: 1.2;
+}
+
+.completeBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  flex-shrink: 0;
+  font-size: var(--fs-xs);
+  font-weight: 500;
+  color: #2dbf72;
+  letter-spacing: 0.2px;
+  padding: 2px 8px;
+  border-radius: 999px;
+  background: color-mix(in srgb, #2dbf72 12%, transparent);
+}
+
+.sectionLabel,
+.totalsLabel {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin: var(--sp-5) 0 var(--sp-3);
+}
+
+.totalsLabel {
+  margin-top: var(--sp-5);
+}
+
+/* ── Table ── */
+.table {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+/* Slightly more breathing room between section cards in responsive mode. */
+@media (max-width: 720px) {
+  .table {
+    gap: var(--sp-2);
+  }
+}
+
+.tableHead,
+.row {
+  display: grid;
+  grid-template-columns:
+    minmax(140px, 1.4fr)   /* Label */
+    minmax(140px, 1.2fr)   /* Type */
+    minmax(120px, 1fr)     /* Area */
+    minmax(120px, 1fr)     /* Depth */
+    minmax(96px, 0.9fr)    /* Volume readout */
+    32px;                  /* Remove */
+  gap: var(--sp-3);
+  align-items: center;
+}
+
+.tableHead {
+  padding: 0;
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--text-muted);
+}
+
+.tableHead .colVolume {
+  text-align: right;
+  padding-right: var(--sp-2);
+}
+
+.row {
+  /* Vertical breathing room only — no horizontal padding so inputs align
+     flush with the POOL SECTIONS / TOTALS labels above and below. */
+  padding: 4px 0;
+}
+
+.cell {
+  display: flex;
+  align-items: center;
+  min-width: 0;
+}
+
+.colLabel { min-width: 0; }
+.colType  { min-width: 0; }
+.colArea  { min-width: 0; }
+.colDepth { min-width: 0; }
+.colVolume { justify-content: flex-end; padding-right: var(--sp-2); }
+.colRemove { justify-content: center; }
+
+.cellVolume {
+  font-variant-numeric: tabular-nums;
+  color: var(--text-bright);
+  font-weight: 500;
+  font-size: var(--fs-sm);
+}
+
+/* ── Inputs ── */
+.input {
+  height: var(--control-h);
+  width: 100%;
+  background: var(--bg-input);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 0 10px;
+  color: var(--text-primary);
+  font-size: var(--fs-sm);
+  font-family: inherit;
+  transition: border-color 0.15s, box-shadow 0.15s, background 0.15s;
+}
+
+.input:hover:not(:disabled) {
+  border-color: color-mix(in srgb, var(--accent) 30%, var(--border));
+}
+
+.input:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 2px color-mix(in srgb, var(--accent) 30%, transparent);
+}
+
+.input:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.inputNum {
+  text-align: left;
+  padding-right: 28px;
+  font-variant-numeric: tabular-nums;
+  /* Hide spinners — keep numeric input but no double chevrons */
+  appearance: textfield;
+  -moz-appearance: textfield;
+}
+.inputNum::-webkit-outer-spin-button,
+.inputNum::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.numWrap {
+  position: relative;
+  width: 100%;
+  display: flex;
+  align-items: center;
+}
+
+.unit {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: var(--fs-xs);
+  color: var(--text-muted);
+  pointer-events: none;
+  letter-spacing: 0.3px;
+}
+
+/* Make the Select fill the cell */
+.colType > * {
+  width: 100%;
+}
+.colType :global(.root),
+.colType :global(button) {
+  width: 100%;
+}
+
+/* ── Remove button ── */
+.removeBtn {
+  width: 28px;
+  height: 28px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: var(--radius);
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s, border-color 0.15s;
+}
+
+.removeBtn:hover:not(:disabled) {
+  color: #ff7878;
+  background: color-mix(in srgb, #ff7878 12%, transparent);
+  border-color: color-mix(in srgb, #ff7878 30%, transparent);
+}
+
+.removeBtn:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+}
+
+/* ── Add row ── */
+.addRow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  width: 100%;
+  height: 38px;
+  margin-top: 4px;
+  background: var(--bg-input);
+  border: 1px dashed var(--border);
+  border-radius: var(--radius);
+  color: var(--text-secondary);
+  font-size: var(--fs-sm);
+  font-family: inherit;
+  cursor: pointer;
+  transition: background 0.15s, border-color 0.15s, color 0.15s;
+}
+
+.addRow:hover:not(:disabled) {
+  background: var(--bg-hover);
+  border-color: color-mix(in srgb, var(--accent) 40%, var(--border));
+  color: var(--text-bright);
+}
+
+.addRow:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* ── Totals strip ── */
+.totals {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--sp-3);
+}
+
+.totalCard {
+  background: var(--bg-input);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: var(--sp-4) var(--sp-4);
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.totalLabel {
+  font-size: var(--fs-xs);
+  color: var(--text-muted);
+  font-weight: 500;
+}
+
+.totalValueRow {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  font-variant-numeric: tabular-nums;
+}
+
+.totalValue {
+  font-size: 22px;
+  font-weight: 600;
+  color: var(--text-bright);
+  line-height: 1.1;
+}
+
+.totalUnit {
+  font-size: var(--fs-xs);
+  color: var(--text-muted);
+}
+
+/* ── Responsive: stack on narrow drawer ── */
+@media (max-width: 720px) {
+  .tableHead {
+    display: none;
+  }
+  .row {
+    /* Auto-sizes the X button column so the label input gets the full
+       remaining width instead of cramping into half the row. */
+    grid-template-columns: 1fr auto;
+    grid-template-areas:
+      'label  remove'
+      'type   type'
+      'area   depth'
+      'volume volume';
+    column-gap: var(--sp-3);
+    row-gap: var(--sp-3);
+    padding: var(--sp-4);
+    background: var(--bg-input);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+  }
+  .colLabel { grid-area: label; }
+  .colType { grid-area: type; }
+  .colArea { grid-area: area; }
+  .colDepth { grid-area: depth; }
+  .colVolume {
+    grid-area: volume;
+    justify-content: space-between;
+    padding-top: var(--sp-3);
+    border-top: 1px dashed var(--border);
+  }
+  /* Render "Volume:" on the left, with the value right-aligned via
+     justify-content: space-between on the cell. */
+  .colVolume::before {
+    content: 'Volume';
+    color: var(--text-muted);
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    font-size: var(--fs-xs);
+  }
+  .colRemove { grid-area: remove; justify-content: flex-end; }
+
+  .totals {
+    grid-template-columns: 1fr;
+    gap: var(--sp-2);
+  }
+}

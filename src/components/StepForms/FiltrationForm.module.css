@@ -1,0 +1,751 @@
+/* Title row — Complete badge top-right, separator under heading text only. */
+.titleRow {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--sp-3);
+}
+
+.titleRow > h2 {
+  line-height: 1.2;
+}
+
+.completeBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  flex-shrink: 0;
+  font-size: var(--fs-xs);
+  font-weight: 500;
+  color: #2dbf72;
+  letter-spacing: 0.2px;
+  padding: 2px 8px;
+  border-radius: 999px;
+  background: color-mix(in srgb, #2dbf72 12%, transparent);
+}
+
+/* Section labels with hairline rule above (matches HeatingForm). */
+.sectionLabel {
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  margin: var(--sp-6) 0 var(--sp-2);
+  padding-top: var(--sp-3);
+  border-top: 1px solid var(--border-light);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.sectionLabel:first-of-type {
+  border-top: none;
+  margin-top: var(--sp-4);
+  padding-top: 0;
+}
+
+.hint {
+  font-size: var(--fs-xs);
+  color: var(--text-muted);
+  margin: var(--sp-1) 0 var(--sp-3);
+  line-height: 1.5;
+}
+
+/* ── Filter catalogue: unified shell (toolbar + table) ── */
+.catSelectionShell {
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+  background: var(--bg-input);
+  margin-bottom: var(--sp-4);
+}
+
+.catToolbar {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-3);
+  padding: var(--sp-3) var(--sp-4);
+  margin: 0;
+  border: none;
+  border-radius: 0;
+  border-bottom: 1px solid var(--border-light);
+  background: color-mix(in srgb, var(--bg-input) 92%, var(--bg-panel));
+}
+
+.catToolbarHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--sp-3);
+  flex-wrap: wrap;
+}
+
+.catToolbarTitle {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: var(--fs-xs);
+  font-weight: 500;
+  letter-spacing: 0.2px;
+  color: var(--text-muted);
+}
+
+.catToolbarTitleIcon {
+  color: var(--text-muted);
+  flex-shrink: 0;
+  opacity: 0.85;
+}
+
+.catResetBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+  font-size: var(--fs-xs);
+  font-weight: 500;
+  color: var(--text-secondary);
+  background: transparent;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  font-family: inherit;
+  transition:
+    color 0.15s,
+    border-color 0.15s,
+    background 0.15s;
+}
+
+.catResetBtn:hover:not(:disabled) {
+  color: var(--accent);
+  border-color: color-mix(in srgb, var(--accent) 35%, var(--border));
+  background: color-mix(in srgb, var(--accent) 6%, transparent);
+}
+
+.catResetBtn:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+.catResetBtn:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.catToolbarRow {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: var(--sp-4);
+}
+
+.catField {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+}
+
+.catFieldWide {
+  flex: 1;
+  min-width: 220px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.catFieldLabel {
+  font-size: 10px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--text-muted);
+}
+
+.catFieldHint {
+  margin: 0 0 2px;
+  font-size: 10px;
+  font-weight: 400;
+  text-transform: none;
+  letter-spacing: 0;
+  color: var(--text-muted);
+  line-height: 1.35;
+}
+
+.catInput {
+  width: 100%;
+  min-width: 88px;
+  max-width: 120px;
+  height: 32px;
+  padding: 0 var(--sp-3);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: var(--bg-input);
+  color: var(--text-primary);
+  font-size: var(--fs-xs);
+}
+
+.catInput:focus {
+  outline: none;
+  border-color: var(--border-focus);
+}
+
+.catInput:focus-visible {
+  outline: 2px solid color-mix(in srgb, var(--accent) 45%, transparent);
+  outline-offset: 1px;
+}
+
+.catSelect {
+  min-width: 140px;
+  height: 32px;
+  box-sizing: border-box;
+  padding: 0 calc(var(--sp-4) + 12px) 0 var(--sp-3);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background-color: color-mix(in srgb, var(--bg-base) 26%, var(--bg-panel));
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='10' viewBox='0 0 12 12' fill='none'%3E%3Cpath stroke='%2394a3b8' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round' d='M3 4.5L6 8l3-3.5'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 8px center;
+  background-size: 10px;
+  color: var(--text-primary);
+  font: inherit;
+  font-size: var(--fs-xs);
+  cursor: pointer;
+  appearance: none;
+  -webkit-appearance: none;
+  transition: background-color 0.15s, border-color 0.15s, box-shadow 0.15s;
+}
+
+.catSelect:hover:not(:disabled) {
+  background-color: var(--bg-hover);
+  border-color: color-mix(in srgb, var(--accent) 30%, var(--border));
+}
+
+.catSelect:focus-visible {
+  outline: 2px solid var(--border-focus);
+  outline-offset: 1px;
+}
+
+.catSelect:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.brandChips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--sp-4);
+  align-items: center;
+}
+
+/* Custom checkbox — matches shared MultiSelect / option-row tiles (no OS white box). */
+.catBrandToggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: var(--fs-xs);
+  color: var(--text-secondary);
+  cursor: pointer;
+  user-select: none;
+}
+
+.catBrandToggle input[type='checkbox'] {
+  appearance: none;
+  -webkit-appearance: none;
+  box-sizing: border-box;
+  width: 14px;
+  height: 14px;
+  margin: 0;
+  flex-shrink: 0;
+  border: 1.5px solid var(--border);
+  border-radius: 3px;
+  background: color-mix(in srgb, var(--bg-base) 18%, transparent);
+  cursor: pointer;
+  transition: border-color 0.15s, background 0.15s;
+  vertical-align: middle;
+}
+
+.catBrandToggle input[type='checkbox']:hover:not(:disabled) {
+  border-color: var(--text-muted);
+}
+
+.catBrandToggle input[type='checkbox']:checked {
+  background-color: var(--accent);
+  border-color: var(--accent);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='8' viewBox='0 0 10 8' fill='none'%3E%3Cpath stroke='%23ffffff' stroke-width='1.75' stroke-linecap='round' stroke-linejoin='round' d='M1 4l2.5 2.5L9 1'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 10px 8px;
+}
+
+.catBrandToggle input[type='checkbox']:focus {
+  outline: none;
+}
+
+.catBrandToggle input[type='checkbox']:focus-visible {
+  outline: 2px solid var(--border-focus);
+  outline-offset: 2px;
+}
+
+.catBrandToggle input:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+.toolbarMeta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--sp-3);
+  font-size: var(--fs-xs);
+  color: var(--text-muted);
+}
+
+.toolbarMetaBadge {
+  display: inline-flex;
+  align-items: center;
+  font-weight: 500;
+  font-variant-numeric: tabular-nums;
+  color: var(--text-secondary);
+}
+
+.toolbarMetaRange {
+  color: var(--text-muted);
+}
+
+.catTablePane {
+  padding: var(--sp-3) var(--sp-4) var(--sp-4);
+  background: var(--bg-input);
+}
+
+/* Field grid — 2 columns on desktop, single column on small. */
+.fieldGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--sp-4);
+}
+
+.fieldGrid3 {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--sp-4);
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-width: 0;
+}
+
+.fieldLabel {
+  font-size: var(--fs-xs);
+  color: var(--text-secondary);
+  font-weight: 500;
+}
+
+.fieldHint {
+  color: var(--text-muted);
+  font-weight: 400;
+}
+
+/* Number inputs */
+.input {
+  height: var(--control-h);
+  width: 100%;
+  background: var(--bg-input);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 0 10px;
+  color: var(--text-primary);
+  font-size: var(--fs-sm);
+  font-family: inherit;
+  transition: border-color 0.15s, box-shadow 0.15s, background 0.15s;
+}
+
+.input:hover:not(:disabled) {
+  border-color: color-mix(in srgb, var(--accent) 30%, var(--border));
+}
+
+.input:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 2px color-mix(in srgb, var(--accent) 30%, transparent);
+}
+
+.input:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.inputNum {
+  text-align: left;
+  padding-right: 44px;
+  font-variant-numeric: tabular-nums;
+  appearance: textfield;
+  -moz-appearance: textfield;
+}
+
+.inputNum::-webkit-outer-spin-button,
+.inputNum::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.numWrap {
+  position: relative;
+  width: 100%;
+  display: flex;
+  align-items: center;
+}
+
+.unit {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: var(--fs-xs);
+  color: var(--text-muted);
+  pointer-events: none;
+  letter-spacing: 0.3px;
+}
+
+/* Readout cards — for derived values that aren't user editable. */
+.summaryStrip {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--sp-3);
+}
+
+.summaryStrip2 {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--sp-3);
+}
+
+.summaryCard {
+  background: var(--bg-input);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: var(--sp-3) var(--sp-4);
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.summaryCardAccent {
+  border-color: color-mix(in srgb, var(--accent) 40%, var(--border));
+  background: color-mix(in srgb, var(--accent) 6%, var(--bg-input));
+}
+
+.summaryCardWarn {
+  border-color: color-mix(in srgb, var(--warning) 40%, var(--border));
+  background: color-mix(in srgb, var(--warning) 6%, var(--bg-input));
+}
+
+.summaryLabel {
+  font-size: var(--fs-xs);
+  color: var(--text-muted);
+  font-weight: 500;
+}
+
+.summaryValue {
+  font-size: var(--fs-md);
+  font-weight: 600;
+  color: var(--text-bright);
+  font-variant-numeric: tabular-nums;
+}
+
+/* ── Filter Selection Comparison Table ── */
+.compTable {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.compHead {
+  display: grid;
+  grid-template-columns: 22px minmax(120px, 1.4fr) minmax(44px, 56px) minmax(64px, 80px) minmax(64px, 80px) minmax(64px, 80px);
+  gap: var(--sp-2);
+  align-items: center;
+  padding: var(--sp-2) var(--sp-3);
+  box-sizing: border-box;
+  font-size: 10px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.85px;
+  color: var(--text-muted);
+  background: color-mix(in srgb, var(--bg-panel) 18%, var(--bg-input));
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border-light);
+}
+
+.compHeadRadio {
+  padding: 0;
+}
+
+.compHeadRight {
+  text-align: right;
+  justify-self: stretch;
+}
+
+.compRow {
+  display: grid;
+  grid-template-columns: 22px minmax(120px, 1.4fr) minmax(44px, 56px) minmax(64px, 80px) minmax(64px, 80px) minmax(64px, 80px);
+  gap: var(--sp-2);
+  box-sizing: border-box;
+  min-height: var(--control-h);
+  align-items: center;
+  padding: 0 var(--sp-3);
+  background: color-mix(in srgb, var(--bg-panel) 8%, var(--bg-input));
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  cursor: default;
+  transition:
+    background 0.18s ease,
+    border-color 0.18s ease,
+    box-shadow 0.18s ease;
+  text-align: left;
+  font-family: inherit;
+  font-size: var(--fs-sm);
+  color: var(--text-primary);
+  width: 100%;
+}
+
+.compRowMainBtn {
+  grid-column: 1 / 3;
+  display: grid;
+  grid-template-columns: 22px minmax(0, 1fr);
+  gap: var(--sp-2);
+  align-items: center;
+  min-width: 0;
+  padding: 0;
+  margin: 0;
+  border: none;
+  background: transparent;
+  font: inherit;
+  color: inherit;
+  text-align: left;
+  cursor: pointer;
+  border-radius: var(--radius-sm);
+}
+
+.compRowMainBtn:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+.compRow:hover .compRowMainBtn:not(:disabled) {
+  color: var(--text-bright);
+}
+
+.compRow:hover:not(:has(.compRowMainBtn:disabled)) {
+  background: var(--bg-hover);
+  border-color: color-mix(in srgb, var(--accent) 30%, var(--border));
+  box-shadow: 0 1px 0 color-mix(in srgb, var(--accent) 12%, transparent);
+}
+
+
+.compQtyInput {
+  width: 100%;
+  max-width: 3.5rem;
+  box-sizing: border-box;
+  padding: 3px 6px;
+  font-size: var(--fs-sm);
+  font-variant-numeric: tabular-nums;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: color-mix(in srgb, var(--bg-base) 26%, var(--bg-panel));
+  color: var(--text-primary);
+  text-align: right;
+  transition: background-color 0.15s, border-color 0.15s;
+}
+
+.compQtyInput::-webkit-outer-spin-button,
+.compQtyInput::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.compQtyInput[type='number'] {
+  -moz-appearance: textfield;
+}
+
+.compQtyInput:hover:not(:disabled) {
+  border-color: color-mix(in srgb, var(--accent) 28%, var(--border));
+}
+
+.compQtyInput:focus {
+  outline: 2px solid color-mix(in srgb, var(--accent) 45%, transparent);
+  outline-offset: 1px;
+}
+
+.compQtyInput:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+.compRow:hover:not(:has(.compRowMainBtn:disabled)) .compQtyInput:not(:disabled) {
+  border-color: color-mix(in srgb, var(--accent) 22%, var(--border));
+}
+
+.compRowSelected {
+  border-color: var(--accent);
+  background: color-mix(in srgb, var(--accent) 12%, var(--bg-input));
+  box-shadow: 0 0 0 1px color-mix(in srgb, var(--accent) 18%, transparent);
+}
+
+.compRowMeets {
+  border-left: 3px solid #2dbf72;
+}
+
+.compRowOver {
+  border-left: 3px solid color-mix(in srgb, var(--text-muted) 40%, transparent);
+}
+
+.compCell {
+  display: flex;
+  align-items: center;
+  min-width: 0;
+  font-variant-numeric: tabular-nums;
+}
+
+.compCellRight {
+  justify-content: flex-end;
+  text-align: right;
+}
+
+.compMuted {
+  color: var(--text-muted);
+}
+
+.compModelBrand {
+  color: var(--text-muted);
+  margin-right: 4px;
+}
+
+.compSelectCell {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 0;
+}
+
+.compCheckbox {
+  box-sizing: border-box;
+  width: 14px;
+  height: 14px;
+  border-radius: 3px;
+  border: 1.5px solid var(--border);
+  flex-shrink: 0;
+  position: relative;
+  line-height: 0;
+  transition: border-color 0.15s, background 0.15s;
+}
+
+.compRowSelected .compRowMainBtn:not(:disabled) .compCheckbox {
+  border-color: var(--accent);
+  background: var(--accent);
+}
+
+.compRow:hover:not(:has(.compRowMainBtn:disabled)) .compCheckbox {
+  border-color: var(--text-muted);
+}
+
+.compCheckboxCheck {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) rotate(45deg);
+  width: 4px;
+  height: 7px;
+  border-right: 2px solid #fff;
+  border-bottom: 2px solid #fff;
+  margin-top: -1px;
+}
+
+/* Empty state when no models match. */
+.emptyState {
+  font-size: var(--fs-sm);
+  line-height: 1.5;
+  color: var(--text-secondary);
+  background: color-mix(in srgb, var(--bg-panel) 12%, var(--bg-input));
+  border: 1px dashed var(--border);
+  border-radius: var(--radius-sm);
+  padding: var(--sp-5);
+  text-align: center;
+  max-width: 36rem;
+  margin: 0 auto;
+}
+
+/* ── Responsive ── */
+@media (max-width: 720px) {
+  .fieldGrid,
+  .fieldGrid3 {
+    grid-template-columns: 1fr;
+  }
+
+  .summaryStrip,
+  .summaryStrip2 {
+    grid-template-columns: 1fr;
+    gap: var(--sp-2);
+  }
+
+  .compHead {
+    display: none;
+  }
+
+  .compRow {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    grid-template-rows: auto auto;
+    gap: var(--sp-2);
+    min-height: auto;
+    align-items: start;
+    padding: var(--sp-3);
+  }
+
+  .compRowMainBtn {
+    grid-column: 1 / -1;
+    grid-row: 1;
+    width: 100%;
+  }
+
+  .compQtyCell {
+    grid-column: 1;
+    grid-row: 2;
+    justify-self: start;
+  }
+
+  .compMetricPer,
+  .compMetricTotal,
+  .compMetricRate {
+    justify-content: flex-start !important;
+    text-align: left !important;
+  }
+
+  .compMetricPer {
+    grid-column: 2;
+    grid-row: 2;
+  }
+
+  .compMetricTotal {
+    grid-column: 1;
+    grid-row: 3;
+  }
+
+  .compMetricRate {
+    grid-column: 2;
+    grid-row: 3;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .compRow,
+  .brandChip,
+  .catResetBtn,
+  .catSelect,
+  .catInput {
+    transition: none;
+  }
+}

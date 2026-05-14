@@ -1,0 +1,873 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <title>Procurement — Figma Export</title>
+    <meta name="description" content="Auto-layout-friendly snapshot of the Procurement page for html.to.design import. Tables and absolute-positioned elements are replaced with pure flex containers." />
+    <style>
+      /* ──────────────────────────────────────────────────────────────
+         Reset + tokens
+         (Identical visual values to the live app, but every layout
+         primitive is `display: flex` so html.to.design can convert
+         every container to a Figma Auto Layout frame.)
+      ────────────────────────────────────────────────────────────── */
+      *, *::before, *::after { box-sizing: border-box; }
+      html, body { margin: 0; padding: 0; }
+      body {
+        font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+        background: #1e1e1e;
+        color: #d4d4d4;
+        -webkit-font-smoothing: antialiased;
+        font-size: 13px;
+      }
+      .icon { flex-shrink: 0; display: block; }
+
+      /* ──────────────────────────────────────────────────────────────
+         Page shell — flex column
+      ────────────────────────────────────────────────────────────── */
+      .outer {
+        display: flex;
+        flex-direction: column;
+        background: #252526;
+        width: 1280px;
+      }
+
+      /* ──────────────────────────────────────────────────────────────
+         Top bar = view tabs (left) + actions (right)
+      ────────────────────────────────────────────────────────────── */
+      .topBar {
+        display: flex;
+        flex-direction: row;
+        align-items: stretch;
+        justify-content: space-between;
+        gap: 6px;
+        background: #181818;
+        border-bottom: 1px solid #3a3a3a;
+        padding: 0 8px;
+        min-height: 40px;
+      }
+
+      .viewTabs {
+        display: flex;
+        flex-direction: row;
+        align-items: stretch;
+        gap: 0;
+      }
+
+      .viewTab {
+        display: flex;
+        align-items: center;
+        padding: 4px 8px;
+        font-size: 11px;
+        font-weight: 500;
+        color: #666;
+        background: transparent;
+        border: none;
+        border-bottom: 2px solid transparent;
+        white-space: nowrap;
+      }
+      .viewTabActive {
+        color: #f0f0f0;
+        border-bottom: 2px solid #4a9eff;
+      }
+
+      .topBarRight {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        gap: 6px;
+        padding: 4px 0;
+      }
+
+      /* Search field — icon + input as flex siblings (no abs positioning) */
+      .searchWrap {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        gap: 6px;
+        width: 220px;
+        height: 32px;
+        padding: 0 8px;
+        background: #1a1a1a;
+        border: 1px solid #3a3a3a;
+        border-radius: 3px;
+      }
+      .searchInputText {
+        flex: 1;
+        color: #666;
+        font-size: 11px;
+      }
+
+      .toolBtn {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        gap: 4px;
+        height: 32px;
+        padding: 0 12px;
+        background: transparent;
+        border: 1px solid #3a3a3a;
+        border-radius: 3px;
+        color: #969696;
+        font-size: 11px;
+      }
+      .toolBtnPrimary {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        gap: 4px;
+        height: 32px;
+        padding: 0 12px;
+        background: rgba(74, 158, 255, 0.10);
+        border: 1px solid rgba(74, 158, 255, 0.30);
+        border-radius: 3px;
+        color: #4a9eff;
+        font-size: 11px;
+      }
+
+      /* ──────────────────────────────────────────────────────────────
+         Supplier chip filter row
+      ────────────────────────────────────────────────────────────── */
+      .chipBar {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        gap: 4px;
+        padding: 4px 8px;
+        background: #252526;
+        border-bottom: 1px solid #3a3a3a;
+        flex-wrap: wrap;
+      }
+      .chip {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        gap: 4px;
+        padding: 3px 10px;
+        font-size: 11px;
+        font-weight: 500;
+        color: #969696;
+        background: transparent;
+        border: 1px solid #3a3a3a;
+        border-radius: 12px;
+        white-space: nowrap;
+      }
+      .chipActive {
+        color: #4a9eff;
+        background: rgba(74, 158, 255, 0.10);
+        border-color: rgba(74, 158, 255, 0.35);
+      }
+
+      /* ──────────────────────────────────────────────────────────────
+         Parts "table" rebuilt as flex
+         Each row = flex row, each cell = flex item with fixed width.
+         Header, category strip, and item rows share the same column
+         widths so they line up vertically.
+      ────────────────────────────────────────────────────────────── */
+      .tableWrap {
+        display: flex;
+        flex-direction: column;
+        background: #252526;
+      }
+
+      /* Column widths (must match across header + cat + item rows) */
+      .col-partNo   { width: 148px; }
+      .col-brand    { width: 88px;  }
+      .col-desc     { flex: 1; min-width: 220px; }
+      .col-qty      { width: 50px;  display: flex; justify-content: flex-end; }
+      .col-unit     { width: 44px;  display: flex; justify-content: center; }
+      .col-cost     { width: 90px;  display: flex; justify-content: flex-end; }
+      .col-supplier { width: 120px; }
+      .col-status   { width: 110px; }
+
+      .theadRow {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        gap: 0;
+        padding: 6px 10px;
+        background: #252526;
+        border-bottom: 1px solid #3a3a3a;
+      }
+      .th {
+        font-size: 11px;
+        font-weight: 600;
+        color: #666;
+        text-transform: uppercase;
+        letter-spacing: 0.4px;
+        padding: 0 4px;
+        white-space: nowrap;
+      }
+
+      .tbodyContainer {
+        display: flex;
+        flex-direction: column;
+      }
+
+      /* Category section = column wrapping a category-header row + N item rows */
+      .categorySection {
+        display: flex;
+        flex-direction: column;
+      }
+
+      .catRow {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        gap: 6px;
+        padding: 7px 10px;
+        background: rgba(255, 255, 255, 0.02);
+        border-bottom: 1px solid #2d2d2d;
+      }
+      .catCell {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        gap: 6px;
+        flex: 1;
+        font-size: 11px;
+        font-weight: 600;
+        color: #d4d4d4;
+      }
+      .catCount {
+        font-size: 11px;
+        color: #666;
+        font-weight: 400;
+      }
+      /* Sits in the Ext. Cost column slot so it aligns with the
+         per-item extended-cost numbers in the rows below. */
+      .catTotal {
+        width: 90px;
+        display: flex;
+        justify-content: flex-end;
+        font-weight: 600;
+        color: #4ec9b0;
+        font-size: 11px;
+        padding: 0 4px;
+      }
+      /* Empty placeholders that reserve the Supplier + Status column
+         widths on the category row so the Ext. Cost slot lines up. */
+      .catSpacerSupplier { width: 120px; padding: 0 4px; }
+      .catSpacerStatus   { width: 110px; padding: 0 4px; }
+
+      .itemRow {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        gap: 0;
+        padding: 5px 10px;
+        border-bottom: 1px solid #2d2d2d;
+      }
+      .cell {
+        font-size: 11px;
+        color: #969696;
+        padding: 0 4px;
+      }
+      .cell-partNo {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+        gap: 8px;
+        font-size: 11px;
+        color: #666;
+      }
+      .partNoText { font-weight: 400; }
+      .swapIconWrap {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 3px 5px;
+        border-radius: 3px;
+      }
+      .cell-brand {
+        color: #f0f0f0;
+        font-weight: 500;
+      }
+      .cell-desc {
+        color: #d4d4d4;
+      }
+      .cell-supplier {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        gap: 4px;
+        color: #969696;
+      }
+
+      /* Status badge — flex chip, no inline-block */
+      .statusBadge {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: center;
+        padding: 1px 8px;
+        height: 18px;
+        border-radius: 10px;
+        font-size: 11px;
+        font-weight: 500;
+        white-space: nowrap;
+        width: fit-content;
+      }
+      .statusPurchased   { background: rgba(78, 201, 176, 0.12); color: #4ec9b0; }
+      .statusToPurchase  { background: rgba(74, 158, 255, 0.12); color: #4a9eff; }
+      .statusOnOrder     { background: rgba(255, 183, 77, 0.12); color: #ce9178; }
+      .statusNotRequired { background: rgba(255, 255, 255, 0.05); color: #666; }
+    </style>
+  </head>
+  <body>
+    <!--
+      ──────────────────────────────────────────────────────────────
+      Procurement page — Figma-friendly export
+      Every container uses display: flex so html.to.design converts
+      it to an Auto Layout frame on import. No <table>, no
+      position: absolute, no inline-block layout primitives.
+      ──────────────────────────────────────────────────────────────
+    -->
+    <div class="outer">
+
+      <!-- TOP BAR: view tabs + actions -->
+      <div class="topBar">
+        <div class="viewTabs">
+          <div class="viewTab viewTabActive">Parts</div>
+          <div class="viewTab">Estimate</div>
+          <div class="viewTab">Order Summary</div>
+        </div>
+
+        <div class="topBarRight">
+          <!-- Search: icon + text in a flex row, no absolute positioning -->
+          <div class="searchWrap">
+            <svg class="icon" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#666" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="11" cy="11" r="8"></circle>
+              <path d="m21 21-4.3-4.3"></path>
+            </svg>
+            <div class="searchInputText">Search parts...</div>
+          </div>
+
+          <div class="toolBtn">
+            <svg class="icon" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#969696" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+              <polyline points="7 10 12 15 17 10"></polyline>
+              <line x1="12" y1="15" x2="12" y2="3"></line>
+            </svg>
+            <span>Export</span>
+          </div>
+
+          <div class="toolBtnPrimary">
+            <svg class="icon" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#4a9eff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="9" cy="21" r="1"></circle>
+              <circle cx="20" cy="21" r="1"></circle>
+              <path d="M1 1h4l2.7 13.4a2 2 0 0 0 2 1.6h9.7a2 2 0 0 0 2-1.6L23 6H6"></path>
+            </svg>
+            <span>Order Parts</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- SUPPLIER FILTER CHIPS -->
+      <div class="chipBar">
+        <div class="chip chipActive">All Suppliers</div>
+        <div class="chip">DirtPros</div>
+        <div class="chip">Fluidra</div>
+        <div class="chip">Hayward</div>
+        <div class="chip">Local Contractor</div>
+        <div class="chip">MAPEI</div>
+        <div class="chip">NPP</div>
+        <div class="chip">Paramount</div>
+        <div class="chip">Pentair</div>
+        <div class="chip">Raypak</div>
+        <div class="chip">Stamp-It</div>
+        <div class="chip">Steel Depot</div>
+        <div class="chip">Waterway</div>
+      </div>
+
+      <!-- PARTS TABLE (rebuilt as flex column) -->
+      <div class="tableWrap">
+
+        <!-- Column header row -->
+        <div class="theadRow">
+          <div class="th col-partNo">Part #</div>
+          <div class="th col-brand">Brand</div>
+          <div class="th col-desc">Description</div>
+          <div class="th col-qty">Qty</div>
+          <div class="th col-unit">Unit</div>
+          <div class="th col-cost">Unit Cost</div>
+          <div class="th col-cost">Ext. Cost</div>
+          <div class="th col-supplier">Supplier</div>
+          <div class="th col-status">Status</div>
+        </div>
+
+        <div class="tbodyContainer">
+
+          <!-- ── Structural (6 items) ── -->
+          <div class="categorySection">
+            <div class="catRow">
+              <div class="catCell">
+                <svg class="icon" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#d4d4d4" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <polyline points="6 9 12 15 18 9"></polyline>
+                </svg>
+                <span>Structural</span>
+                <span class="catCount">6 items</span>
+              </div>
+              <div class="catTotal">$20,808</div>
+              <div class="catSpacerSupplier"></div>
+              <div class="catSpacerStatus"></div>
+            </div>
+
+            <div class="itemRow">
+              <div class="cell col-partNo cell-partNo"><span class="partNoText">STR-001</span><span class="swapIconWrap"></span></div>
+              <div class="cell col-brand cell-brand">—</div>
+              <div class="cell col-desc cell-desc">Gunite Shell — 415 CF volume</div>
+              <div class="cell col-qty">1</div>
+              <div class="cell col-unit">LS</div>
+              <div class="cell col-cost">$10,000</div>
+              <div class="cell col-cost">$10,000</div>
+              <div class="cell col-supplier"><div class="cell-supplier"><span>Local Contractor</span></div></div>
+              <div class="col-status"><div class="statusBadge statusNotRequired">Not Required</div></div>
+            </div>
+
+            <div class="itemRow">
+              <div class="cell col-partNo cell-partNo"><span class="partNoText">STR-002</span><span class="swapIconWrap"></span></div>
+              <div class="cell col-brand cell-brand">—</div>
+              <div class="cell col-desc cell-desc">#4 Rebar Grid — 12" O.C.</div>
+              <div class="cell col-qty">2,400</div>
+              <div class="cell col-unit">LF</div>
+              <div class="cell col-cost">$1</div>
+              <div class="cell col-cost">$3,000</div>
+              <div class="cell col-supplier"><div class="cell-supplier"><span>Steel Depot</span></div></div>
+              <div class="col-status"><div class="statusBadge statusNotRequired">Not Required</div></div>
+            </div>
+
+            <div class="itemRow">
+              <div class="cell col-partNo cell-partNo"><span class="partNoText">STR-003</span><span class="swapIconWrap"></span></div>
+              <div class="cell col-brand cell-brand">—</div>
+              <div class="cell col-desc cell-desc">Bond Beam Concrete 4,000 PSI</div>
+              <div class="cell col-qty">12</div>
+              <div class="cell col-unit">CY</div>
+              <div class="cell col-cost">$185</div>
+              <div class="cell col-cost">$2,220</div>
+              <div class="cell col-supplier"><div class="cell-supplier"><span>Local Contractor</span></div></div>
+              <div class="col-status"><div class="statusBadge statusToPurchase">To Purchase</div></div>
+            </div>
+
+            <div class="itemRow">
+              <div class="cell col-partNo cell-partNo"><span class="partNoText">STR-004</span><span class="swapIconWrap"></span></div>
+              <div class="cell col-brand cell-brand">—</div>
+              <div class="cell col-desc cell-desc">#5 Vertical Wall Steel — 18" O.C.</div>
+              <div class="cell col-qty">480</div>
+              <div class="cell col-unit">LF</div>
+              <div class="cell col-cost">$2</div>
+              <div class="cell col-cost">$888</div>
+              <div class="cell col-supplier"><div class="cell-supplier"><span>Steel Depot</span></div></div>
+              <div class="col-status"><div class="statusBadge statusToPurchase">To Purchase</div></div>
+            </div>
+
+            <div class="itemRow">
+              <div class="cell col-partNo cell-partNo"><span class="partNoText">STR-005</span><span class="swapIconWrap"></span></div>
+              <div class="cell col-brand cell-brand">—</div>
+              <div class="cell col-desc cell-desc">Excavation + Spoils Removal</div>
+              <div class="cell col-qty">1</div>
+              <div class="cell col-unit">LS</div>
+              <div class="cell col-cost">$4,500</div>
+              <div class="cell col-cost">$4,500</div>
+              <div class="cell col-supplier"><div class="cell-supplier"><span>DirtPros</span></div></div>
+              <div class="col-status"><div class="statusBadge statusPurchased">Purchased</div></div>
+            </div>
+
+            <div class="itemRow">
+              <div class="cell col-partNo cell-partNo"><span class="partNoText">STR-006</span><span class="swapIconWrap"></span></div>
+              <div class="cell col-brand cell-brand">—</div>
+              <div class="cell col-desc cell-desc">16 GA Tie Wire — Bond Wire</div>
+              <div class="cell col-qty">50</div>
+              <div class="cell col-unit">LB</div>
+              <div class="cell col-cost">$4</div>
+              <div class="cell col-cost">$200</div>
+              <div class="cell col-supplier"><div class="cell-supplier"><span>Steel Depot</span></div></div>
+              <div class="col-status"><div class="statusBadge statusPurchased">Purchased</div></div>
+            </div>
+          </div>
+
+          <!-- ── Mechanical (7 items) ── -->
+          <div class="categorySection">
+            <div class="catRow">
+              <div class="catCell">
+                <svg class="icon" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#d4d4d4" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <polyline points="6 9 12 15 18 9"></polyline>
+                </svg>
+                <span>Mechanical</span>
+                <span class="catCount">7 items</span>
+              </div>
+              <div class="catTotal">$13,640</div>
+              <div class="catSpacerSupplier"></div>
+              <div class="catSpacerStatus"></div>
+            </div>
+
+            <div class="itemRow">
+              <div class="cell col-partNo cell-partNo"><span class="partNoText">PMP-HV2</span><span class="swapIconWrap"></span></div>
+              <div class="cell col-brand cell-brand">Hayward</div>
+              <div class="cell col-desc cell-desc">TriStar VS 900 2.7HP Variable Speed</div>
+              <div class="cell col-qty">1</div>
+              <div class="cell col-unit">EA</div>
+              <div class="cell col-cost">$2,650</div>
+              <div class="cell col-cost">$2,650</div>
+              <div class="cell col-supplier"><div class="cell-supplier"><span>Hayward</span></div></div>
+              <div class="col-status"><div class="statusBadge statusPurchased">Purchased</div></div>
+            </div>
+
+            <div class="itemRow">
+              <div class="cell col-partNo cell-partNo"><span class="partNoText">PMP-MX30</span><span class="swapIconWrap"></span></div>
+              <div class="cell col-brand cell-brand">Hayward</div>
+              <div class="cell col-desc cell-desc">MaxFlo VS 500 1.65HP Booster Pump</div>
+              <div class="cell col-qty">1</div>
+              <div class="cell col-unit">EA</div>
+              <div class="cell col-cost">$1,690</div>
+              <div class="cell col-cost">$1,690</div>
+              <div class="cell col-supplier"><div class="cell-supplier"><span>Hayward</span></div></div>
+              <div class="col-status"><div class="statusBadge statusOnOrder">On Order</div></div>
+            </div>
+
+            <div class="itemRow">
+              <div class="cell col-partNo cell-partNo"><span class="partNoText">FLT-SD24</span><span class="swapIconWrap"></span></div>
+              <div class="cell col-brand cell-brand">Pentair</div>
+              <div class="cell col-desc cell-desc">Triton II TR60 Sand Filter</div>
+              <div class="cell col-qty">1</div>
+              <div class="cell col-unit">EA</div>
+              <div class="cell col-cost">$1,200</div>
+              <div class="cell col-cost">$1,200</div>
+              <div class="cell col-supplier"><div class="cell-supplier"><span>Pentair</span></div></div>
+              <div class="col-status"><div class="statusBadge statusPurchased">Purchased</div></div>
+            </div>
+
+            <div class="itemRow">
+              <div class="cell col-partNo cell-partNo"><span class="partNoText">HTR-MC460</span><span class="swapIconWrap"></span></div>
+              <div class="cell col-brand cell-brand">Pentair</div>
+              <div class="cell col-desc cell-desc">MasterTemp 400K BTU Natural Gas Heater</div>
+              <div class="cell col-qty">1</div>
+              <div class="cell col-unit">EA</div>
+              <div class="cell col-cost">$3,650</div>
+              <div class="cell col-cost">$3,650</div>
+              <div class="cell col-supplier"><div class="cell-supplier"><span>Pentair</span></div></div>
+              <div class="col-status"><div class="statusBadge statusOnOrder">On Order</div></div>
+            </div>
+
+            <div class="itemRow">
+              <div class="cell col-partNo cell-partNo"><span class="partNoText">HTR-RP336</span><span class="swapIconWrap"></span></div>
+              <div class="cell col-brand cell-brand">Raypak</div>
+              <div class="cell col-desc cell-desc">P-R336A-EN-C 336K BTU Digital Heater</div>
+              <div class="cell col-qty">1</div>
+              <div class="cell col-unit">EA</div>
+              <div class="cell col-cost">$1,650</div>
+              <div class="cell col-cost">$1,650</div>
+              <div class="cell col-supplier"><div class="cell-supplier"><span>Raypak</span></div></div>
+              <div class="col-status"><div class="statusBadge statusToPurchase">To Purchase</div></div>
+            </div>
+
+            <div class="itemRow">
+              <div class="cell col-partNo cell-partNo"><span class="partNoText">SAN-IC60</span><span class="swapIconWrap"></span></div>
+              <div class="cell col-brand cell-brand">Pentair</div>
+              <div class="cell col-desc cell-desc">IntelliChlor IC60 Salt Cell — 60K Gal</div>
+              <div class="cell col-qty">1</div>
+              <div class="cell col-unit">EA</div>
+              <div class="cell col-cost">$1,450</div>
+              <div class="cell col-cost">$1,450</div>
+              <div class="cell col-supplier"><div class="cell-supplier"><span>Pentair</span></div></div>
+              <div class="col-status"><div class="statusBadge statusToPurchase">To Purchase</div></div>
+            </div>
+
+            <div class="itemRow">
+              <div class="cell col-partNo cell-partNo"><span class="partNoText">CTL-IQ</span><span class="swapIconWrap"></span></div>
+              <div class="cell col-brand cell-brand">Jandy</div>
+              <div class="cell col-desc cell-desc">iAquaLink Chemistry Controller</div>
+              <div class="cell col-qty">1</div>
+              <div class="cell col-unit">EA</div>
+              <div class="cell col-cost">$1,350</div>
+              <div class="cell col-cost">$1,350</div>
+              <div class="cell col-supplier"><div class="cell-supplier"><span>Fluidra</span></div></div>
+              <div class="col-status"><div class="statusBadge statusToPurchase">To Purchase</div></div>
+            </div>
+          </div>
+
+          <!-- ── Plumbing (7 items) ── -->
+          <div class="categorySection">
+            <div class="catRow">
+              <div class="catCell">
+                <svg class="icon" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#d4d4d4" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <polyline points="6 9 12 15 18 9"></polyline>
+                </svg>
+                <span>Plumbing</span>
+                <span class="catCount">7 items</span>
+              </div>
+              <div class="catTotal">$3,592</div>
+              <div class="catSpacerSupplier"></div>
+              <div class="catSpacerStatus"></div>
+            </div>
+
+            <div class="itemRow">
+              <div class="cell col-partNo cell-partNo"><span class="partNoText">PLM-PVC2</span><span class="swapIconWrap"></span></div>
+              <div class="cell col-brand cell-brand">Charlotte</div>
+              <div class="cell col-desc cell-desc">2" Sch 40 PVC Pipe — Pressure-Rated</div>
+              <div class="cell col-qty">150</div>
+              <div class="cell col-unit">LF</div>
+              <div class="cell col-cost">$9</div>
+              <div class="cell col-cost">$1,275</div>
+              <div class="cell col-supplier"><div class="cell-supplier"><span>Fluidra</span></div></div>
+              <div class="col-status"><div class="statusBadge statusToPurchase">To Purchase</div></div>
+            </div>
+
+            <div class="itemRow">
+              <div class="cell col-partNo cell-partNo"><span class="partNoText">PLM-PVC15</span><span class="swapIconWrap"></span></div>
+              <div class="cell col-brand cell-brand">Charlotte</div>
+              <div class="cell col-desc cell-desc">1.5" Sch 40 PVC Pipe — Return Lines</div>
+              <div class="cell col-qty">80</div>
+              <div class="cell col-unit">LF</div>
+              <div class="cell col-cost">$7</div>
+              <div class="cell col-cost">$544</div>
+              <div class="cell col-supplier"><div class="cell-supplier"><span>Fluidra</span></div></div>
+              <div class="col-status"><div class="statusBadge statusPurchased">Purchased</div></div>
+            </div>
+
+            <div class="itemRow">
+              <div class="cell col-partNo cell-partNo"><span class="partNoText">PLM-VLV15</span><span class="swapIconWrap"></span></div>
+              <div class="cell col-brand cell-brand">Jandy</div>
+              <div class="cell col-desc cell-desc">NeverLube 2-Port 1.5" Diverter Valve</div>
+              <div class="cell col-qty">10</div>
+              <div class="cell col-unit">EA</div>
+              <div class="cell col-cost">$89</div>
+              <div class="cell col-cost">$890</div>
+              <div class="cell col-supplier"><div class="cell-supplier"><span>Fluidra</span></div></div>
+              <div class="col-status"><div class="statusBadge statusToPurchase">To Purchase</div></div>
+            </div>
+
+            <div class="itemRow">
+              <div class="cell col-partNo cell-partNo"><span class="partNoText">PLM-CHK2</span><span class="swapIconWrap"></span></div>
+              <div class="cell col-brand cell-brand">Pentair</div>
+              <div class="cell col-desc cell-desc">2" Spring Check Valve — Pool/Spa</div>
+              <div class="cell col-qty">4</div>
+              <div class="cell col-unit">EA</div>
+              <div class="cell col-cost">$145</div>
+              <div class="cell col-cost">$580</div>
+              <div class="cell col-supplier"><div class="cell-supplier"><span>Pentair</span></div></div>
+              <div class="col-status"><div class="statusBadge statusOnOrder">On Order</div></div>
+            </div>
+
+            <div class="itemRow">
+              <div class="cell col-partNo cell-partNo"><span class="partNoText">PLM-EL90</span><span class="swapIconWrap"></span></div>
+              <div class="cell col-brand cell-brand">Spears</div>
+              <div class="cell col-desc cell-desc">2" 90° PVC Elbow — Sch 40</div>
+              <div class="cell col-qty">24</div>
+              <div class="cell col-unit">EA</div>
+              <div class="cell col-cost">$4</div>
+              <div class="cell col-cost">$101</div>
+              <div class="cell col-supplier"><div class="cell-supplier"><span>Fluidra</span></div></div>
+              <div class="col-status"><div class="statusBadge statusPurchased">Purchased</div></div>
+            </div>
+
+            <div class="itemRow">
+              <div class="cell col-partNo cell-partNo"><span class="partNoText">PLM-T2</span><span class="swapIconWrap"></span></div>
+              <div class="cell col-brand cell-brand">Spears</div>
+              <div class="cell col-desc cell-desc">2" PVC Tee — Sch 40</div>
+              <div class="cell col-qty">16</div>
+              <div class="cell col-unit">EA</div>
+              <div class="cell col-cost">$6</div>
+              <div class="cell col-cost">$88</div>
+              <div class="cell col-supplier"><div class="cell-supplier"><span>Fluidra</span></div></div>
+              <div class="col-status"><div class="statusBadge statusPurchased">Purchased</div></div>
+            </div>
+
+            <div class="itemRow">
+              <div class="cell col-partNo cell-partNo"><span class="partNoText">PLM-UNN15</span><span class="swapIconWrap"></span></div>
+              <div class="cell col-brand cell-brand">Spears</div>
+              <div class="cell col-desc cell-desc">1.5" PVC Union — Service Disconnect</div>
+              <div class="cell col-qty">12</div>
+              <div class="cell col-unit">EA</div>
+              <div class="cell col-cost">$10</div>
+              <div class="cell col-cost">$114</div>
+              <div class="cell col-supplier"><div class="cell-supplier"><span>Fluidra</span></div></div>
+              <div class="col-status"><div class="statusBadge statusPurchased">Purchased</div></div>
+            </div>
+          </div>
+
+          <!-- ── Fixtures (7 items) ── -->
+          <div class="categorySection">
+            <div class="catRow">
+              <div class="catCell">
+                <svg class="icon" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#d4d4d4" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <polyline points="6 9 12 15 18 9"></polyline>
+                </svg>
+                <span>Fixtures</span>
+                <span class="catCount">7 items</span>
+              </div>
+              <div class="catTotal">$1,492</div>
+              <div class="catSpacerSupplier"></div>
+              <div class="catSpacerStatus"></div>
+            </div>
+
+            <div class="itemRow">
+              <div class="cell col-partNo cell-partNo"><span class="partNoText">FIX-WR10</span><span class="swapIconWrap"></span></div>
+              <div class="cell col-brand cell-brand">Paramount</div>
+              <div class="cell col-desc cell-desc">PV3 Wall Return Fitting</div>
+              <div class="cell col-qty">8</div>
+              <div class="cell col-unit">EA</div>
+              <div class="cell col-cost">$32</div>
+              <div class="cell col-cost">$256</div>
+              <div class="cell col-supplier"><div class="cell-supplier"><span>Paramount</span></div></div>
+              <div class="col-status"><div class="statusBadge statusPurchased">Purchased</div></div>
+            </div>
+
+            <div class="itemRow">
+              <div class="cell col-partNo cell-partNo"><span class="partNoText">FIX-WR-WW</span><span class="swapIconWrap"></span></div>
+              <div class="cell col-brand cell-brand">Waterway</div>
+              <div class="cell col-desc cell-desc">1.5" Internal Return Fitting</div>
+              <div class="cell col-qty">4</div>
+              <div class="cell col-unit">EA</div>
+              <div class="cell col-cost">$22</div>
+              <div class="cell col-cost">$88</div>
+              <div class="cell col-supplier"><div class="cell-supplier"><span>Waterway</span></div></div>
+              <div class="col-status"><div class="statusBadge statusPurchased">Purchased</div></div>
+            </div>
+
+            <div class="itemRow">
+              <div class="cell col-partNo cell-partNo"><span class="partNoText">FIX-VGB</span><span class="swapIconWrap"></span></div>
+              <div class="cell col-brand cell-brand">Paramount</div>
+              <div class="cell col-desc cell-desc">SDX2 Retro Drain Anti-Vortex Cover</div>
+              <div class="cell col-qty">2</div>
+              <div class="cell col-unit">EA</div>
+              <div class="cell col-cost">$45</div>
+              <div class="cell col-cost">$90</div>
+              <div class="cell col-supplier"><div class="cell-supplier"><span>Paramount</span></div></div>
+              <div class="col-status"><div class="statusBadge statusPurchased">Purchased</div></div>
+            </div>
+
+            <div class="itemRow">
+              <div class="cell col-partNo cell-partNo"><span class="partNoText">FIX-MD8</span><span class="swapIconWrap"></span></div>
+              <div class="cell col-brand cell-brand">Paramount</div>
+              <div class="cell col-desc cell-desc">Main Drain Cover — VGB Compliant</div>
+              <div class="cell col-qty">1</div>
+              <div class="cell col-unit">EA</div>
+              <div class="cell col-cost">$185</div>
+              <div class="cell col-cost">$185</div>
+              <div class="cell col-supplier"><div class="cell-supplier"><span>Paramount</span></div></div>
+              <div class="col-status"><div class="statusBadge statusOnOrder">On Order</div></div>
+            </div>
+
+            <div class="itemRow">
+              <div class="cell col-partNo cell-partNo"><span class="partNoText">FIX-LED10</span><span class="swapIconWrap"></span></div>
+              <div class="cell col-brand cell-brand">Hayward</div>
+              <div class="cell col-desc cell-desc">ColorLogic 320 LED Light Fixture</div>
+              <div class="cell col-qty">3</div>
+              <div class="cell col-unit">EA</div>
+              <div class="cell col-cost">$115</div>
+              <div class="cell col-cost">$345</div>
+              <div class="cell col-supplier"><div class="cell-supplier"><span>Hayward</span></div></div>
+              <div class="col-status"><div class="statusBadge statusToPurchase">To Purchase</div></div>
+            </div>
+
+            <div class="itemRow">
+              <div class="cell col-partNo cell-partNo"><span class="partNoText">FIX-WR-CV</span><span class="swapIconWrap"></span></div>
+              <div class="cell col-brand cell-brand">Pentair</div>
+              <div class="cell col-desc cell-desc">ColorVision LED Return Niche</div>
+              <div class="cell col-qty">4</div>
+              <div class="cell col-unit">EA</div>
+              <div class="cell col-cost">$78</div>
+              <div class="cell col-cost">$312</div>
+              <div class="cell col-supplier"><div class="cell-supplier"><span>Pentair</span></div></div>
+              <div class="col-status"><div class="statusBadge statusPurchased">Purchased</div></div>
+            </div>
+
+            <div class="itemRow">
+              <div class="cell col-partNo cell-partNo"><span class="partNoText">FIX-JET-LM</span><span class="swapIconWrap"></span></div>
+              <div class="cell col-brand cell-brand">Jandy</div>
+              <div class="cell col-desc cell-desc">Large Mouth Return Wall Fitting</div>
+              <div class="cell col-qty">6</div>
+              <div class="cell col-unit">EA</div>
+              <div class="cell col-cost">$36</div>
+              <div class="cell col-cost">$216</div>
+              <div class="cell col-supplier"><div class="cell-supplier"><span>Fluidra</span></div></div>
+              <div class="col-status"><div class="statusBadge statusOnOrder">On Order</div></div>
+            </div>
+          </div>
+
+          <!-- ── Finishes (5 items) ── -->
+          <div class="categorySection">
+            <div class="catRow">
+              <div class="catCell">
+                <svg class="icon" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#d4d4d4" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <polyline points="6 9 12 15 18 9"></polyline>
+                </svg>
+                <span>Finishes</span>
+                <span class="catCount">5 items</span>
+              </div>
+              <div class="catTotal">$31,456</div>
+              <div class="catSpacerSupplier"></div>
+              <div class="catSpacerStatus"></div>
+            </div>
+
+            <div class="itemRow">
+              <div class="cell col-partNo cell-partNo"><span class="partNoText">FIN-PL</span><span class="swapIconWrap"></span></div>
+              <div class="cell col-brand cell-brand">NPT</div>
+              <div class="cell col-desc cell-desc">White Diamond Plaster Finish</div>
+              <div class="cell col-qty">800</div>
+              <div class="cell col-unit">SF</div>
+              <div class="cell col-cost">$9</div>
+              <div class="cell col-cost">$6,800</div>
+              <div class="cell col-supplier"><div class="cell-supplier"><span>NPP</span></div></div>
+              <div class="col-status"><div class="statusBadge statusNotRequired">Not Required</div></div>
+            </div>
+
+            <div class="itemRow">
+              <div class="cell col-partNo cell-partNo"><span class="partNoText">FIN-TIL</span><span class="swapIconWrap"></span></div>
+              <div class="cell col-brand cell-brand">NPT</div>
+              <div class="cell col-desc cell-desc">6" Glass Tile Waterline Band</div>
+              <div class="cell col-qty">100</div>
+              <div class="cell col-unit">LF</div>
+              <div class="cell col-cost">$42</div>
+              <div class="cell col-cost">$4,200</div>
+              <div class="cell col-supplier"><div class="cell-supplier"><span>NPP</span></div></div>
+              <div class="col-status"><div class="statusBadge statusToPurchase">To Purchase</div></div>
+            </div>
+
+            <div class="itemRow">
+              <div class="cell col-partNo cell-partNo"><span class="partNoText">FIN-COP</span><span class="swapIconWrap"></span></div>
+              <div class="cell col-brand cell-brand">NPT</div>
+              <div class="cell col-desc cell-desc">Travertine Coping Stone — 12" × 24"</div>
+              <div class="cell col-qty">110</div>
+              <div class="cell col-unit">LF</div>
+              <div class="cell col-cost">$28</div>
+              <div class="cell col-cost">$3,080</div>
+              <div class="cell col-supplier"><div class="cell-supplier"><span>NPP</span></div></div>
+              <div class="col-status"><div class="statusBadge statusToPurchase">To Purchase</div></div>
+            </div>
+
+            <div class="itemRow">
+              <div class="cell col-partNo cell-partNo"><span class="partNoText">FIN-DECK</span><span class="swapIconWrap"></span></div>
+              <div class="cell col-brand cell-brand">Stamp-It</div>
+              <div class="cell col-desc cell-desc">Sandstone Stamped Concrete Deck</div>
+              <div class="cell col-qty">1,200</div>
+              <div class="cell col-unit">SF</div>
+              <div class="cell col-cost">$14</div>
+              <div class="cell col-cost">$16,800</div>
+              <div class="cell col-supplier"><div class="cell-supplier"><span>Stamp-It</span></div></div>
+              <div class="col-status"><div class="statusBadge statusOnOrder">On Order</div></div>
+            </div>
+
+            <div class="itemRow">
+              <div class="cell col-partNo cell-partNo"><span class="partNoText">FIN-GROUT</span><span class="swapIconWrap"></span></div>
+              <div class="cell col-brand cell-brand">MAPEI</div>
+              <div class="cell col-desc cell-desc">Ultracolor Plus FA Grout — 25 LB Bag</div>
+              <div class="cell col-qty">18</div>
+              <div class="cell col-unit">BG</div>
+              <div class="cell col-cost">$32</div>
+              <div class="cell col-cost">$576</div>
+              <div class="cell col-supplier"><div class="cell-supplier"><span>MAPEI</span></div></div>
+              <div class="col-status"><div class="statusBadge statusPurchased">Purchased</div></div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

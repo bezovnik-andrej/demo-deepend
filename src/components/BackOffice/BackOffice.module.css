@@ -1,0 +1,48 @@
+.placeholder {
+  max-width: 520px;
+  margin: 80px auto 0;
+  padding: 48px 24px;
+  text-align: center;
+  background: var(--bo-surface, #fff);
+  border: 1px solid var(--bo-border-strong, #e0ddd8);
+  border-radius: 14px;
+}
+
+.placeholderTitle {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: var(--bo-text, #14120b);
+  margin-bottom: 8px;
+  letter-spacing: -0.03em;
+}
+
+.placeholderText {
+  font-size: 14px;
+  color: var(--bo-text-secondary, #5c5754);
+  line-height: 1.55;
+  margin-bottom: 20px;
+}
+
+.linkish {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  height: 40px;
+  padding: 0 18px;
+  background: var(--bo-accent, #155eef);
+  color: #fff;
+  border: 1px solid var(--bo-accent, #155eef);
+  border-radius: 10px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  font-family: inherit;
+  letter-spacing: -0.02em;
+  transition: background 0.12s, border-color 0.12s;
+}
+
+.linkish:hover {
+  background: #1249c4;
+  border-color: #1249c4;
+}

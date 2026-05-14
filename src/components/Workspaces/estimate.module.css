@@ -1,0 +1,469 @@
+/* Outer layout */
+.outer {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  background: var(--bg-base);
+}
+
+/* ── Procurement: Admin / Customer (moved from BOM top bar) ── */
+.estimateModeBar {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  gap: var(--sp-3);
+  padding: var(--sp-2) var(--sp-4);
+  border-bottom: 1px solid var(--border-light);
+  background: var(--bg-panel);
+}
+
+.viewSeg {
+  display: inline-flex;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border);
+  overflow: hidden;
+  height: var(--control-h);
+}
+
+.viewSegBtn {
+  font-size: 10px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+  padding: 0 10px;
+  border: none;
+  background: var(--bg-input);
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: background 0.1s, color 0.1s;
+}
+
+.viewSegBtn:hover {
+  color: var(--text-primary);
+}
+
+.viewSegBtn + .viewSegBtn {
+  border-left: 1px solid var(--border);
+}
+
+.viewSegBtnActive {
+  background: rgba(74, 158, 255, 0.12);
+  color: var(--accent);
+}
+
+.viewSegBtnActiveCustomer {
+  background: rgba(78, 201, 176, 0.12);
+  color: var(--success);
+}
+
+.adminBadge,
+.customerBadge {
+  font-size: 10px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  padding: 2px 6px;
+  border-radius: var(--radius-sm);
+  white-space: nowrap;
+}
+
+.adminBadge {
+  background: rgba(74, 158, 255, 0.15);
+  color: var(--accent);
+  border: 1px solid rgba(74, 158, 255, 0.35);
+}
+
+.customerBadge {
+  background: rgba(78, 201, 176, 0.12);
+  color: var(--success);
+  border: 1px solid rgba(78, 201, 176, 0.35);
+}
+
+/* ── Single estimate / budget table (fills workspace below mode bar) ── */
+.estimateMain {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  background: var(--bg-panel);
+}
+
+.bomBudgetTopBar {
+  flex-shrink: 0;
+  padding: var(--sp-3) var(--sp-4) 0;
+  border-bottom: 1px solid var(--border-light);
+}
+
+.bomBudgetScroll {
+  flex: 1;
+  min-height: 0;
+  overflow: auto;
+  padding: var(--sp-3) var(--sp-4);
+}
+
+.varGood {
+  color: var(--success);
+  font-weight: 600;
+}
+
+.varBad {
+  color: var(--danger);
+  font-weight: 600;
+}
+
+.varNeutral {
+  color: var(--text-muted);
+  font-weight: 500;
+}
+
+.bomBudgetRow {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--sp-3);
+  font-size: 12px;
+  color: var(--text-muted);
+}
+
+.bomBudgetLabel {
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.bomBudgetMonth {
+  padding: 4px 8px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border);
+  background: var(--bg-input);
+  color: var(--text-primary);
+  font-size: 12px;
+}
+
+.bomBudgetHint {
+  font-size: 11px;
+  color: var(--text-muted);
+}
+
+.bomBudgetTable {
+  width: 100%;
+  min-width: 920px;
+  border-collapse: collapse;
+  font-size: 11px;
+}
+
+.bomBudgetTable th,
+.bomBudgetTable td {
+  padding: 6px 8px;
+  text-align: right;
+  border-bottom: 1px solid var(--border-light);
+}
+
+.bomBudgetTable th:first-child,
+.bomBudgetTable td:first-child {
+  text-align: left;
+}
+
+.bomBudgetTable th {
+  font-weight: 600;
+  color: var(--text-muted);
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.bomBudgetTable tr.bomBudgetSub td {
+  font-weight: 600;
+  border-bottom: none;
+}
+
+.bomBudgetInput {
+  width: 88px;
+  padding: 3px 6px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border);
+  background: var(--bg-input);
+  color: var(--text-primary);
+  font-size: 11px;
+  text-align: right;
+}
+
+.bomBudgetCell {
+  vertical-align: top;
+}
+
+.bomBudgetInputError {
+  display: block;
+  font-size: 10px;
+  color: var(--warn, #e6a23c);
+  margin-top: 4px;
+  text-align: left;
+  max-width: 120px;
+}
+
+.bomBudgetEmpty {
+  text-align: center;
+  color: var(--text-muted);
+  padding: var(--sp-4);
+}
+
+/* ── Customer: simplified quote (spreadsheet-style preview) ── */
+.customerQuote {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  background: var(--bg-panel);
+}
+
+/* ── Formula bar ── */
+.formulaBar {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-3);
+  padding: var(--sp-1) var(--sp-5);
+  border-bottom: 1px solid var(--border);
+  background: var(--bg-panel);
+  flex-shrink: 0;
+  min-height: 28px;
+}
+
+.fxLabel {
+  font-size: var(--fs-xs);
+  font-family: var(--font-mono);
+  font-style: italic;
+  color: var(--text-muted);
+  flex-shrink: 0;
+}
+
+.fxText {
+  font-size: var(--fs-xs);
+  font-family: var(--font-mono);
+  color: var(--text-secondary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* ── Spreadsheet ── */
+.sheetWrap {
+  flex: 1;
+  overflow: auto;
+  display: flex;
+  flex-direction: column;
+}
+
+.sheetHeader {
+  display: grid;
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  background: var(--bg-titlebar);
+  border-bottom: 2px solid var(--border);
+  min-height: 30px;
+}
+
+.colHeader {
+  font-size: var(--fs-xs);
+  font-weight: 700;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+  padding: var(--sp-2) var(--sp-2);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  border-right: 1px solid var(--border-light);
+  display: flex;
+  align-items: center;
+  justify-content: inherit;
+}
+
+.colHeader:last-child {
+  border-right: none;
+}
+
+.sheetBody {
+  flex: 1;
+}
+
+.sheetRow {
+  display: grid;
+  min-height: 26px;
+  border-bottom: 1px solid var(--border-light);
+  cursor: default;
+  transition: background 0.05s;
+}
+
+.sheetRow:hover {
+  background: var(--bg-hover);
+}
+
+.selectedRow {
+  background: rgba(74, 158, 255, 0.08) !important;
+  outline: 1px solid rgba(74, 158, 255, 0.3);
+  outline-offset: -1px;
+}
+
+.blankRow {
+  min-height: 22px;
+}
+
+.subtotalRow {
+  background: rgba(255, 255, 255, 0.02);
+}
+
+.rowNum {
+  font-size: var(--fs-xs);
+  font-family: var(--font-mono);
+  color: var(--text-muted);
+  text-align: center;
+  padding: var(--sp-1) 2px;
+  border-right: 1px solid var(--border);
+  background: var(--bg-titlebar);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  user-select: none;
+}
+
+.cell {
+  font-size: var(--fs-xs);
+  font-family: var(--font-mono);
+  color: var(--text-primary);
+  padding: var(--sp-1) var(--sp-2);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  border-right: 1px solid var(--border-light);
+  display: flex;
+  align-items: center;
+}
+
+.cell:last-child {
+  border-right: none;
+}
+
+.cellDesc {
+  font-size: var(--fs-xs);
+  color: var(--text-primary);
+  padding: var(--sp-1) var(--sp-2);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  border-right: 1px solid var(--border-light);
+  display: flex;
+  align-items: center;
+}
+
+.cellDesc strong {
+  font-weight: 600;
+  color: var(--text-bright);
+}
+
+.cellSubTotal {
+  color: var(--success);
+  font-weight: 600;
+}
+
+/* ── Toolbar ── */
+.toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--sp-2) var(--sp-5);
+  border-bottom: 1px solid var(--border-light);
+  background: var(--bg-panel);
+  flex-shrink: 0;
+}
+
+.toolbarLeft {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-3);
+}
+
+.pageTitle {
+  font-size: var(--fs-xs);
+  font-weight: 600;
+  color: var(--text-bright);
+}
+
+.toolbarRight {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-2);
+}
+
+.toolBtn {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-2);
+  background: var(--bg-input);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  color: var(--text-secondary);
+  font-size: var(--fs-xs);
+  padding: var(--sp-1) var(--sp-3);
+  cursor: pointer;
+  transition: background 0.1s, color 0.1s;
+}
+
+.toolBtn:hover {
+  background: var(--bg-hover);
+  color: var(--text-primary);
+}
+
+.toolBtnPrimary {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-2);
+  background: var(--success);
+  border: 1px solid var(--success);
+  border-radius: var(--radius-sm);
+  color: #111;
+  font-size: var(--fs-xs);
+  font-weight: 600;
+  padding: var(--sp-1) var(--sp-3);
+  cursor: pointer;
+  transition: opacity 0.1s;
+}
+
+.toolBtnPrimary:hover {
+  opacity: 0.85;
+}
+
+/* ── Responsive ── */
+@media (max-width: 640px) {
+  .toolbar {
+    flex-wrap: wrap;
+    gap: var(--sp-2);
+    padding: var(--sp-2) var(--sp-3);
+  }
+
+  .toolbarLeft {
+    flex-wrap: wrap;
+    gap: var(--sp-2);
+  }
+
+  .toolbarRight {
+    width: 100%;
+    justify-content: flex-end;
+  }
+
+  .bomBudgetScroll {
+    overflow: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .sheetWrap {
+    overflow: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .formulaBar {
+    overflow-x: auto;
+  }
+}

@@ -1,0 +1,93 @@
+.review {
+  max-width: 600px;
+  padding: var(--sp-6);
+}
+
+.title {
+  font-size: var(--fs-md);
+  font-weight: 600;
+  color: var(--text-bright);
+  margin-bottom: var(--sp-2);
+}
+
+.subtitle {
+  font-size: var(--fs-xs);
+  color: var(--text-secondary);
+  margin-bottom: var(--sp-6);
+}
+
+.section {
+  margin-bottom: var(--sp-6);
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+
+.sectionHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--sp-3) var(--sp-4);
+  background: var(--bg-titlebar);
+  font-size: var(--fs-xs);
+  font-weight: 600;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  border-bottom: 1px solid var(--border-light);
+}
+
+.editBtn {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-2);
+  background: none;
+  border: none;
+  color: var(--accent);
+  font-size: var(--fs-xs);
+  cursor: pointer;
+  padding: var(--sp-1) var(--sp-2);
+  border-radius: var(--radius-sm);
+}
+
+.editBtn:hover {
+  background: var(--bg-hover);
+}
+
+.sectionBody {
+  padding: var(--sp-2) 0;
+}
+
+.row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: var(--sp-2) var(--sp-4);
+  min-height: 26px;
+}
+
+.row:hover {
+  background: var(--bg-hover);
+}
+
+.rowLabel {
+  font-size: var(--fs-xs);
+  color: var(--text-secondary);
+}
+
+.rowValue {
+  font-size: var(--fs-xs);
+  color: var(--text-primary);
+  font-family: var(--font-mono);
+  text-align: right;
+  max-width: 50%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.rowEmpty {
+  font-size: var(--fs-xs);
+  color: var(--text-muted);
+  font-family: var(--font-mono);
+}

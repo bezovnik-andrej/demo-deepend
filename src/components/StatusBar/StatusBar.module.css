@@ -1,0 +1,119 @@
+.bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: var(--statusbar-h);
+  min-height: var(--statusbar-h);
+  background-color: var(--bg-titlebar);
+  border-top: 1px solid var(--border);
+  padding: 0 var(--sp-5);
+  flex-shrink: 0;
+  user-select: none;
+  overflow: hidden;
+}
+
+.section {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sp-4);
+  height: var(--statusbar-h);
+}
+
+.divider {
+  display: inline-block;
+  width: 1px;
+  height: 13px;
+  background-color: var(--border);
+  flex-shrink: 0;
+}
+
+.modeLabel {
+  color: var(--accent);
+  font-weight: 500;
+  font-family: var(--font-sans);
+  font-size: var(--fs-xs);
+}
+
+.toolLabel {
+  color: var(--text-muted);
+  font-family: var(--font-mono);
+  font-size: var(--fs-xs);
+  text-transform: capitalize;
+}
+
+.coordLabel {
+  color: var(--text-muted);
+  font-family: var(--font-mono);
+  font-size: var(--fs-xs);
+}
+
+.hintLabel {
+  color: var(--text-muted);
+  font-size: var(--fs-xs);
+}
+
+.configLabel {
+  color: var(--text-muted);
+  font-family: var(--font-mono);
+  font-size: var(--fs-xs);
+}
+
+.zoomLabel {
+  color: var(--text-secondary);
+  font-family: var(--font-mono);
+  font-size: var(--fs-xs);
+  min-width: 32px;
+  text-align: center;
+  display: inline-block;
+}
+
+.lockedLabel {
+  color: var(--accent);
+  font-weight: 600;
+  font-size: var(--fs-xs);
+  letter-spacing: 0.5px;
+  margin-left: var(--sp-2);
+}
+
+.toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sp-1);
+  background-color: transparent;
+  border: none;
+  color: var(--text-muted);
+  font-size: var(--fs-xs);
+  font-family: var(--font-sans);
+  cursor: pointer;
+  padding: var(--sp-1) var(--sp-2);
+  border-radius: var(--radius-sm);
+  height: 20px;
+}
+
+.toggle:hover {
+  color: var(--text-primary);
+  background-color: var(--bg-hover);
+}
+
+.toggleOn {
+  color: var(--accent);
+}
+
+.zoomBtn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background-color: transparent;
+  border: none;
+  color: var(--text-muted);
+  cursor: pointer;
+  padding: var(--sp-1);
+  border-radius: var(--radius-sm);
+  width: 18px;
+  height: 18px;
+}
+
+.zoomBtn:hover {
+  color: var(--text-primary);
+  background-color: var(--bg-hover);
+}

@@ -1,0 +1,1302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Super Admin User Journey — Norveo</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --accent: #4a9eff;
+    --accent-light: #e8f2ff;
+    --green: #1a9a6a;
+    --green-light: #e6f9f1;
+    --amber: #c67a1a;
+    --amber-light: #fff4e5;
+    --purple: #7c3aed;
+    --purple-light: #f3e8ff;
+    --red: #c44;
+    --text: #1a1a1a;
+    --text-secondary: #555;
+    --text-muted: #888;
+    --border: #e0e0e0;
+    --bg-subtle: #f7f8fa;
+    --radius: 8px;
+  }
+
+  body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+    color: var(--text);
+    background: #fff;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .container {
+    max-width: 940px;
+    margin: 0 auto;
+    padding: 48px 24px 80px;
+  }
+
+  /* ── Header ── */
+  .page-header {
+    text-align: center;
+    padding-bottom: 48px;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 48px;
+  }
+
+  .logo-mark {
+    display: inline-block;
+    width: 44px;
+    height: 44px;
+    background: var(--accent);
+    border-radius: 10px;
+    padding: 8px;
+    margin-bottom: 16px;
+  }
+
+  .logo-mark svg { width: 100%; height: 100%; }
+
+  .page-header h1 {
+    font-size: 28px;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    margin-bottom: 4px;
+  }
+
+  .page-header .subtitle {
+    font-size: 14px;
+    color: var(--text-muted);
+    font-weight: 400;
+  }
+
+  .page-header .version {
+    display: inline-block;
+    margin-top: 12px;
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--accent);
+    background: var(--accent-light);
+    padding: 3px 10px;
+    border-radius: 20px;
+  }
+
+  /* ── Sections ── */
+  section { margin-bottom: 56px; }
+
+  h2 {
+    font-size: 20px;
+    font-weight: 700;
+    margin-bottom: 6px;
+    letter-spacing: -0.01em;
+  }
+
+  h2 .num {
+    color: var(--accent);
+    font-weight: 800;
+    margin-right: 6px;
+  }
+
+  .section-desc {
+    font-size: 14px;
+    color: var(--text-secondary);
+    margin-bottom: 24px;
+  }
+
+  h3 {
+    font-size: 15px;
+    font-weight: 700;
+    margin: 24px 0 8px;
+    color: var(--text);
+  }
+
+  h4 {
+    font-size: 14px;
+    font-weight: 700;
+    margin: 20px 0 6px;
+    color: var(--text);
+  }
+
+  p, li {
+    font-size: 14px;
+    color: var(--text-secondary);
+  }
+
+  ul, ol { padding-left: 20px; margin-bottom: 16px; }
+  li { margin-bottom: 4px; }
+  code { font-size: 12px; background: var(--bg-subtle); padding: 1px 5px; border-radius: 3px; }
+
+  strong { color: var(--text); font-weight: 600; }
+
+  /* ── Journey Map ── */
+  .journey-map {
+    margin-bottom: 56px;
+    padding-bottom: 56px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .journey-map h2 { text-align: center; margin-bottom: 6px; }
+  .journey-map .section-desc { text-align: center; }
+
+  /* ── Flowchart ── */
+  .ch { display: flex; flex-direction: column; align-items: center; padding: 32px 0 8px; }
+
+  .ch-pill { display: inline-flex; padding: 9px 28px; background: var(--bg-subtle); border: 1px solid var(--border); border-radius: 100px; font-size: 12px; font-weight: 600; color: var(--text-secondary); letter-spacing: 0.06em; text-transform: uppercase; }
+
+  .ch-arrow { display: flex; flex-direction: column; align-items: center; padding: 2px 0; }
+  .ch-arrow .line { width: 1.5px; height: 20px; background: #c0c0c0; }
+  .ch-arrow .head { width: 0; height: 0; border-left: 5px solid transparent; border-right: 5px solid transparent; border-top: 6px solid #c0c0c0; }
+  .ch-arrow .lbl { font-size: 11px; color: var(--text-muted); padding: 3px 0; font-weight: 500; }
+
+  .ch-screen { max-width: 440px; width: 100%; background: white; border-radius: 10px; border-left: 4px solid var(--accent); padding: 16px 22px; box-shadow: 0 1px 4px rgba(0,0,0,0.06); }
+  .ch-screen.l2 { border-left-color: var(--green); }
+  .ch-screen.l3 { border-left-color: var(--purple); }
+  .ch-screen h4 { font-size: 14px; font-weight: 700; margin-bottom: 1px; }
+  .ch-screen .q { font-style: italic; color: var(--text-secondary); font-size: 12.5px; margin-bottom: 10px; }
+  .ch-screen ul { list-style: none; padding: 0; margin: 0; }
+  .ch-screen li { font-size: 12px; line-height: 1.55; padding: 1px 0 1px 16px; position: relative; }
+  .ch-screen li::before { content: '▸'; position: absolute; left: 0; color: var(--text-muted); }
+
+  .ch-diamond { max-width: 440px; width: 100%; padding: 12px 20px; background: #fffbeb; border: 2px solid #f59e0b; border-radius: 10px; text-align: center; font-size: 13px; font-weight: 600; color: var(--text); }
+  .ch-diamond::before { content: '◆ '; color: #f59e0b; }
+
+  .ch-fork { display: flex; align-items: center; gap: 0; width: 100%; max-width: 700px; }
+  .ch-fork .ch-diamond { flex: 0 1 auto; max-width: 280px; text-align: left; }
+  .ch-fork .side { display: flex; align-items: center; gap: 8px; margin-left: 16px; padding-left: 16px; border-left: 2px dashed #fde68a; }
+  .ch-fork .side-lbl { font-size: 11px; font-weight: 600; color: #b45309; white-space: nowrap; }
+  .ch-fork .side-arrow { color: #d4a017; font-size: 14px; }
+
+  .ch-action { padding: 9px 18px; background: var(--bg-subtle); border: 1px solid var(--border); border-radius: 8px; font-size: 12px; color: var(--text-secondary); text-align: center; }
+
+  .ch-wizard { display: inline-flex; align-items: center; gap: 0; }
+  .ch-wizard span { padding: 6px 12px; background: white; border: 1px solid var(--border); font-size: 11px; font-weight: 500; color: var(--text-secondary); }
+  .ch-wizard span:first-child { border-radius: 6px 0 0 6px; }
+  .ch-wizard span:last-child { border-radius: 0 6px 6px 0; }
+  .ch-wizard span + span { border-left: none; }
+  .ch-wizard .sep { padding: 6px 2px; background: var(--bg-subtle); font-size: 10px; color: var(--text-muted); border-radius: 0; }
+
+  .ch-options { display: flex; flex-wrap: wrap; gap: 6px; justify-content: center; }
+  .ch-options span { padding: 6px 14px; background: white; border: 1.5px solid var(--accent); border-radius: 8px; font-size: 12px; font-weight: 600; color: var(--accent); }
+
+  .ch-tabs { display: flex; flex-wrap: wrap; gap: 5px; justify-content: center; margin-top: 10px; }
+  .ch-tabs span { font-size: 11px; font-weight: 500; padding: 5px 13px; background: white; border: 1px solid rgba(0,0,0,0.08); border-radius: 5px; color: var(--text-secondary); }
+
+  .ch-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; max-width: 520px; width: 100%; }
+  .ch-grid .ch-action { padding: 12px 14px; text-align: left; }
+  .ch-grid .ch-action strong { display: block; font-size: 12px; color: var(--text); margin-bottom: 2px; }
+  .ch-grid .mini-tabs { display: flex; flex-wrap: wrap; gap: 3px; margin-top: 6px; }
+  .ch-grid .mini-tabs span { font-size: 10px; padding: 1px 6px; background: white; border-radius: 3px; color: var(--text-muted); }
+
+  .ch-loop { display: inline-flex; align-items: center; gap: 6px; font-size: 11px; color: var(--text-muted); border: 1px dashed var(--border); border-radius: 4px; padding: 3px 12px; }
+
+  .ch-end { padding: 8px 24px; background: var(--green-light); border: 1.5px solid var(--green); border-radius: 100px; font-size: 12px; font-weight: 600; color: var(--green); }
+
+  /* ── Flow Diagram (CSS) ── */
+  .flow {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0;
+    margin: 32px 0;
+  }
+
+  .flow-box {
+    width: 100%;
+    max-width: 520px;
+    background: var(--bg-subtle);
+    border: 1px solid var(--border);
+    border-left: 4px solid var(--accent);
+    border-radius: var(--radius);
+    padding: 20px 24px;
+  }
+
+  .flow-box.l1 { border-left-color: var(--accent); }
+  .flow-box.l2 { border-left-color: #34d399; }
+  .flow-box.l3 { border-left-color: #e5a820; }
+  .flow-box.l4 { border-left-color: #8b5cf6; }
+
+  .flow-box .flow-label {
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-bottom: 2px;
+  }
+
+  .flow-box.l1 .flow-label { color: var(--accent); }
+  .flow-box.l2 .flow-label { color: #1a9a6a; }
+  .flow-box.l3 .flow-label { color: #c67a1a; }
+  .flow-box.l4 .flow-label { color: #7c3aed; }
+
+  .flow-box .flow-title {
+    font-size: 17px;
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: 4px;
+  }
+
+  .flow-box .flow-question {
+    font-size: 13px;
+    color: var(--text-muted);
+    font-style: italic;
+    margin-bottom: 10px;
+  }
+
+  .flow-box ul { padding-left: 16px; margin-bottom: 0; }
+  .flow-box li { font-size: 13px; color: var(--text-secondary); margin-bottom: 2px; }
+
+  .flow-arrow {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 36px;
+  }
+
+  .flow-arrow::before {
+    content: '';
+    width: 2px;
+    flex: 1;
+    background: var(--border);
+  }
+
+  .flow-arrow::after {
+    content: '';
+    border-left: 6px solid transparent;
+    border-right: 6px solid transparent;
+    border-top: 8px solid var(--border);
+  }
+
+  /* ── Tables ── */
+  .table-wrap {
+    overflow-x: auto;
+    margin: 16px 0 24px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+  }
+
+  th {
+    background: var(--bg-subtle);
+    font-weight: 700;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--text-muted);
+    text-align: left;
+    padding: 10px 14px;
+    border-bottom: 1px solid var(--border);
+    white-space: nowrap;
+  }
+
+  td {
+    padding: 10px 14px;
+    border-bottom: 1px solid #f0f0f0;
+    color: var(--text-secondary);
+    vertical-align: top;
+  }
+
+  tr:last-child td { border-bottom: none; }
+  tr:hover td { background: #fafbfc; }
+  td:first-child { font-weight: 600; color: var(--text); }
+
+  .badge {
+    display: inline-block;
+    font-size: 11px;
+    font-weight: 600;
+    padding: 2px 8px;
+    border-radius: 10px;
+    white-space: nowrap;
+  }
+
+  .badge-accent { background: var(--accent-light); color: var(--accent); }
+  .badge-green { background: var(--green-light); color: var(--green); }
+  .badge-orange { background: var(--amber-light); color: var(--amber); }
+  .badge-gray { background: #f0f0f0; color: #666; }
+  .badge-purple { background: var(--purple-light); color: var(--purple); }
+  .badge-red { background: #fde8e8; color: var(--red); }
+
+  /* ── Info box ── */
+  .info-box {
+    background: var(--accent-light);
+    border: 1px solid #c8ddf8;
+    border-radius: var(--radius);
+    padding: 14px 18px;
+    margin: 16px 0;
+    font-size: 13px;
+    color: #2a6cc4;
+  }
+
+  .info-box strong { color: #1a5bb5; }
+
+  .warn-box {
+    background: var(--amber-light);
+    border: 1px solid #f5d99a;
+    border-radius: var(--radius);
+    padding: 14px 18px;
+    margin: 16px 0;
+    font-size: 13px;
+    color: #92400e;
+  }
+
+  .warn-box strong { color: #78350f; }
+
+  .removed-box {
+    background: #fde8e8;
+    border: 1px solid #f5a3a3;
+    border-radius: var(--radius);
+    padding: 14px 18px;
+    margin: 16px 0;
+    font-size: 13px;
+    color: #7f1d1d;
+  }
+
+  .removed-box strong { color: #991b1b; }
+
+  /* ── Stepper (flow steps) ── */
+  .stepper {
+    list-style: none;
+    padding-left: 0;
+    counter-reset: step;
+    margin: 16px 0 24px;
+  }
+
+  .stepper li {
+    counter-increment: step;
+    position: relative;
+    padding: 8px 14px 16px 46px;
+    border-left: 2px solid var(--border);
+    margin-left: 13px;
+  }
+
+  .stepper li:last-child { border-left-color: transparent; padding-bottom: 0; }
+
+  .stepper li::before {
+    content: counter(step);
+    position: absolute;
+    left: -14px;
+    top: 6px;
+    width: 26px;
+    height: 26px;
+    background: var(--accent);
+    color: #fff;
+    border-radius: 50%;
+    font-size: 12px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .stepper li strong { display: block; color: var(--text); font-size: 14px; }
+  .stepper li span { font-size: 13px; color: var(--text-secondary); }
+
+  /* ── Detail cards ── */
+  .detail-card {
+    background: var(--bg-subtle);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 20px 24px;
+    margin: 16px 0;
+  }
+
+  .detail-card h4 { margin-top: 0; }
+
+  .tab-pills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin: 8px 0 12px;
+  }
+
+  .tab-pill {
+    padding: 4px 10px;
+    font-size: 12px;
+    font-weight: 600;
+    border-radius: 6px;
+    background: #fff;
+    border: 1px solid var(--border);
+    color: var(--text-secondary);
+  }
+
+  .tab-pill.active { background: var(--accent-light); border-color: var(--accent); color: var(--accent); }
+
+  /* ── Before / After ── */
+  .comparison {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    overflow: hidden;
+    margin: 16px 0;
+  }
+
+  .comparison .col-header {
+    padding: 10px 14px;
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    background: var(--bg-subtle);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .comparison .col-header:first-child { border-right: 1px solid var(--border); color: var(--red); }
+  .comparison .col-header:last-child { color: var(--green); }
+
+  .comparison .row { display: contents; }
+
+  .comparison .cell {
+    padding: 10px 14px;
+    font-size: 13px;
+    color: var(--text-secondary);
+    border-bottom: 1px solid #f0f0f0;
+  }
+
+  .comparison .cell:first-child { border-right: 1px solid var(--border); }
+  .comparison .row:last-child .cell { border-bottom: none; }
+
+  /* ── Cross-role matrix ── */
+  .matrix td { text-align: center; font-weight: 400; }
+  .matrix td:first-child { text-align: left; font-weight: 600; }
+  .matrix .check { color: var(--green); font-weight: 700; }
+  .matrix .partial { color: var(--amber); font-weight: 600; font-size: 12px; }
+  .matrix .none { color: #ccc; }
+
+  /* ── Next steps ── */
+  .next-steps {
+    counter-reset: step;
+    list-style: none;
+    padding-left: 0;
+  }
+
+  .next-steps li {
+    counter-increment: step;
+    padding: 12px 16px 12px 48px;
+    position: relative;
+    background: var(--bg-subtle);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    margin-bottom: 8px;
+  }
+
+  .next-steps li::before {
+    content: counter(step);
+    position: absolute;
+    left: 14px;
+    top: 12px;
+    width: 22px;
+    height: 22px;
+    background: var(--accent);
+    color: #fff;
+    border-radius: 50%;
+    font-size: 12px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .next-steps li strong { display: block; color: var(--text); font-size: 14px; }
+  .next-steps li span { font-size: 13px; color: var(--text-secondary); }
+
+  /* ── Footer ── */
+  .page-footer {
+    margin-top: 64px;
+    padding-top: 24px;
+    border-top: 1px solid var(--border);
+    text-align: center;
+    font-size: 12px;
+    color: var(--text-muted);
+  }
+
+  /* ── Print ── */
+  @media print {
+    body { background: #fff; }
+    .container { padding: 24px 0; max-width: 100%; }
+    .flow-box, .table-wrap, .comparison, .next-steps li, .detail-card, .stepper li { break-inside: avoid; }
+    tr:hover td { background: none; }
+    .page-footer { display: none; }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <!-- ════════════════════════════════════════════ -->
+  <!-- HEADER                                       -->
+  <!-- ════════════════════════════════════════════ -->
+  <header class="page-header">
+    <div class="logo-mark">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 30 30" fill="none">
+        <circle cx="15" cy="15" r="6" fill="#FFFFFF" opacity="0.15"/>
+        <circle cx="15" cy="15" r="3.5" fill="#FFFFFF" opacity="0.4"/>
+        <circle cx="15" cy="5" r="2.5" fill="#FFFFFF" opacity="0.6"/>
+        <circle cx="23.66" cy="10" r="2.5" fill="#FFFFFF" opacity="0.6"/>
+        <circle cx="23.66" cy="20" r="2.5" fill="#FFFFFF" opacity="0.6"/>
+        <circle cx="15" cy="25" r="2.5" fill="#FFFFFF" opacity="0.6"/>
+        <circle cx="6.34" cy="20" r="2.5" fill="#FFFFFF" opacity="0.6"/>
+        <circle cx="6.34" cy="10" r="2.5" fill="#FFFFFF" opacity="0.6"/>
+        <line x1="15" y1="7.5" x2="15" y2="11.5" stroke="#FFFFFF" stroke-width="1.2"/>
+        <line x1="21.5" y1="11" x2="18" y2="13" stroke="#FFFFFF" stroke-width="1.2"/>
+        <line x1="21.5" y1="19" x2="18" y2="17" stroke="#FFFFFF" stroke-width="1.2"/>
+        <line x1="15" y1="22.5" x2="15" y2="18.5" stroke="#FFFFFF" stroke-width="1.2"/>
+        <line x1="8.5" y1="19" x2="12" y2="17" stroke="#FFFFFF" stroke-width="1.2"/>
+        <line x1="8.5" y1="11" x2="12" y2="13" stroke="#FFFFFF" stroke-width="1.2"/>
+      </svg>
+    </div>
+    <h1>Super Admin User Journey</h1>
+    <p class="subtitle">Norveo Pool Configurator &mdash; Back-Office UX Flow &amp; Information Architecture</p>
+    <span class="version">v0.3 &middot; Super Admin Role</span>
+  </header>
+
+  <!-- ════════════════════════════════════════════ -->
+  <!-- CLIENT FEEDBACK SUMMARY                       -->
+  <!-- ════════════════════════════════════════════ -->
+  <section>
+    <h2>Client Feedback Applied (v0.3)</h2>
+    <p class="section-desc">Key decisions from client review that shaped this version.</p>
+
+    <div class="removed-box">
+      <strong>Removed from scope:</strong>
+      <ul style="margin:8px 0 0; padding-left:18px;">
+        <li><strong>Billing / Invoices</strong> &mdash; handled in HubSpot/CRM. Not part of Norveo UX.</li>
+        <li><strong>Engineers section</strong> &mdash; not a full management area. Engineer is a stored field (name + email) for signing and contact.</li>
+        <li><strong>Engineer Profile</strong> &mdash; removed. Just a name and email stored on the admin&rsquo;s view.</li>
+        <li><strong>Notifications / Alerts</strong> &mdash; not needed for initial release.</li>
+        <li><strong>Assign Team step in Create Project</strong> &mdash; removed. Admin creates all projects; no team assignment during creation.</li>
+      </ul>
+    </div>
+
+    <div class="info-box">
+      <strong>Confirmed decisions:</strong>
+      <ul style="margin:8px 0 0; padding-left:18px;">
+        <li><strong>Admin = Engineer for now.</strong> Same person, full edit access, same CAD capabilities. Engineer role documented separately for future separation.</li>
+        <li><strong>Single login URL.</strong> Role detected server-side. Edge case: shared credentials unlikely to be an issue if no per-seat charging.</li>
+        <li><strong>Full edit workspace</strong> &mdash; no read-only mode. No separate engineer with restricted access for now.</li>
+        <li><strong>Admin sees Catalogue</strong> &mdash; yes, since admin is likely the engineer.</li>
+        <li><strong>Settings = gear icon in header</strong>, not a sidebar section.</li>
+        <li><strong>Billing</strong> &mdash; currently access-based (have it or don&rsquo;t). Paid-per-project is a future consideration, not current.</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ════════════════════════════════════════════ -->
+  <!-- JOURNEY MAP                                   -->
+  <!-- ════════════════════════════════════════════ -->
+  <section class="journey-map">
+    <h2>User Journey Map</h2>
+    <p class="section-desc">3-layer navigation flow for the Super Admin. Simplified to 2 primary sections (Companies, Projects) with Settings as a header utility.</p>
+
+    <div class="ch">
+
+      <div class="ch-pill">Login (single URL)</div>
+      <div class="ch-arrow"><div class="line"></div><div class="head"></div></div>
+
+      <!-- Back Office -->
+      <div class="ch-screen">
+        <h4>Admin Back Office</h4>
+        <p class="q">&ldquo;What needs my attention?&rdquo;</p>
+        <ul>
+          <li>2 sections: Companies, Projects</li>
+          <li>Persistent sidebar navigation</li>
+          <li>Settings via gear icon in header</li>
+          <li>Catalogue access (same as engineer)</li>
+          <li>Search across companies and projects</li>
+        </ul>
+      </div>
+      <div class="ch-arrow"><div class="line"></div><div class="head"></div></div>
+
+      <!-- Decision: which section? -->
+      <div class="ch-diamond">Which section?</div>
+      <div class="ch-arrow"><div class="line"></div></div>
+
+      <div class="ch-options">
+        <span>Companies</span>
+        <span>Projects</span>
+      </div>
+      <div class="ch-arrow"><div class="line"></div><div class="head"></div></div>
+
+      <!-- Section list views -->
+      <div class="ch-screen">
+        <h4>Section List View</h4>
+        <p class="q">Each section shows a filterable, searchable list</p>
+        <ul>
+          <li>Companies: company list with add/invite actions</li>
+          <li>Projects: all projects &mdash; status, client, progress, dates</li>
+        </ul>
+      </div>
+      <div class="ch-arrow"><div class="line"></div><div class="head"></div></div>
+
+      <!-- Decision: action? -->
+      <div class="ch-fork">
+        <div class="ch-diamond">Action?</div>
+        <div class="side">
+          <span class="side-lbl">Create / Add</span>
+          <span class="side-arrow">&rarr;</span>
+          <div class="ch-wizard">
+            <span>Add Company</span><span class="sep">|</span><span>Create Project</span>
+          </div>
+        </div>
+      </div>
+      <div class="ch-arrow"><div class="lbl">Select item from list</div></div>
+      <div class="ch-arrow"><div class="line"></div><div class="head"></div></div>
+
+      <!-- Detail Views -->
+      <div class="ch-screen l2">
+        <h4>Detail View</h4>
+        <p class="q">&ldquo;What is the full picture for this entity?&rdquo;</p>
+      </div>
+      <div class="ch-arrow"><div class="line"></div></div>
+
+      <div class="ch-grid">
+        <div class="ch-action">
+          <strong>Project Detail</strong>
+          <div class="mini-tabs"><span>Overview</span><span>Deliverables</span><span>Issues</span><span>Client Project Files</span><span>Configurator</span><span>Engineering Options</span><span>Collaborators</span><span>BOM</span></div>
+        </div>
+        <div class="ch-action"><strong>Company Detail</strong><div class="mini-tabs"><span>Overview</span><span>Contacts</span><span>Projects</span></div></div>
+      </div>
+      <div class="ch-arrow"><div class="line"></div><div class="head"></div></div>
+
+      <div class="ch-arrow"><div class="lbl">Open project in Workspace</div></div>
+      <div class="ch-arrow"><div class="line"></div><div class="head"></div></div>
+
+      <!-- Workspace -->
+      <div class="ch-screen l3">
+        <h4>Workspace (CAD Tool)</h4>
+        <p class="q">&ldquo;Design, engineer, and deliver.&rdquo;</p>
+        <ul>
+          <li>Full CAD tool &mdash; same as engineer workspace</li>
+          <li>Tabs: Design, Summary, Engineering, Estimate, BOM, Deliverables, History</li>
+          <li>Catalogue access via Components panel</li>
+          <li>Breadcrumb: <code>&larr; Back Office / Projects / Project Name</code></li>
+        </ul>
+      </div>
+      <div class="ch-arrow"><div class="line"></div></div>
+      <div class="ch-tabs">
+        <span>Design</span><span>Summary</span><span>Engineering</span><span>Estimate</span><span>BOM</span><span>Deliverables</span><span>History</span>
+      </div>
+      <div class="ch-arrow"><div class="line"></div><div class="head"></div></div>
+
+      <!-- Decision: next? — cyclical -->
+      <div class="ch-fork">
+        <div class="ch-diamond">Next?</div>
+        <div class="side">
+          <span class="side-lbl">Switch</span>
+          <span class="side-arrow">&rarr;</span>
+          <div class="ch-loop">&larr; Back Office</div>
+        </div>
+      </div>
+      <div class="ch-arrow"><div class="lbl">Continue working</div></div>
+      <div class="ch-arrow"><div class="line"></div><div class="head"></div></div>
+
+      <div class="ch-loop">&larr; Back to Back Office (cyclical)</div>
+
+    </div>
+  </section>
+
+  <!-- ════════════════════════════════════════════ -->
+  <!-- SECTION 01 — FLOW OVERVIEW                    -->
+  <!-- ════════════════════════════════════════════ -->
+  <section>
+    <h2><span class="num">01</span> Flow Overview</h2>
+    <p class="section-desc">The Super Admin experience is organized into three layers. The admin is also the engineer for the initial release &mdash; one person managing companies, creating projects, and doing the design work.</p>
+
+    <div class="flow">
+      <div class="flow-box l1">
+        <div class="flow-label">Layer 1</div>
+        <div class="flow-title">Admin Back Office</div>
+        <div class="flow-question">&ldquo;What needs my attention?&rdquo;</div>
+        <ul>
+          <li>2 sections: Companies, Projects</li>
+          <li>Each section shows a filterable, searchable list</li>
+          <li>Key actions: add/invite company, create project</li>
+          <li>Global search across all entities</li>
+          <li>Settings via gear icon in header</li>
+          <li>Catalogue access (same as engineer view)</li>
+        </ul>
+      </div>
+
+      <div class="flow-arrow"></div>
+
+      <div class="flow-box l2">
+        <div class="flow-label">Layer 2</div>
+        <div class="flow-title">Detail Views</div>
+        <div class="flow-question">&ldquo;What is the full picture for this entity?&rdquo;</div>
+        <ul>
+          <li>Project Detail &mdash; 8 sub-tabs covering the project lifecycle</li>
+          <li>Company Detail &mdash; overview, contacts, linked projects</li>
+          <li>Cross-links: project links to company, company links to projects</li>
+          <li>From Project Detail, admin can open the project in Workspace</li>
+        </ul>
+      </div>
+
+      <div class="flow-arrow"></div>
+
+      <div class="flow-box l3">
+        <div class="flow-label">Layer 3</div>
+        <div class="flow-title">Workspace (CAD Tool)</div>
+        <div class="flow-question">&ldquo;Design, engineer, and deliver.&rdquo;</div>
+        <ul>
+          <li>Full edit &mdash; same CAD tool as the engineer workspace</li>
+          <li>7 workspace tabs: Design, Summary, Engineering, Estimate, BOM, Deliverables, History</li>
+          <li>Catalogue access via Components panel</li>
+          <li>Breadcrumb: <code>&larr; Back Office / Projects / Project Name</code></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- ════════════════════════════════════════════ -->
+  <!-- SECTION 02 — INFORMATION ARCHITECTURE         -->
+  <!-- ════════════════════════════════════════════ -->
+  <section>
+    <h2><span class="num">02</span> Information Architecture</h2>
+    <p class="section-desc">Complete sitemap. Billing, Engineer Management, and Invoice Detail have been removed per client feedback.</p>
+
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Screen</th>
+            <th>Parent</th>
+            <th>Layer</th>
+            <th>Contains</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Login</td>
+            <td>&mdash;</td>
+            <td><span class="badge badge-gray">Entry</span></td>
+            <td>Single URL. Email/password or SSO. Role routing sends Super Admin to Back Office.</td>
+          </tr>
+          <tr>
+            <td>Admin Back Office</td>
+            <td>&mdash;</td>
+            <td><span class="badge badge-accent">L1</span></td>
+            <td>2 sections: Companies, Projects. Sidebar navigation + global search. Gear icon for Settings. Catalogue access.</td>
+          </tr>
+          <tr>
+            <td>Companies</td>
+            <td>Back Office</td>
+            <td><span class="badge badge-accent">L1</span></td>
+            <td>Company list with search/filter &mdash; add company or invite company to be client</td>
+          </tr>
+          <tr>
+            <td>Company Detail</td>
+            <td>Companies</td>
+            <td><span class="badge badge-green">L2</span></td>
+            <td>Tabs: Overview, Contacts, Projects. Cross-links to related projects.</td>
+          </tr>
+          <tr>
+            <td>Add Company Wizard</td>
+            <td>Companies</td>
+            <td><span class="badge badge-gray">Flow</span></td>
+            <td>Steps: Company Info &rarr; Contract Signer Info &rarr; Signing a Contract</td>
+          </tr>
+          <tr>
+            <td>Invite Company</td>
+            <td>Companies</td>
+            <td><span class="badge badge-gray">Flow</span></td>
+            <td>Email invite to an existing company to become a Norveo client.</td>
+          </tr>
+          <tr>
+            <td>Projects</td>
+            <td>Back Office</td>
+            <td><span class="badge badge-accent">L1</span></td>
+            <td>All projects with search/filter &mdash; status, client, progress, dates</td>
+          </tr>
+          <tr>
+            <td>Project Detail</td>
+            <td>Projects</td>
+            <td><span class="badge badge-green">L2</span></td>
+            <td>Tabs: Overview, Deliverables, Issues, Client Project Files, Configurator, Engineering Options, Collaborators, BOM</td>
+          </tr>
+          <tr>
+            <td>Create Project Wizard</td>
+            <td>Projects</td>
+            <td><span class="badge badge-gray">Flow</span></td>
+            <td>Steps: Select Company &rarr; Project Info &rarr; Confirm</td>
+          </tr>
+          <tr>
+            <td>Settings</td>
+            <td>Header (gear icon)</td>
+            <td><span class="badge badge-gray">Utility</span></td>
+            <td>Account, Branding, Integrations. Not a sidebar section.</td>
+          </tr>
+          <tr>
+            <td>Parts Catalogue</td>
+            <td>Back Office / Workspace</td>
+            <td><span class="badge badge-gray">Panel</span></td>
+            <td>Master parts catalogue. Same view as engineer. In Workspace, accessed via Components panel.</td>
+          </tr>
+          <tr>
+            <td>Workspace (CAD)</td>
+            <td>Project Detail</td>
+            <td><span class="badge badge-purple">L3</span></td>
+            <td>Full edit CAD tool. 7 tabs: Design, Summary, Engineering, Estimate, BOM, Deliverables, History. Breadcrumb back to Back Office.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- ════════════════════════════════════════════ -->
+  <!-- SECTION 03 — LAYER 1: ADMIN BACK OFFICE        -->
+  <!-- ════════════════════════════════════════════ -->
+  <section>
+    <h2><span class="num">03</span> Layer 1: Admin Back Office</h2>
+    <p class="section-desc">The admin lands here after login. Two primary sections in the sidebar. Settings is a gear icon in the header, not a sidebar item.</p>
+
+    <h3>Navigation</h3>
+    <ul>
+      <li><strong>Persistent sidebar:</strong> Companies, Projects</li>
+      <li><strong>Global search:</strong> search bar at the top &mdash; searches across companies and projects</li>
+      <li><strong>Breadcrumb:</strong> <code>Back Office / Section / Entity Name</code> &mdash; visible at every depth level</li>
+      <li><strong>Settings:</strong> gear icon in the header &rarr; opens settings page (Account, Branding, Integrations)</li>
+      <li><strong>Catalogue:</strong> accessible from the sidebar or from within the Workspace</li>
+    </ul>
+
+    <h3>Sections</h3>
+
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr><th>Section</th><th>List View Content</th><th>Actions</th><th>Search / Filter</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Companies</td>
+            <td>Company name, status (active / pending / inactive), project count, contract date</td>
+            <td>Add company (wizard) or invite company</td>
+            <td>Filter by status; search by name</td>
+          </tr>
+          <tr>
+            <td>Projects</td>
+            <td>Project name, client, status, config progress, signed engineer (name), last activity</td>
+            <td>Create project</td>
+            <td>Filter by status, client; search by name</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>Project Statuses</h3>
+    <p style="margin:12px 0; font-size:13px;">
+      <span class="badge badge-gray">Draft</span> &rarr;
+      <span class="badge badge-orange">In Engineering</span> &rarr;
+      <span class="badge badge-accent">Ready for Estimate</span> &rarr;
+      <span class="badge badge-accent">Sent to Customer</span> &rarr;
+      <span class="badge badge-green">Finalized</span>
+    </p>
+
+    <h3>Signed Engineer Field</h3>
+    <p>The &ldquo;engineer&rdquo; is not a separate role or profile in the system. It is a stored field on the admin&rsquo;s view:</p>
+    <ul>
+      <li><strong>Name</strong> and <strong>email</strong> of the licensed/signing engineer</li>
+      <li>Stored per project or globally &mdash; used for signing deliverables and direct email contact</li>
+      <li>If there are questions, the admin can email the engineer directly from the stored email</li>
+      <li>No login, no profile page, no assignment flow &mdash; just a data field</li>
+    </ul>
+
+    <h3>Key Actions from Back Office</h3>
+    <ul>
+      <li><strong>Add Company</strong> &mdash; wizard: Company Info &rarr; Contract Signer Info &rarr; Signing a Contract</li>
+      <li><strong>Invite Company</strong> &mdash; send email invite for a company to become a Norveo client</li>
+      <li><strong>Create Project</strong> &mdash; wizard: Select Company &rarr; Project Info &rarr; Confirm</li>
+    </ul>
+
+    <h3>Empty States</h3>
+    <div class="info-box">
+      <strong>First-time admin:</strong> When no companies or projects exist yet, each section shows a guided empty state with a clear CTA. For example, the Companies section shows: &ldquo;No companies yet. Add your first company to get started.&rdquo;
+    </div>
+  </section>
+
+  <!-- ════════════════════════════════════════════ -->
+  <!-- SECTION 04 — LAYER 2: DETAIL VIEWS            -->
+  <!-- ════════════════════════════════════════════ -->
+  <section>
+    <h2><span class="num">04</span> Layer 2: Detail Views</h2>
+    <p class="section-desc">Clicking an item from a list opens its detail view. Cross-links connect related entities.</p>
+
+    <div class="detail-card">
+      <h4>Company Detail</h4>
+      <p>Full view of a single company. Cross-links to projects for that company.</p>
+      <div class="tab-pills">
+        <span class="tab-pill active">Overview</span>
+        <span class="tab-pill">Contacts</span>
+        <span class="tab-pill">Projects</span>
+      </div>
+      <ul>
+        <li><strong>Overview:</strong> company name, address, contract status, contract signer, onboarding date</li>
+        <li><strong>Contacts:</strong> client-side people (project managers, signers). Add/invite contacts here.</li>
+        <li><strong>Projects:</strong> list of all projects for this company (cross-link to Project Detail)</li>
+      </ul>
+    </div>
+
+    <div class="detail-card">
+      <h4>Project Detail</h4>
+      <p>The admin&rsquo;s project dashboard. From here they can review status or open the full Workspace.</p>
+      <div class="tab-pills">
+        <span class="tab-pill active">Overview</span>
+        <span class="tab-pill">Deliverables</span>
+        <span class="tab-pill">Issues</span>
+        <span class="tab-pill">Client Project Files</span>
+        <span class="tab-pill">Configurator</span>
+        <span class="tab-pill">Engineering Options</span>
+        <span class="tab-pill">Collaborators</span>
+        <span class="tab-pill">BOM</span>
+      </div>
+      <ul>
+        <li><strong>Overview:</strong> project name, client (cross-link), status, config progress, signed engineer (name + email), key dates</li>
+        <li><strong>Collaborators:</strong> client contacts for this project. Signed engineer displayed here.</li>
+        <li><strong>Primary CTA:</strong> &ldquo;Open in Workspace&rdquo; &rarr; launches Layer 3</li>
+      </ul>
+      <p style="margin-top:12px;">8 tabs. Billing tab removed (handled in HubSpot).</p>
+    </div>
+  </section>
+
+  <!-- ════════════════════════════════════════════ -->
+  <!-- SECTION 05 — LAYER 3: WORKSPACE               -->
+  <!-- ════════════════════════════════════════════ -->
+  <section>
+    <h2><span class="num">05</span> Layer 3: Workspace</h2>
+    <p class="section-desc">The admin opens a project and gets the full CAD tool. Since admin = engineer for now, this is full edit access with the same capabilities.</p>
+
+    <h3>Admin Intent in Workspace</h3>
+    <p>The admin is the engineer. They enter the Workspace to:</p>
+    <ul>
+      <li><strong>Design</strong> &mdash; create and edit pool geometry, architecture, fixtures, plumbing</li>
+      <li><strong>Engineer</strong> &mdash; run hydraulic calculations, compliance checks, equipment sizing</li>
+      <li><strong>Deliver</strong> &mdash; generate plans, specs, permits, and export for the customer</li>
+    </ul>
+
+    <h3>Workspace Tabs</h3>
+    <p>7 tabs, consistent with the Engineer workspace:</p>
+    <p style="margin: 8px 0;">Design &middot; Summary &middot; Engineering &middot; Estimate &middot; BOM &middot; Deliverables &middot; History</p>
+
+    <h3>Catalogue Access</h3>
+    <p>Admin can browse the master parts catalogue from within the workspace via the Components panel in the side panel. Same experience as the engineer.</p>
+
+    <h3>Navigation Back</h3>
+    <ul>
+      <li><strong>Breadcrumb:</strong> <code>&larr; Back Office / Projects / Project Name</code> in the top bar</li>
+      <li>Clicking &ldquo;Back Office&rdquo; returns to the Back Office; clicking &ldquo;Projects&rdquo; returns to the list; clicking the project name returns to Project Detail</li>
+    </ul>
+
+    <div class="info-box">
+      <strong>Note:</strong> Workspace screens are shared with the Engineer role. Since admin = engineer for now, there are no admin-specific differences. If the roles are separated in the future, admin-specific permissions (approval actions, read-only mode) can be layered on.
+    </div>
+  </section>
+
+  <!-- ════════════════════════════════════════════ -->
+  <!-- SECTION 06 — KEY FLOWS                        -->
+  <!-- ════════════════════════════════════════════ -->
+  <section>
+    <h2><span class="num">06</span> Key Flows</h2>
+    <p class="section-desc">Flows the admin triggers from the back office.</p>
+
+    <h3>Flow A &mdash; Add Company</h3>
+    <p>Triggered from: Companies section.</p>
+    <ol class="stepper">
+      <li>
+        <strong>Company Info</strong>
+        <span>Company name, address, industry, size. Validation: name is required, no duplicate company names.</span>
+      </li>
+      <li>
+        <strong>Contract Signer Info</strong>
+        <span>Name, email, phone of the person who will sign the contract. Validation: valid email format required.</span>
+      </li>
+      <li>
+        <strong>Signing a Contract</strong>
+        <span>Contract review and signature capture (e-signature or upload). Validation: contract must be signed or marked as pending to proceed.</span>
+      </li>
+    </ol>
+    <h4>Error / Abandonment Handling</h4>
+    <ul>
+      <li><strong>Validation failure:</strong> inline field-level errors. Admin cannot proceed to next step until resolved.</li>
+      <li><strong>Abandonment:</strong> if the admin closes the wizard mid-step, a draft company record is saved. The admin can resume from the Companies list (draft shown with &ldquo;Incomplete&rdquo; badge).</li>
+      <li><strong>Duplicate company:</strong> if the company name already exists, show a warning with a link to the existing company.</li>
+    </ul>
+    <p><strong>Alternative:</strong> Invite company to be client &mdash; sends an email invitation. The company accepts and completes their own info, then the admin reviews and approves.</p>
+
+    <h3>Flow B &mdash; Create Project</h3>
+    <p>Triggered from: Projects section or from Company Detail &rarr; Projects tab.</p>
+    <ol class="stepper">
+      <li>
+        <strong>Select Company</strong>
+        <span>Choose the client company this project belongs to. If triggered from Company Detail, this step is pre-filled. If no companies exist, redirect to Add Company first.</span>
+      </li>
+      <li>
+        <strong>Project Info</strong>
+        <span>Project name, address, project type (Residential, Commercial, Spa, etc.). Signed engineer name and email (optional &mdash; can be added later from Project Detail). Validation: name and type are required.</span>
+      </li>
+      <li>
+        <strong>Confirm</strong>
+        <span>Review summary of company and project info. Confirm to create. Project starts in <span class="badge badge-gray">Draft</span> status.</span>
+      </li>
+    </ol>
+    <h4>Error / Abandonment Handling</h4>
+    <ul>
+      <li><strong>No company exists:</strong> show an inline prompt to add a company first, then return to this flow.</li>
+      <li><strong>Abandonment:</strong> draft project is not saved until the admin clicks &ldquo;Confirm&rdquo;. Closing the wizard discards the draft.</li>
+    </ul>
+
+    <h3>Flow C &mdash; Signed Engineer (Data Entry)</h3>
+    <p>Not a flow &mdash; just a field. The admin stores the signing engineer&rsquo;s name and email in one of two places:</p>
+    <ul>
+      <li>During Create Project (optional field in the Project Info step)</li>
+      <li>After creation, from the Project Detail &rarr; Overview or Collaborators tab</li>
+    </ul>
+    <p>The stored email can be used to email the engineer directly if questions arise. The engineer does not log in to Norveo and does not have a profile.</p>
+  </section>
+
+  <!-- ════════════════════════════════════════════ -->
+  <!-- SECTION 07 — WHAT THIS ESTABLISHES            -->
+  <!-- ════════════════════════════════════════════ -->
+  <section>
+    <h2><span class="num">07</span> What This Establishes</h2>
+    <p class="section-desc">How the simplified admin flow solves current problems with a lean, focused first release.</p>
+
+    <div class="comparison">
+      <div class="col-header">Problem Today</div>
+      <div class="col-header">How the Admin Journey Solves It</div>
+
+      <div class="row">
+        <div class="cell">No centralized admin back office &mdash; management is scattered</div>
+        <div class="cell">Section-based Back Office with persistent sidebar and global search</div>
+      </div>
+      <div class="row">
+        <div class="cell">Company onboarding is manual and untracked</div>
+        <div class="cell">3-step Add Company wizard with draft saving, validation, and invite flow</div>
+      </div>
+      <div class="row">
+        <div class="cell">Creating a project has no defined steps</div>
+        <div class="cell">3-step Create Project wizard: Select Company &rarr; Project Info &rarr; Confirm</div>
+      </div>
+      <div class="row">
+        <div class="cell">No clear navigation hierarchy</div>
+        <div class="cell">3-layer depth (Back Office &rarr; Detail &rarr; Workspace) with breadcrumb navigation</div>
+      </div>
+      <div class="row">
+        <div class="cell">Admin and engineer roles are confused</div>
+        <div class="cell">Admin = engineer for now. One person, one login, full access. Roles can be separated later.</div>
+      </div>
+      <div class="row">
+        <div class="cell">No way to track the signing engineer</div>
+        <div class="cell">Stored field (name + email) on each project for signing and direct email contact</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ════════════════════════════════════════════ -->
+  <!-- SECTION 08 — EDGE CASES & ERROR STATES        -->
+  <!-- ════════════════════════════════════════════ -->
+  <section>
+    <h2><span class="num">08</span> Edge Cases &amp; Error States</h2>
+    <p class="section-desc">Documented edge cases and expected behavior.</p>
+
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Scenario</th>
+            <th>Expected Behavior</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>First-time admin &mdash; everything is empty</td>
+            <td>Each section shows a guided empty state with a clear CTA (e.g. &ldquo;Add your first company&rdquo;).</td>
+          </tr>
+          <tr>
+            <td>Admin abandons Add Company wizard mid-step</td>
+            <td>Draft company record is saved. Appears in the Companies list with an &ldquo;Incomplete&rdquo; badge.</td>
+          </tr>
+          <tr>
+            <td>Admin abandons Create Project wizard mid-step</td>
+            <td>No draft is saved until Confirm. Closing the wizard discards the draft.</td>
+          </tr>
+          <tr>
+            <td>Admin tries to create a project but no companies exist</td>
+            <td>Redirect to Add Company flow with a message: &ldquo;You need at least one company before creating a project.&rdquo;</td>
+          </tr>
+          <tr>
+            <td>Duplicate company name during Add Company</td>
+            <td>Inline warning: &ldquo;A company with this name already exists.&rdquo; Link to the existing company.</td>
+          </tr>
+          <tr>
+            <td>Company invite is not accepted</td>
+            <td>Company remains in &ldquo;Pending&rdquo; status. Admin can resend invite or cancel it.</td>
+          </tr>
+          <tr>
+            <td>Admin tries to delete a company with active projects</td>
+            <td>Blocked. Message: &ldquo;This company has active projects. Archive or reassign them first.&rdquo;</td>
+          </tr>
+          <tr>
+            <td>Admin opens workspace for a project with no design yet</td>
+            <td>Show template gallery with &ldquo;Start Blank&rdquo; option (same as engineer experience).</td>
+          </tr>
+          <tr>
+            <td>Shared login credentials (supervisor shares with staff)</td>
+            <td>Not blocked for now since there is no per-seat charging. Monitor usage if this becomes an issue.</td>
+          </tr>
+          <tr>
+            <td>User tries to access admin URL without admin role</td>
+            <td>Redirect to login. After login, route to role-appropriate landing page.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- ════════════════════════════════════════════ -->
+  <!-- SECTION 09 — WHAT WAS REMOVED                 -->
+  <!-- ════════════════════════════════════════════ -->
+  <section>
+    <h2><span class="num">09</span> What Was Removed &amp; Why</h2>
+    <p class="section-desc">Features from v0.2 that were removed based on client feedback. Documented here so they can be re-introduced later if needed.</p>
+
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Feature</th>
+            <th>Was</th>
+            <th>Now</th>
+            <th>Reason</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Billing Section</td>
+            <td>Top-level sidebar section with invoice list and Invoice Detail view</td>
+            <td>Removed entirely</td>
+            <td>Billing is handled in HubSpot/CRM. Not part of Norveo UX.</td>
+          </tr>
+          <tr>
+            <td>Invoice Detail</td>
+            <td>L2 detail view with line items, payment status, actions</td>
+            <td>Removed entirely</td>
+            <td>Follows from billing removal.</td>
+          </tr>
+          <tr>
+            <td>Billing tab on Project Detail</td>
+            <td>One of 9 tabs on Project Detail</td>
+            <td>Removed (now 8 tabs)</td>
+            <td>No in-app billing.</td>
+          </tr>
+          <tr>
+            <td>Billing tab on Company Detail</td>
+            <td>One of 4 tabs on Company Detail</td>
+            <td>Removed (now 3 tabs)</td>
+            <td>No in-app billing.</td>
+          </tr>
+          <tr>
+            <td>Engineers Section</td>
+            <td>Top-level sidebar section with engineer list, profile, add/invite/assign flows</td>
+            <td>Replaced with a stored field (name + email) per project</td>
+            <td>Client: &ldquo;Not much of a feature.&rdquo; Engineer is just the signing person, tracked as a field.</td>
+          </tr>
+          <tr>
+            <td>Engineer Profile</td>
+            <td>L2 detail view with overview, assigned projects, activity</td>
+            <td>Removed entirely</td>
+            <td>No engineer login or profile. Just a stored name + email.</td>
+          </tr>
+          <tr>
+            <td>Add/Invite/Assign Engineer flows</td>
+            <td>3 sub-flows with wizards and email invitations</td>
+            <td>Removed entirely</td>
+            <td>Engineer is data entry, not a user management flow.</td>
+          </tr>
+          <tr>
+            <td>Assign Team step in Create Project</td>
+            <td>Step 3 of a 4-step wizard</td>
+            <td>Removed (now 3-step wizard)</td>
+            <td>Admin creates all projects themselves. No team assignment during creation.</td>
+          </tr>
+          <tr>
+            <td>Notifications / Alerts</td>
+            <td>In-app + email notification system</td>
+            <td>Removed for initial release</td>
+            <td>Client: &ldquo;Not for right now.&rdquo;</td>
+          </tr>
+          <tr>
+            <td>Settings as sidebar section</td>
+            <td>Fifth sidebar section with sub-pages</td>
+            <td>Gear icon in header</td>
+            <td>Settings is a utility, not a primary work section.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- ════════════════════════════════════════════ -->
+  <!-- SECTION 10 — DESIGN NEXT STEPS                -->
+  <!-- ════════════════════════════════════════════ -->
+  <section>
+    <h2><span class="num">10</span> Design Next Steps</h2>
+    <p class="section-desc">Priority order for upcoming design work. Scope is significantly reduced from v0.2.</p>
+
+    <ol class="next-steps">
+      <li>
+        <strong>Back Office + Navigation + Global Search</strong>
+        <span>Admin landing page with 2 sidebar sections (Companies, Projects), gear icon for Settings, catalogue access, breadcrumb.</span>
+      </li>
+      <li>
+        <strong>Companies Section + Add Company Flow</strong>
+        <span>Company list with search/filter, Add Company wizard (3 steps with validation and draft saving), Invite Company flow.</span>
+      </li>
+      <li>
+        <strong>Company Detail</strong>
+        <span>3-tab detail view: Overview, Contacts, Projects. Cross-links to related projects.</span>
+      </li>
+      <li>
+        <strong>Create Project Flow</strong>
+        <span>3-step wizard: Select Company &rarr; Project Info (with optional signed engineer field) &rarr; Confirm.</span>
+      </li>
+      <li>
+        <strong>Project Detail</strong>
+        <span>8 sub-tabs. Admin&rsquo;s project dashboard before entering the Workspace. Signed engineer field on Overview.</span>
+      </li>
+      <li>
+        <strong>Settings (Header Gear)</strong>
+        <span>Account, Branding, Integrations. Lightweight settings page accessed from header.</span>
+      </li>
+      <li>
+        <strong>Empty States</strong>
+        <span>Guided empty states for Companies and Projects sections.</span>
+      </li>
+    </ol>
+
+    <div class="info-box">
+      <strong>Workspace screens already exist.</strong> The Workspace (CAD tool) is shared with the Engineer role. Admin = engineer for now, so no admin-specific changes needed. Catalogue access is already part of the workspace design.
+    </div>
+  </section>
+
+  <!-- ════════════════════════════════════════════ -->
+  <!-- FOOTER                                       -->
+  <!-- ════════════════════════════════════════════ -->
+  <footer class="page-footer">
+    Norveo &middot; Super Admin User Journey v0.3 &middot; For internal alignment only
+  </footer>
+
+</div>
+
+</body>
+</html>

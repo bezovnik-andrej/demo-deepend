@@ -1,0 +1,119 @@
+.root {
+  position: relative;
+  display: inline-block;
+}
+
+.trigger {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sp-3);
+  height: var(--control-h-sm);
+  padding: 0 var(--sp-3) 0 var(--sp-4);
+  background: var(--bg-input);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  color: var(--text-primary);
+  font-size: var(--fs-sm);
+  font-family: inherit;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background 0.15s, border-color 0.15s, color 0.15s;
+}
+
+.rootMd .trigger {
+  height: var(--control-h);
+  font-size: var(--fs-base);
+  padding: 0 var(--sp-3) 0 var(--sp-4);
+}
+
+.trigger:hover:not(:disabled) {
+  background: var(--bg-hover);
+  border-color: color-mix(in srgb, var(--accent) 30%, var(--border));
+}
+
+.trigger:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.prefix {
+  color: var(--text-muted);
+  font-weight: 500;
+  letter-spacing: 0.3px;
+}
+
+.value {
+  color: var(--text-bright);
+  font-weight: 500;
+}
+
+.chevron {
+  color: var(--text-muted);
+  flex-shrink: 0;
+  transition: transform 0.15s;
+}
+
+.chevronOpen {
+  transform: rotate(180deg);
+}
+
+.menu {
+  position: absolute;
+  top: calc(100% + 4px);
+  left: 0;
+  z-index: 100;
+  min-width: 100%;
+  list-style: none;
+  margin: 0;
+  padding: var(--sp-2);
+  background: var(--bg-panel);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
+  max-height: 280px;
+  overflow-y: auto;
+}
+
+.menuEnd {
+  left: auto;
+  right: 0;
+}
+
+.option {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-3);
+  width: 100%;
+  background: none;
+  border: none;
+  border-radius: var(--radius-sm);
+  padding: 6px 10px;
+  color: var(--text-primary);
+  font-size: var(--fs-sm);
+  font-family: inherit;
+  cursor: pointer;
+  text-align: left;
+  white-space: nowrap;
+  transition: background 0.1s, color 0.1s;
+}
+
+.optionHighlight {
+  background: var(--bg-hover);
+}
+
+.optionSelected {
+  color: var(--text-bright);
+}
+
+.optionSelected.optionHighlight {
+  background: color-mix(in srgb, var(--accent) 18%, transparent);
+}
+
+.optionLabel {
+  flex: 1;
+}
+
+.optionCheck {
+  color: var(--accent);
+  flex-shrink: 0;
+}

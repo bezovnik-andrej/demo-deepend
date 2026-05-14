@@ -1,0 +1,1380 @@
+/* ── Orders — list + detail IA (per client feedback) ── */
+.outer {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  position: relative;
+}
+
+.orderToast {
+  position: absolute;
+  right: var(--sp-6);
+  bottom: var(--sp-6);
+  z-index: 5;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sp-3);
+  max-width: min(360px, calc(100% - 32px));
+  padding: 10px 12px;
+  color: var(--success);
+  background: color-mix(in srgb, var(--bg-panel) 94%, var(--success));
+  border: 1px solid rgba(78, 201, 176, 0.38);
+  border-radius: var(--radius);
+  box-shadow: 0 14px 42px rgba(0, 0, 0, 0.28);
+  font-size: var(--fs-sm);
+  font-weight: 700;
+}
+
+/* ── Split master/detail shell ── */
+.split {
+  flex: 1;
+  display: flex;
+  min-height: 0;
+  overflow: hidden;
+}
+
+/* ── Master pane (left) ── */
+.masterPane {
+  width: 340px;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  background: var(--bg-panel);
+  border-right: 1px solid var(--border);
+}
+
+.masterHeader {
+  display: flex;
+  align-items: stretch;
+  padding: var(--sp-3) var(--sp-3) 0;
+  border-bottom: 1px solid var(--border);
+  flex-shrink: 0;
+}
+
+/* Status tabs (Pending / Placed / Completed) — the tabs ARE the heading. */
+.tabBar {
+  display: flex;
+  align-items: stretch;
+  gap: 2px;
+  width: 100%;
+  padding: 0;
+}
+
+.tabBtn {
+  all: unset;
+  flex: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  height: 30px;
+  padding: 0 var(--sp-3);
+  font-size: var(--fs-xs);
+  font-weight: 500;
+  color: var(--text-muted);
+  cursor: pointer;
+  border-radius: var(--radius-sm) var(--radius-sm) 0 0;
+  border-bottom: 2px solid transparent;
+  margin-bottom: -1px;
+  transition: color 0.12s, background 0.12s, border-color 0.12s;
+}
+
+.tabBtn:hover {
+  color: var(--text-primary);
+  background: var(--bg-hover);
+}
+
+.tabBtn:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: -2px;
+}
+
+.tabBtnActive {
+  color: var(--text-bright);
+  font-weight: 600;
+  border-bottom-color: var(--accent);
+  background: transparent;
+}
+
+.tabBtnActive:hover {
+  background: transparent;
+  color: var(--text-bright);
+}
+
+.tabLabel {
+  white-space: nowrap;
+}
+
+.tabCount {
+  font-size: 10px;
+  font-weight: 600;
+  color: var(--text-muted);
+  padding: 1px 6px;
+  background: var(--bg-surface);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  font-variant-numeric: tabular-nums;
+  min-width: 20px;
+  text-align: center;
+}
+
+.tabBtnActive .tabCount {
+  color: var(--accent);
+  background: rgba(74, 158, 255, 0.1);
+  border-color: rgba(74, 158, 255, 0.3);
+}
+
+.masterList {
+  flex: 1;
+  overflow-y: auto;
+  padding: var(--sp-3);
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+/* Compact two-line list row. Entire card is a single clickable button. */
+.listItem {
+  all: unset;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  padding: var(--sp-4) var(--sp-5);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  position: relative;
+  border: 1px solid transparent;
+  transition: background 0.12s, border-color 0.12s;
+}
+
+.listItem:hover {
+  background: var(--bg-hover);
+}
+
+.listItem:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: -2px;
+}
+
+.listItemSelected {
+  background: rgba(74, 158, 255, 0.08);
+  border-color: rgba(74, 158, 255, 0.28);
+  box-shadow: inset 2px 0 0 var(--accent);
+}
+
+.listItemSelected:hover {
+  background: rgba(74, 158, 255, 0.12);
+}
+
+.listItemTopRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--sp-3);
+}
+
+/* Middle row: vendor name (bold, primary) on the left, PO number (mono) on
+   the right. Same vendor often shows up 3–4 times in the list (one card per
+   PO), so the PO number is the real per-row identifier. */
+.listItemMidRow {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--sp-3);
+  min-width: 0;
+}
+
+.listItemBottomRow {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--sp-3);
+  min-width: 0;
+}
+
+.listItemSupplier {
+  font-size: var(--fs-base);
+  font-weight: 600;
+  color: var(--text-bright);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  min-width: 0;
+  flex-shrink: 1;
+}
+
+.listItemPo {
+  font-size: var(--fs-sm);
+  font-family: var(--font-mono);
+  color: var(--text-muted);
+  white-space: nowrap;
+  flex-shrink: 0;
+  letter-spacing: 0.2px;
+}
+
+.listItemTotal {
+  font-size: var(--fs-sm);
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  color: var(--success);
+  flex-shrink: 0;
+}
+
+.listItemMeta {
+  font-size: var(--fs-sm);
+  color: var(--text-muted);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-align: right;
+  flex-shrink: 1;
+  min-width: 0;
+}
+
+/* ── Status chip (shared by list row + detail header) ── */
+.orderStatusChip {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  height: 18px;
+  padding: 0 7px;
+  font-size: 10px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+  border-radius: 9px;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+/* Pending — blue/accent (matches To Purchase badge on Parts tab) */
+.orderStatusDraft {
+  color: var(--accent);
+  background: rgba(74, 158, 255, 0.12);
+  border: 1px solid rgba(74, 158, 255, 0.3);
+}
+
+/* Placed — warning/amber (matches On Order badge on Parts tab) */
+.orderStatusPlaced {
+  color: var(--warning);
+  background: rgba(255, 183, 77, 0.12);
+  border: 1px solid rgba(255, 183, 77, 0.35);
+}
+
+/* Completed — success/green (matches Purchased badge on Parts tab) */
+.orderStatusCompleted {
+  color: var(--success);
+  background: rgba(78, 201, 176, 0.12);
+  border: 1px solid rgba(78, 201, 176, 0.35);
+}
+
+/* ── Detail pane (right) ── */
+.detailPane {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  min-width: 0;
+  background: var(--bg-surface);
+}
+
+.detailPaneHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--sp-4);
+  padding: var(--sp-5) var(--sp-6);
+  border-bottom: 1px solid var(--border);
+  flex-shrink: 0;
+  background: var(--bg-panel);
+}
+
+.detailHeaderLeft {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-3);
+  min-width: 0;
+}
+
+/* Stacked title + subtitle: PO number is the identifier, vendor/category/date
+   form the secondary line so users can tell adjacent POs to the same vendor
+   apart at a glance. */
+.detailHeaderTitles {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.detailTitle {
+  font-size: var(--fs-md);
+  font-weight: 600;
+  color: var(--text-bright);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-family: var(--font-mono);
+  letter-spacing: 0.3px;
+}
+
+.detailSubtitle {
+  font-size: var(--fs-sm);
+  color: var(--text-muted);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.detailHeaderMeta {
+  font-size: var(--fs-sm);
+  color: var(--text-muted);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.detailSavingsChip {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-2);
+  padding: var(--sp-3) var(--sp-6);
+  background: rgba(78, 201, 176, 0.08);
+  border-bottom: 1px solid rgba(78, 201, 176, 0.2);
+  font-size: var(--fs-xs);
+  color: var(--success);
+  flex-shrink: 0;
+}
+
+.detailSavingsChip strong {
+  font-weight: 700;
+}
+
+/* ── Order detail table (standard PO table: name / mfr part / vendor # /
+   qty / unit / unit cost / total). Takes the vertical space between the
+   header and the pinned footer. */
+.detailTableWrap {
+  flex: 1;
+  overflow: auto;
+  min-height: 0;
+}
+
+.detailTable {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: var(--fs-xs);
+}
+
+.detailTable thead th {
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  background: var(--bg-panel);
+  padding: 8px var(--sp-4);
+  font-size: var(--fs-sm);
+  font-weight: 600;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+  text-align: left;
+  white-space: nowrap;
+  border-bottom: 1px solid var(--border);
+}
+
+.detailTable tbody td {
+  padding: 8px var(--sp-4);
+  border-bottom: 1px solid var(--border-light);
+  vertical-align: top;
+  color: var(--text-primary);
+}
+
+.detailTable tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.detailTable tbody tr:hover td {
+  background: var(--bg-hover);
+}
+
+/* Column widths + alignment. First column (name) is flexible, rest are fixed. */
+.tdName {
+  min-width: 180px;
+  display: table-cell;
+}
+
+.tdName .cellName {
+  display: block;
+  color: var(--text-bright);
+  font-weight: 500;
+  line-height: 1.35;
+}
+
+.tdName .cellBrand {
+  display: block;
+  margin-top: 2px;
+  font-size: 10px;
+  color: var(--text-muted);
+  letter-spacing: 0.2px;
+}
+
+.tdMfr {
+  width: 112px;
+  font-family: var(--font-mono);
+  color: var(--text-secondary);
+  white-space: nowrap;
+}
+
+.tdVendor {
+  width: 112px;
+  font-family: var(--font-mono);
+  color: var(--text-muted);
+  white-space: nowrap;
+}
+
+.tdQty {
+  width: 52px;
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+  font-weight: 500;
+  color: var(--text-bright);
+}
+
+.tdUnit {
+  width: 44px;
+  text-align: center;
+  color: var(--text-muted);
+}
+
+.tdUnitCost {
+  width: 110px;
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+.tdTotal {
+  width: 110px;
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+  font-weight: 600;
+  color: var(--text-bright);
+}
+
+.tdUnitCost thead,
+.tdTotal thead {
+  /* no-op guard; header alignment comes from th default text-align override */
+}
+
+.detailTable thead .tdQty,
+.detailTable thead .tdUnitCost,
+.detailTable thead .tdTotal {
+  text-align: right;
+}
+
+.detailTable thead .tdUnit {
+  text-align: center;
+}
+
+/* Inline "saved per each" under the unit cost cell when cheapest mode is on */
+.cellSaved {
+  display: block;
+  margin-top: 2px;
+  font-size: 10px;
+  font-weight: 600;
+  color: var(--success);
+  letter-spacing: 0.2px;
+}
+
+.detailPaneFooter {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--sp-4);
+  padding: var(--sp-4) var(--sp-6);
+  border-top: 1px solid var(--border);
+  background: var(--bg-panel);
+  flex-shrink: 0;
+}
+
+.detailFooterSubtotal {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+
+.detailFooterLabel {
+  font-size: 10px;
+  font-weight: 600;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+}
+
+.detailFooterValue {
+  font-size: var(--fs-md);
+  font-weight: 700;
+  color: var(--text-bright);
+  font-variant-numeric: tabular-nums;
+}
+
+.placeOrderBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sp-2);
+  height: 34px;
+  padding: 0 var(--sp-6);
+  font-size: var(--fs-xs);
+  font-weight: 600;
+  color: #fff;
+  background: var(--accent);
+  border: 1px solid var(--accent);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: background 0.15s, border-color 0.15s, color 0.15s;
+  white-space: nowrap;
+}
+
+.placeOrderBtn:hover:not(:disabled) {
+  background: var(--accent-hover);
+  border-color: var(--accent-hover);
+}
+
+.placeOrderBtn:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+.placeOrderBtn:disabled {
+  cursor: default;
+  color: var(--success);
+  background: rgba(78, 201, 176, 0.12);
+  border-color: rgba(78, 201, 176, 0.35);
+}
+
+/* Read-only footer note for the Completed tab. */
+.completedNote {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  height: 34px;
+  padding: 0 var(--sp-4);
+  font-size: var(--fs-xs);
+  font-weight: 600;
+  color: var(--success);
+  background: rgba(78, 201, 176, 0.08);
+  border: 1px solid rgba(78, 201, 176, 0.3);
+  border-radius: var(--radius-sm);
+  white-space: nowrap;
+}
+
+/* Empty state inside the master list (when the active tab has no groups) */
+.masterEmpty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--sp-3);
+  padding: var(--sp-6) var(--sp-5);
+  text-align: center;
+  color: var(--text-muted);
+  flex: 1;
+}
+
+.masterEmpty svg {
+  opacity: 0.5;
+}
+
+.masterEmptyText {
+  font-size: var(--fs-sm);
+  line-height: 1.45;
+  max-width: 260px;
+}
+
+/* ── Detail: empty-selection placeholder ── */
+.emptyPane {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--sp-3);
+  color: var(--text-muted);
+  font-size: var(--fs-sm);
+}
+
+.emptyPane svg {
+  opacity: 0.5;
+}
+
+/* ── Zero-orders empty state (replaces entire view) ── */
+.emptyState {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--sp-3);
+  padding: var(--sp-8);
+  text-align: center;
+}
+
+.emptyState svg {
+  color: var(--text-muted);
+  opacity: 0.6;
+  margin-bottom: var(--sp-2);
+}
+
+.emptyTitle {
+  font-size: var(--fs-base);
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.emptyBody {
+  font-size: var(--fs-sm);
+  color: var(--text-muted);
+  max-width: 320px;
+  line-height: 1.5;
+}
+
+/* ── Top bar ── */
+.topBar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--sp-3);
+  padding: var(--sp-3) var(--sp-4);
+  background: var(--bg-panel);
+  border-bottom: 1px solid var(--border);
+  flex-shrink: 0;
+  flex-wrap: wrap;
+}
+
+.topBarLeft {
+  display: flex;
+  align-items: baseline;
+  gap: var(--sp-3);
+  min-width: 0;
+}
+
+.topBarTitle {
+  font-size: var(--fs-base);
+  font-weight: 600;
+  color: var(--text-bright);
+  white-space: nowrap;
+}
+
+.topBarMeta {
+  font-size: var(--fs-sm);
+  color: var(--text-muted);
+  white-space: nowrap;
+}
+
+.topBarRight {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-2);
+  flex-shrink: 0;
+}
+
+.cheapBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  height: var(--control-h);
+  padding: 0 10px;
+  font-size: var(--fs-xs);
+  font-weight: 500;
+  color: var(--text-secondary);
+  background: none;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: background 0.1s, color 0.1s, border-color 0.1s;
+  white-space: nowrap;
+}
+
+.cheapBtn:hover {
+  background: var(--bg-hover);
+  color: var(--text-primary);
+}
+
+.cheapBtnActive {
+  color: var(--success);
+  background: rgba(78, 201, 176, 0.1);
+  border-color: rgba(78, 201, 176, 0.4);
+}
+
+.cheapBtnActive:hover {
+  background: rgba(78, 201, 176, 0.16);
+}
+
+.btnGhost {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  height: var(--control-h);
+  padding: 0 10px;
+  font-size: var(--fs-xs);
+  font-weight: 500;
+  color: var(--text-secondary);
+  background: none;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: background 0.1s, color 0.1s;
+  white-space: nowrap;
+}
+
+.btnGhost:hover {
+  background: var(--bg-hover);
+  color: var(--text-primary);
+}
+
+/* ── Savings banner ── */
+.savingsBanner {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-2);
+  padding: var(--sp-2) var(--sp-4);
+  background: rgba(78, 201, 176, 0.08);
+  border-bottom: 1px solid rgba(78, 201, 176, 0.2);
+  font-size: var(--fs-xs);
+  color: var(--success);
+  flex-shrink: 0;
+}
+
+.savingsBanner strong {
+  font-weight: 700;
+}
+
+/* ── Two-column body ── */
+.body {
+  flex: 1;
+  display: flex;
+  overflow: hidden;
+}
+
+/* ── Receipt scroll area (left) ── */
+.receiptScroll {
+  flex: 1;
+  overflow-y: auto;
+  padding: var(--sp-4);
+  min-width: 0;
+}
+
+.receiptList {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-3);
+}
+
+/* ── Single supplier receipt ── */
+.receipt {
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--bg-panel);
+  overflow: hidden;
+  transition: border-color 0.2s;
+}
+
+.receiptOrdered {
+  border-color: rgba(78, 201, 176, 0.3);
+}
+
+.orderedCheck {
+  color: var(--success);
+  flex-shrink: 0;
+}
+
+.receiptHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--sp-3);
+  padding: var(--sp-3) var(--sp-4);
+  background: var(--bg-titlebar);
+  cursor: pointer;
+  transition: background 0.1s;
+  user-select: none;
+}
+
+.receiptHeader:hover {
+  background: var(--bg-hover);
+}
+
+.receiptHeaderLeft {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-2);
+  min-width: 0;
+}
+
+.supplierName {
+  font-size: var(--fs-base);
+  font-weight: 600;
+  color: var(--text-bright);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.supplierCount {
+  font-size: var(--fs-sm);
+  color: var(--text-muted);
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.receiptHeaderRight {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-3);
+  flex-shrink: 0;
+}
+
+.supplierTotal {
+  font-size: var(--fs-base);
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  color: var(--success);
+}
+
+/* ── Line items ── */
+.receiptBody {
+  border-top: 1px solid var(--border-light);
+}
+
+.lineItem {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--sp-3);
+  padding: var(--sp-2) var(--sp-4);
+  border-bottom: 1px solid var(--border-light);
+}
+
+.lineItem:last-child {
+  border-bottom: none;
+}
+
+.lineLeft {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  min-width: 0;
+}
+
+.lineDesc {
+  font-size: var(--fs-xs);
+  color: var(--text-primary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.lineMeta {
+  font-size: var(--fs-sm);
+  color: var(--text-muted);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.lineRight {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 1px;
+  flex-shrink: 0;
+}
+
+.lineCost {
+  font-size: var(--fs-xs);
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  color: var(--text-bright);
+}
+
+.lineUnit {
+  font-size: var(--fs-sm);
+  color: var(--text-muted);
+}
+
+.lineSaved {
+  font-size: 10px;
+  font-weight: 600;
+  color: var(--success);
+}
+
+/* ── Receipt footer (subtotal + per-supplier order) ── */
+.receiptFooter {
+  border-top: 1px solid var(--border);
+  padding: var(--sp-3) var(--sp-4);
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-3);
+  background: var(--bg-surface);
+}
+
+.receiptSubtotalRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.receiptSubLabel {
+  font-size: var(--fs-xs);
+  font-weight: 600;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+}
+
+.receiptSubValue {
+  font-size: var(--fs-base);
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  color: var(--text-bright);
+}
+
+.orderSupplierBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--sp-2);
+  width: 100%;
+  height: 34px;
+  font-size: var(--fs-xs);
+  font-weight: 600;
+  color: var(--accent);
+  background: rgba(74, 158, 255, 0.08);
+  border: 1px solid rgba(74, 158, 255, 0.3);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: background 0.1s;
+}
+
+.orderSupplierBtn:hover {
+  background: rgba(74, 158, 255, 0.16);
+}
+
+.orderSupplierBtnDone {
+  color: var(--success);
+  background: rgba(78, 201, 176, 0.08);
+  border-color: rgba(78, 201, 176, 0.3);
+  cursor: default;
+}
+
+.orderSupplierBtnDone:hover {
+  background: rgba(78, 201, 176, 0.08);
+}
+
+/* ── Sidebar (right) ── */
+.sidebar {
+  width: 300px;
+  flex-shrink: 0;
+  overflow-y: auto;
+  padding: var(--sp-4) var(--sp-4) var(--sp-4) 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-3);
+}
+
+.sideCard {
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--bg-panel);
+  padding: var(--sp-3);
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-3);
+}
+
+.sideCardSavings {
+  border-color: rgba(78, 201, 176, 0.3);
+  background: rgba(78, 201, 176, 0.04);
+}
+
+.sideCardHeader {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-2);
+  font-size: var(--fs-xs);
+  font-weight: 600;
+  color: var(--text-bright);
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+}
+
+.sideCardHeader svg {
+  color: var(--text-muted);
+  flex-shrink: 0;
+}
+
+/* ── Order progress ── */
+.progressBarTrack {
+  height: 4px;
+  background: var(--border);
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.progressBarFill {
+  height: 100%;
+  background: var(--success);
+  border-radius: 2px;
+  transition: width 0.3s ease;
+  min-width: 0;
+}
+
+.progressLabel {
+  font-size: var(--fs-sm);
+  color: var(--text-muted);
+}
+
+/* ── Category breakdown ── */
+.catList {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-2);
+}
+
+.catRow {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.catRowHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+}
+
+.catName {
+  font-size: var(--fs-sm);
+  color: var(--text-primary);
+}
+
+.catCost {
+  font-size: var(--fs-sm);
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  color: var(--text-bright);
+}
+
+.catBarTrack {
+  height: 3px;
+  background: var(--border);
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.catBarFill {
+  height: 100%;
+  background: var(--accent);
+  border-radius: 2px;
+  transition: width 0.3s ease;
+}
+
+/* ── Supplier breakdown ── */
+.supplierList {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-2);
+}
+
+.supplierRow {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-2);
+  font-size: var(--fs-sm);
+}
+
+.supplierRowLeft {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  min-width: 0;
+  flex: 1;
+}
+
+.supplierRowCheck {
+  color: var(--success);
+  flex-shrink: 0;
+}
+
+.supplierRowName {
+  color: var(--text-primary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.supplierRowPct {
+  font-weight: 600;
+  color: var(--text-muted);
+  font-variant-numeric: tabular-nums;
+  min-width: 30px;
+  text-align: right;
+  flex-shrink: 0;
+}
+
+.supplierRowCost {
+  font-weight: 600;
+  color: var(--text-bright);
+  font-variant-numeric: tabular-nums;
+  min-width: 60px;
+  text-align: right;
+  flex-shrink: 0;
+}
+
+/* ── Top expensive items ── */
+.topItemList {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-2);
+}
+
+.topItem {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--sp-2);
+}
+
+.topItemRank {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: var(--border);
+  color: var(--text-muted);
+  font-size: 10px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+
+.topItemInfo {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+
+.topItemDesc {
+  font-size: var(--fs-sm);
+  color: var(--text-primary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.topItemMeta {
+  font-size: 10px;
+  color: var(--text-muted);
+}
+
+.topItemCost {
+  font-size: var(--fs-sm);
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  color: var(--text-bright);
+  flex-shrink: 0;
+}
+
+/* ── Savings card ── */
+.savingsStats {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-2);
+}
+
+.savingsStat {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+}
+
+.savingsStatLabel {
+  font-size: var(--fs-sm);
+  color: var(--text-muted);
+}
+
+.savingsStatValue {
+  font-size: var(--fs-sm);
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  color: var(--text-primary);
+}
+
+.savingsStatValueAccent {
+  composes: savingsStatValue;
+  color: var(--success);
+}
+
+/* ── Sticky grand-total footer ── */
+.footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--sp-4);
+  padding: var(--sp-3) var(--sp-4);
+  background: var(--bg-panel);
+  border-top: 1px solid var(--border);
+  flex-shrink: 0;
+}
+
+.footerStats {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-6);
+  flex-wrap: wrap;
+}
+
+.footerStat {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+
+.footerLabel {
+  font-size: var(--fs-sm);
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+}
+
+.footerValue {
+  font-size: var(--fs-base);
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  color: var(--text-bright);
+}
+
+.footerValueAccent {
+  composes: footerValue;
+  color: var(--success);
+}
+
+.btnPrimary {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-2);
+  height: 36px;
+  padding: 0 var(--sp-6);
+  font-size: var(--fs-xs);
+  font-weight: 600;
+  color: #fff;
+  background: var(--accent);
+  border: none;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: background 0.1s;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.btnPrimary:hover {
+  background: var(--accent-hover);
+}
+
+/* ── Responsive ── */
+@media (max-width: 960px) {
+  .split {
+    flex-direction: column;
+  }
+
+  .masterPane {
+    width: 100%;
+    max-height: 260px;
+    border-right: none;
+    border-bottom: 1px solid var(--border);
+  }
+
+  /* Legacy layout — no longer rendered, kept for any hold-over refs. */
+  .body {
+    flex-direction: column;
+  }
+
+  .sidebar {
+    width: 100%;
+    flex-shrink: initial;
+    overflow-y: visible;
+    padding: 0 var(--sp-4) var(--sp-4);
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: var(--sp-3);
+  }
+
+  .sideCard {
+    flex: 1 1 240px;
+    min-width: 200px;
+  }
+}
+
+@media (max-width: 640px) {
+  .topBar {
+    flex-direction: column;
+    align-items: stretch;
+    gap: var(--sp-2);
+  }
+
+  .topBarRight {
+    justify-content: stretch;
+  }
+
+  .topBarRight > * {
+    flex: 1;
+    justify-content: center;
+  }
+
+  .detailPaneHeader {
+    padding: var(--sp-4) var(--sp-5);
+    flex-wrap: wrap;
+  }
+
+  .detailTable thead th,
+  .detailTable tbody td {
+    padding: 6px var(--sp-3);
+  }
+
+  .detailPaneFooter {
+    padding: var(--sp-4) var(--sp-5);
+  }
+
+  .listItem {
+    padding: var(--sp-3) var(--sp-4);
+  }
+
+  .lineDesc {
+    white-space: normal;
+  }
+
+  .receiptScroll {
+    padding: var(--sp-3);
+  }
+
+  .sidebar {
+    padding: 0 var(--sp-3) var(--sp-3);
+  }
+
+  .sideCard {
+    flex: 1 1 100%;
+  }
+
+  .footer {
+    flex-direction: column;
+    align-items: stretch;
+    gap: var(--sp-3);
+  }
+
+  .btnPrimary {
+    justify-content: center;
+    width: 100%;
+  }
+}

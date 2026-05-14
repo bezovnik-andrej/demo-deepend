@@ -1,0 +1,251 @@
+.workspace {
+  flex: 1;
+  overflow-y: auto;
+  background: var(--bg-base);
+  padding: var(--sp-6);
+}
+
+.placeholder {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: var(--bg-base);
+  gap: var(--sp-4);
+}
+
+.placeholderIcon {
+  color: var(--text-muted);
+  opacity: 0.4;
+}
+
+.placeholderTitle {
+  font-size: var(--fs-md);
+  color: var(--text-secondary);
+  font-weight: 500;
+}
+
+.placeholderSub {
+  font-size: var(--fs-xs);
+  color: var(--text-muted);
+}
+
+/* ── Configuration Overview ── */
+.configHeader {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-bottom: var(--sp-5);
+}
+
+.configTitle {
+  font-size: var(--fs-md);
+  font-weight: 600;
+  color: var(--text-bright);
+  margin-bottom: var(--sp-1);
+}
+
+.configMeta {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-2);
+  font-size: var(--fs-xs);
+  color: var(--text-muted);
+}
+
+.configComplete {
+  color: var(--success);
+}
+
+.configIncomplete {
+  color: var(--warning);
+}
+
+.configDivider {
+  color: var(--text-muted);
+}
+
+.configStats {
+  font-size: var(--fs-xs);
+  color: var(--text-muted);
+  text-align: right;
+}
+
+.statLabel {
+  color: var(--text-secondary);
+  margin-right: var(--sp-2);
+}
+
+.summaryRow {
+  display: flex;
+  gap: var(--sp-6);
+  margin-bottom: var(--sp-5);
+  font-size: var(--fs-xs);
+  color: var(--text-muted);
+}
+
+.summaryItem {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-1);
+}
+
+.summaryLabel {
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  font-size: var(--fs-xs);
+}
+
+.summaryValue {
+  color: var(--text-bright);
+  font-size: var(--fs-xs);
+}
+
+.configList {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-4);
+  max-width: 760px;
+}
+
+.configCard {
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--bg-input);
+  overflow: hidden;
+}
+
+.cardComplete {
+  border-color: rgba(78, 201, 176, 0.4);
+  box-shadow: inset 0 0 0 1px rgba(78, 201, 176, 0.15);
+}
+
+.cardIncomplete {
+  border-color: rgba(206, 145, 120, 0.35);
+  box-shadow: inset 0 0 0 1px rgba(206, 145, 120, 0.1);
+}
+
+.cardHeaderRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--sp-3) var(--sp-4);
+  background: var(--bg-titlebar);
+  border-bottom: 1px solid var(--border-light);
+}
+
+.cardTitle {
+  font-size: var(--fs-xs);
+  color: var(--text-bright);
+  font-weight: 600;
+}
+
+.cardStatus {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-2);
+  font-size: var(--fs-xs);
+  color: var(--text-muted);
+}
+
+.badgeComplete,
+.badgeRequired {
+  padding: 2px 6px;
+  border-radius: 10px;
+  font-size: var(--fs-xs);
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+}
+
+.badgeComplete {
+  background: rgba(78, 201, 176, 0.16);
+  color: var(--success);
+  border: 1px solid rgba(78, 201, 176, 0.35);
+}
+
+.badgeRequired {
+  background: rgba(206, 145, 120, 0.12);
+  color: var(--warning);
+  border: 1px solid rgba(206, 145, 120, 0.3);
+}
+
+.cardCount {
+  color: var(--text-secondary);
+  font-family: var(--font-mono);
+}
+
+.cardReq {
+  color: var(--warning);
+}
+
+.cardBody {
+  padding: var(--sp-2) var(--sp-4);
+}
+
+.cardItem {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--sp-2) 0;
+  border-bottom: 1px solid var(--border-light);
+}
+
+.cardItem:last-child {
+  border-bottom: none;
+}
+
+.itemLabel {
+  font-size: var(--fs-xs);
+  color: var(--text-secondary);
+}
+
+.itemValue {
+  font-size: var(--fs-xs);
+  color: var(--text-primary);
+  font-family: var(--font-mono);
+  margin-top: 2px;
+}
+
+.itemValueMuted {
+  font-size: var(--fs-xs);
+  color: var(--text-muted);
+  font-family: var(--font-mono);
+  margin-top: 2px;
+}
+
+.itemAdd {
+  background: var(--bg-input);
+  border: 1px solid var(--border);
+  color: var(--text-secondary);
+  font-size: var(--fs-xs);
+  padding: 4px 10px;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+}
+
+.itemAdd:hover {
+  background: var(--bg-hover);
+  color: var(--text-primary);
+}
+
+.itemCheck {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--success);
+  border: 1px solid rgba(78, 201, 176, 0.4);
+  background: rgba(78, 201, 176, 0.12);
+  font-size: var(--fs-xs);
+}
+
+.cardFooter {
+  padding-top: var(--sp-2);
+  font-size: var(--fs-xs);
+  color: var(--text-muted);
+  font-style: italic;
+}

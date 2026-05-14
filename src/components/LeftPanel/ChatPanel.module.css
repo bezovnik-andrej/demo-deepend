@@ -1,0 +1,231 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  overflow: hidden;
+}
+
+/* ── Messages ── */
+.messages {
+  flex: 1;
+  overflow-y: auto;
+  padding: var(--sp-3);
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-3);
+}
+
+.msg {
+  display: flex;
+  gap: var(--sp-2);
+  align-items: flex-start;
+}
+
+.msgUser {
+  flex-direction: row-reverse;
+}
+
+.msgIcon {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.msgAi .msgIcon {
+  background: rgba(74, 158, 255, 0.15);
+  color: var(--accent);
+  border: 1px solid rgba(74, 158, 255, 0.3);
+}
+
+.msgUser .msgIcon {
+  background: rgba(78, 201, 176, 0.15);
+  color: var(--success);
+  border: 1px solid rgba(78, 201, 176, 0.3);
+}
+
+.msgBody {
+  flex: 1;
+  min-width: 0;
+}
+
+.msgRole {
+  font-size: var(--fs-xs);
+  font-weight: 600;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+  margin-bottom: 2px;
+}
+
+.msgUser .msgRole {
+  text-align: right;
+}
+
+.msgText {
+  font-size: var(--fs-xs);
+  color: var(--text-primary);
+  line-height: 1.55;
+  padding: var(--sp-2) var(--sp-3);
+  border-radius: var(--radius);
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.msgAi .msgText {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid var(--border-light);
+}
+
+.msgUser .msgText {
+  background: rgba(74, 158, 255, 0.1);
+  border: 1px solid rgba(74, 158, 255, 0.2);
+}
+
+/* ── Confirmation options ── */
+.options {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-top: var(--sp-2);
+}
+
+.optionBtn {
+  background: rgba(74, 158, 255, 0.08);
+  border: 1px solid rgba(74, 158, 255, 0.2);
+  border-radius: var(--radius-sm);
+  color: var(--accent);
+  font-size: var(--fs-xs);
+  padding: var(--sp-2) var(--sp-3);
+  cursor: pointer;
+  text-align: left;
+  transition: background 0.1s, border-color 0.1s;
+  line-height: 1.4;
+}
+
+.optionBtn:hover {
+  background: rgba(74, 158, 255, 0.15);
+  border-color: rgba(74, 158, 255, 0.4);
+}
+
+.optionBtn:disabled {
+  opacity: 0.4;
+  cursor: default;
+}
+
+/* ── Typing indicator ── */
+.typing {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: var(--sp-2) var(--sp-3);
+}
+
+.typing span {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--text-muted);
+  animation: typingDot 1.2s infinite ease-in-out;
+}
+
+.typing span:nth-child(2) {
+  animation-delay: 0.2s;
+}
+
+.typing span:nth-child(3) {
+  animation-delay: 0.4s;
+}
+
+@keyframes typingDot {
+  0%, 60%, 100% { opacity: 0.3; transform: scale(0.8); }
+  30% { opacity: 1; transform: scale(1); }
+}
+
+/* ── Suggestions ── */
+.suggestions {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-1);
+  padding: 0 var(--sp-3) var(--sp-2);
+}
+
+.suggestion {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-sm);
+  color: var(--text-secondary);
+  font-size: var(--fs-xs);
+  padding: var(--sp-2) var(--sp-3);
+  cursor: pointer;
+  text-align: left;
+  transition: background 0.1s, color 0.1s, border-color 0.1s;
+}
+
+.suggestion:hover {
+  background: var(--bg-hover);
+  color: var(--text-primary);
+  border-color: var(--border);
+}
+
+/* ── Input bar ── */
+.inputBar {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-2);
+  padding: var(--sp-2) var(--sp-3);
+  border-top: 1px solid var(--border);
+  background: var(--bg-panel);
+}
+
+.input {
+  flex: 1;
+  height: var(--control-h);
+  min-height: var(--control-h);
+  background: var(--bg-input);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  color: var(--text-primary);
+  font-size: var(--fs-xs);
+  padding: 0 var(--sp-4);
+  outline: none;
+  transition: border-color 0.1s;
+}
+
+.input::placeholder {
+  color: var(--text-muted);
+}
+
+.input:focus {
+  border-color: var(--accent);
+}
+
+.sendBtn {
+  width: var(--control-h);
+  height: var(--control-h);
+  min-width: var(--control-h);
+  min-height: var(--control-h);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--accent);
+  border: none;
+  border-radius: var(--radius-sm);
+  color: #fff;
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: opacity 0.1s;
+}
+
+.sendBtn:hover {
+  opacity: 0.85;
+}
+
+.sendBtn:disabled {
+  opacity: 0.35;
+  cursor: default;
+}
